@@ -1,0 +1,65 @@
+<!--
+   - Assignment #2: Shows an inbox item. Currently blank.
+   - author: Justin Gray (A00426753)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        
+        <title>Your Email System</title>
+        
+        <link rel="stylesheet" href="../bootstrap.css">
+        <link rel="stylesheet" href="./styles.css">
+        
+        <script src="../jquery.js"></script>
+        <script src="myScript.js"></script>
+    </head>
+
+    <body>
+        
+        <!-- Header: page title -->
+        <div class="input-group-text" data-role="header">
+            VIEWING INBOX ITEM
+        </div>
+        
+        <!-- Content of inbox item (currently blanks only) -->
+        <div data-role="content">
+            
+            <div class="input-group-text">
+                <div class="small align-right mediumText">To</div>
+                <input class="form-control" id="email_to" placeholder="">
+                </input>
+            </div>
+            
+            <div class="input-group-text">
+                <div class="small align-right mediumText">Cc</div>
+                <input class="form-control" id="email_cc" placeholder="">
+                </input>
+            </div>
+            
+            <div class="input-group-text">
+                <div class="small align-right mediumText">Subject</div>
+                <input class="form-control" id="email_subject" placeholder="">
+                </input>
+            </div>
+            
+            <div class="input-group-text">
+                <div class="small align-right"></div>
+                <textarea class="form-control" id="email_body" rows="10" 
+                    placeholder=""></textarea>
+            </div>
+            
+        </div>
+        
+        <!-- Footer (end of inboxitem form) -->
+        <div class="input-group-text" data-role="header"></div>
+        
+        <!-- Navigation button -->
+        <a href="index.html">
+            <div class="btn mybtn">Back</div>
+        </a>
+        
+    </body>
+</html>

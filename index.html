@@ -1,0 +1,62 @@
+<!--
+   - Assignment #2: Homepage and list of emails in your inbox.
+   - author: Justin Gray (A00426753)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        
+        <title>Your Email System</title>
+        
+        <link rel="stylesheet" href="../bootstrap.css">
+        <link rel="stylesheet" href="styles.css">
+        
+        <script src="../jquery.js"></script>
+        <script src="myScript.js"></script>
+    </head>
+
+    <body>
+        
+        <!-- Header bar -->
+        <div class="input-group-text" data-role="header">INBOX</div>
+        
+        <!-- List of emails -->
+        <div class="align-left">
+            <div class="wide underlined bolded">FROM</div>
+            <div class="wide underlined bolded">SUBJECT</div>
+            
+            <br><br>
+            
+            <div class="bolded clickable" onclick="inboxItem()">
+                <div class="wide">Terence.Goldsmith@smu.ca</div>
+                <div class="wide">Touching Base</div>
+            </div>
+            
+            <br>
+            
+            <div class="bolded clickable" onclick="inboxItem()">
+                <div class="wide">smu@mobilaid.ca</div>
+                <div class="wide">February Meeting</div>
+            </div>
+            
+            <br>
+            
+            <div class="clickable" onclick="inboxItem()">
+                <div class="wide">Chrystal@tbd.ca</div>
+                <div class="wide">Setting Up System</div>
+            </div>
+        </div>
+        
+        <!-- Bottom of email list -->
+        <div class="input-group-text" data-role="header"></div>
+        
+        <!-- Horizontally aligned navigation buttons -->
+        <a href="sentitems.html">
+            <div class="btn mybtn" onclick="">Sent Items</div>
+        </a>
+        <div class="btn mybtn" onclick="compose()">Compose</div>
+       
+    </body>
+</html>
