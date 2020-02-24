@@ -7,56 +7,56 @@
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
-        
+
         <title>Your Email System</title>
-        
-        <link rel="stylesheet" href="../bootstrap.css">
-        <link rel="stylesheet" href="styles.css">
-        
-        <script src="../jquery.js"></script>
-        <script src="myScript.js"></script>
+
+        <link rel="stylesheet" href="styles/bootstrap.css">
+        <link rel="stylesheet" href="styles/styles.css">
+
+        <script src="scripts/jquery.js"></script>
+        <script src="scripts/myScript.js"></script>
     </head>
 
     <body>
-        
+
         <!-- Header -->
         <div class="input-group-text" data-role="header">SENT ITEMS</div>
-        
+
         <!-- Content: shows all sent items -->
         <div class="align-left">
             <div class="wide underlined bolded">FROM</div>
             <div class="wide underlined bolded">SUBJECT</div>
-            
+
             <br><br>
-            
+
             <div class="clickable" onclick="sentItem()">
                 <div class="wide">Terence.Goldsmith@smu.ca</div>
                 <div class="wide">Touching Base</div>
             </div>
-            
+
             <br>
-            
+
             <div class="clickable" onclick="sentItem()">
                 <div class="wide">smu@mobilaid.ca</div>
                 <div class="wide">February Meeting</div>
             </div>
-            
+
             <br>
-            
+
             <div class="clickable" onclick="sentItem()">
                 <div class="wide">Chrystal@tbd.ca</div>
                 <div class="wide">Setting Up System</div>
             </div>
         </div>
-        
+
         <!-- Footer bar -->
         <div class="input-group-text" data-role="header"></div>
-        
+
         <!-- Navigation buttons -->
         <a href="index.html">
             <div class="btn mybtn" onclick="">Inbox</div>
         </a>
         <div class="btn mybtn" onclick="compose()">Compose</div>
-       
+
     </body>
 </html>
