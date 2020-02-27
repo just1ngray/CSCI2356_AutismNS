@@ -5,57 +5,54 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8"/>
+  <head>
+    <meta charset="utf-8"/>
 
-        <title>Your Email System</title>
+    <title>Your Email System</title>
 
-        <link rel="stylesheet" href="styles/bootstrap.css">
-        <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="styles/styles.css">
 
-        <script src="scripts/jquery.js"></script>
-        <script src="scripts/myScript.js"></script>
-    </head>
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/myScript.js"></script>
+  </head>
 
-    <body>
-        <!-- Header bar -->
-        <div class="input-group-text" data-role="header">COMPOSE</div>
+  <body>
+    <!-- Header bar -->
+    <div class="input-group-text" data-role="header">COMPOSE</div>
 
-        <!-- Content: forms -->
-        <div data-role="content">
+    <!-- Content: forms -->
+    <div class="content" data-role="content">
 
-            <div class="input-group-text">
-                <div class="small align-right mediumText">To</div>
-                <input class="form-control" id="email_to" placeholder="">
-                </input>
-            </div>
+      <div class="input-group-text">
+        <a class="title_column">To</a>
+        <input class="form-control" id="email_to" placeholder=""></input>
+      </div>
 
-            <div class="input-group-text">
-                <div class="small align-right mediumText">Cc</div>
-                <input class="form-control" id="email_cc" placeholder="">
-                </input>
-            </div>
+      <div class="input-group-text">
+        <a class="title_column">Cc</a>
+        <input class="form-control" id="email_cc" placeholder=""></input>
+      </div>
 
-            <div class="input-group-text">
-                <div class="small align-right mediumText">Subject</div>
-                <input class="form-control" id="email_subject" placeholder="">
-                </input>
-            </div>
+      <div class="input-group-text">
+        <a class="title_column">Subject</a>
+        <input class="form-control" id="email_subject" placeholder=""></input>
+      </div>
 
-            <div class="input-group-text">
-                <div class="small align-right"></div>
-                <textarea class="form-control" id="email_body" rows="10"
-                placeholder=""></textarea>
-            </div>
+      <div class="input-group-text">
+        <a class="title_column">Body</a>
+        <textarea class="form-control" id="email_body" rows="10" placeholder="">
+        </textarea>
+      </div>
 
-        </div>
+    </div>
 
-        <!-- Bottom of form, line across page -->
-        <div class="input-group-text" data-role="header"></div>
+    <!-- Bottom of form, line across page -->
+    <div class="input-group-text" data-role="header"></div>
 
-        <!-- Action buttons: prints to console or cancels message -->
-        <div class="btn mybtn" onclick="send()">Send</div>
-        <div class="btn mybtn" onclick="cancelCompose()">Cancel</div>
+    <!-- Action buttons: prints to console or cancels message -->
+    <a class="btn navButton" onclick="send()">Send</a>
+    <a class="btn navButton" onclick="cancelCompose()">Cancel</a>
 
-    </body>
+  </body>
 </html>

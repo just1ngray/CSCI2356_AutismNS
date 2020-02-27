@@ -5,58 +5,52 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8"/>
+  <head>
+    <meta charset="utf-8"/>
 
-        <title>Your Email System</title>
+    <title>Your Email System</title>
 
-        <link rel="stylesheet" href="styles/bootstrap.css">
-        <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="styles/styles.css">
 
-        <script src="scripts/jquery.js"></script>
-        <script src="scripts/myScript.js"></script>
-    </head>
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/myScript.js"></script>
+  </head>
 
-    <body>
+  <body>
 
-        <!-- Header -->
-        <div class="input-group-text" data-role="header">SENT ITEMS</div>
+    <!-- Header -->
+    <div class="input-group-text" data-role="header">SENT ITEMS</div>
 
-        <!-- Content: shows all sent items -->
-        <div class="align-left">
-            <div class="wide underlined bolded">FROM</div>
-            <div class="wide underlined bolded">SUBJECT</div>
+    <!-- Content: shows all sent items -->
+    <div class="content" data-role="content">
+      <a class="email_title">FROM</a>
+      <a class="email_title">SUBJECT</a>
 
-            <br><br>
+      <!-- Display emails -->
+      <div class="email" onclick="sentItem()">
+        <a class="email_read">Terence.Goldsmith@smu.ca</a>
+        <a class="email_read">Touching Base</a>
+      </div>
 
-            <div class="clickable" onclick="sentItem()">
-                <div class="wide">Terence.Goldsmith@smu.ca</div>
-                <div class="wide">Touching Base</div>
-            </div>
+      <div class="email" onclick="sentItem()">
+        <a class="email_read">smu@mobilaid.ca</a>
+        <a class="email_read">February Meeting</a>
+      </div>
 
-            <br>
+      <div class="email" onclick="sentItem()">
+        <a class="email_read">Chrystal@tbd.ca</a>
+        <a class="email_read">Setting Up System</a>
+      </div>
 
-            <div class="clickable" onclick="sentItem()">
-                <div class="wide">smu@mobilaid.ca</div>
-                <div class="wide">February Meeting</div>
-            </div>
+    </div>
 
-            <br>
+    <!-- Footer bar -->
+    <div class="input-group-text" data-role="header"></div>
 
-            <div class="clickable" onclick="sentItem()">
-                <div class="wide">Chrystal@tbd.ca</div>
-                <div class="wide">Setting Up System</div>
-            </div>
-        </div>
+    <!-- Navigation buttons -->
+    <a href="index.html" class="btn navButton" onclick="">Inbox</a>
+    <a class="btn navButton" onclick="compose()">Compose</a>
 
-        <!-- Footer bar -->
-        <div class="input-group-text" data-role="header"></div>
-
-        <!-- Navigation buttons -->
-        <a href="index.html">
-            <div class="btn mybtn" onclick="">Inbox</div>
-        </a>
-        <div class="btn mybtn" onclick="compose()">Compose</div>
-
-    </body>
+  </body>
 </html>
