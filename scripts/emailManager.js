@@ -1,4 +1,54 @@
 /*
+* Creates a sign-in form at any given id.
+* @param id the id to create the sign-in form at
+* @returns  NA
+*/
+function addSignIn(id) {
+  var element = $("#" + id);
+
+  // ugly but functional: needs to be styled
+  var content = '<form>';
+  content += '<label>Sign-In:</label>';
+  content += '<input type="text" id="username" placeholder="' + getSignedInAccount() + '">'
+  content += '<input type="submit" value="Submit" onclick="signIn()">';
+  content += '</form>';
+
+  element.html(content);
+}
+
+/*
+* Signs an account in.
+* @returns  NA
+*/
+function signIn() {
+  var account = getAccount( $("#username").val() );
+
+  try {
+    localStorage.setItem("loggedInAccount", account.name);
+  } catch (error) {
+    console.error("Could not save " + account.name + ". " + error.name
+      + ": " + error.message);
+  }
+}
+
+/*
+* Gets the current signed-in account.
+* @return the current signed-in account, student if  none!
+*/
+function getSignedInAccount() {
+  if (typeof (window.Storage) === "undefined"){
+		// storage not supported by browser
+    console.error("Storage is not supported by this browser");
+  } else if (localStorage.getItem("loggedInAccount") == null){
+	   // nothing stored at that key
+     return "student";
+  } else {
+    // result successfully found
+    return localStorage.getItem("loggedInAccount");
+  }
+}
+
+/*
 * Gets an account stored in local storage.
 * If no account is found under that name, it returns an empty account of that
 * name.
@@ -138,10 +188,11 @@ function displayEmails(id, emails, isInbox) {
 
 /*
 * Sends an email from the compose.html page
-* @param from the sender of the email
 * @returns    N/A
 */
-function sendMail(from) {
+function sendMail() {
+  var from = getSignedInAccount().name;
+
   // get the fields from the compose page
   var to = $("#email_to").val();
   var cc = $("#email_cc").val();
@@ -205,6 +256,7 @@ function deleteMail(stringifiedEmail) {
   location.reload();    // reload the page to update the email list
 }
 
+// TODO: finish
 function viewMail(stringifiedEmail) {
   // the unescaped, parsed email represented by stringifiedEmail
   var email = JSON.parse(unescape(stringifiedEmail));
