@@ -57,6 +57,11 @@ body {
   line-height: 1.5;
 }
 
+/* Styling for the X delete email button (when hovering) */
+.deleteButton:hover {
+  background-color: red;
+}
+
 /*
   Forms.
 */
@@ -71,6 +76,14 @@ body {
 /*
   Other.
 */
+
+/* Styling for the sign in form */
+.signin {
+  width: 200px;
+  height: 30px;
+  position: absolute;
+  left: 690px;
+}
 
 /* A navigation button's styling */
 .navButton {
