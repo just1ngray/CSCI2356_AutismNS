@@ -3,4 +3,46 @@ February 27, 2020
 Vitor J.
 ==========
     - I created this text file so we can discuss ideas, make decisions and assign tasks for ourselves for this project.
-    - To keep things organized, I suggest that we write the date before the first message of the day and our names so we know who's speaking. Let me know what you guys think.
+    
+    - To keep things organized, I suggest that we write the date before the first message of the day and our names so we know who's
+    speaking. Let me know what you guys think.
+    
+
+February 28, 2020
+
+Vitor J.
+==========
+    - Alright folks, first things first. The due date for the first part of the project is March 9th, so I suggest that we first finish
+    everything that is a requirement for P1, because it's fast and pretty straight forward, and then we start implementing the stuff 
+    from the meeting. Here's a breakdown of what we need:
+        + INBOX PAGE
+            * Highlighted emails should now have a gray (or coloured) background.
+            * A delete button needs to be added to the right of the email.
+            * The delete button should turn red when hovered.
+            
+        + COMPOSING PAGE
+            * The cursor needs to turn into an arrow with a question mark when hovering a header field.
+            * Clicking a header field should open a smaller window with information about it.
+            
+        + VIEWING INBOX ITEM & VIEWING SENT ITEM
+            * The cursor needs to turn into an arrow with a question mark when hovering a header field.
+            
+        + VIEWING INBOX ITEM
+            * Add a "Reply" Button that links this page to "Composing".
+            
+        + IMPORTANT INFORMATION
+            * We should have 2 systems that are identical: one for the student and one for the Admin. The only difference is that the
+            student's system should have the title "Your Email System" on every page, and the admin's system should have "Admin Email
+            System". So the easiest way now would be to have 2 files for each webpage, one for the admin and one for the student.
+            * Each system requires its own independent local storage, for both inbox and sent items.
+           
+    - I think each one of us should work on different documents at once to avoid problems when merging branches.
+    
+    - Justin, I checked the html files on the repository and I have a suggestion to make. Do you mind if I replace the divs that act
+    like headers, content, footer, etc, for actual <header>, <main>, <footer>, etc, tags? The reason for this is that these tags 
+    improve the accessibility of the webpage. If a student is using a screen reader software, it will be able to differentiate the
+    sections of the webpage so the student can navigate it better. What do you think?
+    
+    
+           
+  
