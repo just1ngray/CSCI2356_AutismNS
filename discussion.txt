@@ -38,6 +38,8 @@ Vitor J.
            
     - I think each one of us should work on different documents at once to avoid problems when merging branches.
     
+    - I'll start working on the Inbox page (Email highlighting, deleting emails and local storage)
+    
     - Justin, I checked the html files on the repository and I have a suggestion to make. Do you mind if I replace the divs that act
     like headers, content, footer, etc, for actual <header>, <main>, <footer>, etc, tags? The reason for this is that these tags 
     improve the accessibility of the webpage. If a student is using a screen reader software, it will be able to differentiate the
