@@ -45,6 +45,7 @@ Vitor J.
     improve the accessibility of the webpage. If a student is using a screen reader software, it will be able to differentiate the
     sections of the webpage so the student can navigate it better. What do you think?
     
-    
-           
-  
+  Justin G.
+  =========
+-I already finished a bunch of this stuff. Make sure you're running the most recent code by running 'git pull' when in your local    project directory. Give the current system some tests! It'd suck to have you work on stuff that is already finshed.
+-Sounds like a great idea to change the tags. I just kept them as-is since they're simple for me to understand but knock yourself out if you want to improve it!
