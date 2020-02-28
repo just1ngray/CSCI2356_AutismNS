@@ -122,7 +122,7 @@ function displayEmails(id, emails, isInbox) {
       + email.subject + '</a>';
 
     //content += '<a class="btn deleteButton" onclick="deleteMail()">X</a>';
-    content += '<a class="btn deleteButton" onclick="deleteMail(' + email.owner + ',' + email.date + ')">X</a>';
+    content += '<a class="btn deleteButton" onclick="deleteMail(' + email.date + ')">X</a>';
 
     content += '</div>';
 
@@ -147,15 +147,11 @@ function displayEmails(id, emails, isInbox) {
 * @returns    N/A
 */
 function sendMail(from) {
-console.log("1");
-
   // get the fields from the compose page
   var to = $("#email_to").val();
   var cc = $("#email_cc").val();
   var subject = $("#email_subject").val();
   var body = $("#email_body").val();
-
-console.log("2");
 
   // create the email object
   var email = new Email( (new Date()).getTime(), from, to, cc, subject, body,
@@ -167,36 +163,27 @@ console.log("2");
   sender.sentMail.push(email);
   saveAccount(sender);
 
-console.log("3");
-
   // save the email object to the recipient's inbox
   email.owner = to;
   var recipient = getAccount(to);
   recipient.inboxMail.push(email);
   saveAccount(recipient);
 
-console.log("4");
-
   // redirect the sender to their sent mail
   window.location = "sentitems.html";
-
-console.log("5");
 }
 
-function deleteMail(owner, emailDateMillis) {
-  var account = getAccount(owner);
-
-  account.inboxMail = [];
-  account.sentMail = [];
+function deleteMail(millis) {
+  var account = getAccount("student");
 
   for (var i = 0; i < account.inboxMail.length; i ++) {
-    if (account.inboxMail[i].date == emailDateMillis) {
+    if (account.inboxMail[i].date == millis) {
       account.inboxMail.splice(i, 1);
       i --;
     }
   }
   for (var i = 0; i < account.sentMail.length; i ++) {
-    if (account.sentMail[i].date == emailDateMillis) {
+    if (account.sentMail[i].date == millis) {
       account.sentMail.splice(i, 1);
       i --;
     }
