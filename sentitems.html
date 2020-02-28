@@ -15,6 +15,7 @@
 
     <script src="scripts/jquery.js"></script>
     <script src="scripts/myScript.js"></script>
+    <script src="scripts/emailManager.js"></script>
   </head>
 
   <body>
@@ -24,24 +25,14 @@
 
     <!-- Content: shows all sent items -->
     <div class="content" data-role="content">
-      <a class="email_title">FROM</a>
+      <a class="email_title">TO</a>
       <a class="email_title">SUBJECT</a>
 
       <!-- Display emails -->
-      <div class="email" onclick="sentItem()">
-        <a class="email_read">Terence.Goldsmith@smu.ca</a>
-        <a class="email_read">Touching Base</a>
-      </div>
-
-      <div class="email" onclick="sentItem()">
-        <a class="email_read">smu@mobilaid.ca</a>
-        <a class="email_read">February Meeting</a>
-      </div>
-
-      <div class="email" onclick="sentItem()">
-        <a class="email_read">Chrystal@tbd.ca</a>
-        <a class="email_read">Setting Up System</a>
-      </div>
+      <div id="sent_emails"></div>
+      <script>
+        displayEmails("sent_emails", getAccount("student").sentMail, false)
+      </script>
 
     </div>
 
@@ -49,8 +40,8 @@
     <div class="input-group-text" data-role="header"></div>
 
     <!-- Navigation buttons -->
-    <a href="index.html" class="btn navButton" onclick="">Inbox</a>
-    <a class="btn navButton" onclick="compose()">Compose</a>
+    <a href="index.html" class="btn navButton">Inbox</a>
+    <a href="compose.html" class="btn navButton">Compose</a>
 
   </body>
 </html>

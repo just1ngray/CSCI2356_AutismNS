@@ -15,9 +15,11 @@
 
     <script src="scripts/jquery.js"></script>
     <script src="scripts/myScript.js"></script>
+    <script src="scripts/emailManager.js"></script>
   </head>
 
   <body>
+
     <!-- Header bar -->
     <div class="input-group-text" data-role="header">COMPOSE</div>
 
@@ -51,7 +53,7 @@
     <div class="input-group-text" data-role="header"></div>
 
     <!-- Action buttons: prints to console or cancels message -->
-    <a class="btn navButton" onclick="send()">Send</a>
+    <a class="btn navButton" onclick='sendMail("student")'>Send</a>
     <a class="btn navButton" onclick="cancelCompose()">Cancel</a>
 
   </body>

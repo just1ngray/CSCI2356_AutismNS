@@ -30,7 +30,9 @@
 
       <!-- Display emails -->
       <div id="inbox_emails"> </div>
-      <script>displayEmails("inbox_emails", getAccount("student").inboxMail, true)</script>
+      <script>
+        displayEmails("inbox_emails", getAccount("student").inboxMail, true)
+      </script>
 
     </div>
 
@@ -38,11 +40,8 @@
     <div class="input-group-text" data-role="header"></div>
 
     <!-- Horizontally aligned navigation buttons -->
-    <a href="sentitems.html" class="btn navButton" onclick="">Sent Items</a>
-    <a class="btn navButton" onclick="compose()">Compose</a>
-
-    <a class="btn navButton" onclick="addInboxEmail()">Test Button</a>
-    <a class="btn navButton" onclick="localStorage.clear()">Clear Storage</a>
+    <a href="sentitems.html" class="btn navButton">Sent Items</a>
+    <a href="compose.html" class="btn navButton">Compose</a>
 
   </body>
 </html>

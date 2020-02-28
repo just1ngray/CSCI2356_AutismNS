@@ -11,9 +11,11 @@ function getAccount(name) {
     console.log("Error: Storage is not supported by this browser.");
   } else if (localStorage.getItem(name) == null){
 	   // nothing stored at that key
+     console.log("New account for " + name);
      return new Account(name, [], []);
   } else {
     // result successfully found
+    console.log("Found data for " + name);
     return JSON.parse(localStorage.getItem(name));
   }
 }
@@ -24,11 +26,13 @@ function getAccount(name) {
 * @returns        N/A
 */
 function saveAccount(account) {
+  console.log("Saving " + account.name);
   if (account.name == null || typeof account.name != "string") {
     console.log("Error: Invalid account");
   } else {
     try {
       localStorage.setItem(account.name, JSON.stringify(account));
+      console.log("Saved " + account.name);
     } catch (error) {
       console.log("Error: Could not save " + account.name + ". " + error.name
         + ": " + error.message);
@@ -72,9 +76,10 @@ function Account(name, inboxMail, sentMail) {
 * @param subject  the subject of the email (string)
 * @param body     body of the email message (string)
 * @param isRead   if the email has been read (bool)
+* @param owner    the owner of the email
 * @returns        the new email object
 */
-function Email(date, from, to, cc, subject, body, isRead) {
+function Email(date, from, to, cc, subject, body, isRead, owner) {
   this.date = date;
   this.from = from;
   this.to = to;
@@ -82,6 +87,7 @@ function Email(date, from, to, cc, subject, body, isRead) {
   this.subject = subject;
   this.body = body;
   this.isRead = isRead;
+  this.owner = owner;
 
   // TODO: Add other information (isFlagged, etc.)?
 }
@@ -95,52 +101,107 @@ function Email(date, from, to, cc, subject, body, isRead) {
 * @returns        N/A
 */
 function displayEmails(id, emails, isInbox) {
+  // get and clear the element where the emails should be displayed
   var element = $("#" + id);
   element.html("");
 
+  // look through each email and display
   for (var i = 0; i < emails.length; i ++) {
-    var email = emails[i];
+    var email = emails[i];  // the individual email
+    var doBolding = !email.isRead && isInbox; // if the email should be bolded
 
-    var content = '<div class="email" onclick="inboxItem(' + email.name + ')">';
+    // create the content of the email to be displayed
+    var content = '<div class="email">'; // TODO: add onclick="something()" that links to an email
 
     content += '<a class="'
-      + (isInbox && email.isRead ? 'email_read' : 'email_unread') + '">'
+      + (doBolding ? 'email_unread' : 'email_read') + '">'
       + (isInbox ? email.from : email.to) + '</a>';
 
     content += '<a class="'
-      + (isInbox && email.isRead ? 'email_read' : 'email_unread') + '">'
+      + (doBolding ? 'email_unread' : 'email_read') + '">'
       + email.subject + '</a>';
+
+    //content += '<a class="btn deleteButton" onclick="deleteMail()">X</a>';
+    content += '<a class="btn deleteButton" onclick="deleteMail(' + email.owner + ',' + email.date + ')">X</a>';
 
     content += '</div>';
 
+    // add the content to the element
     element.append(content);
   }
-
-  /*<div class="email" onclick="inboxItem()">
-    <a class="email_unread">Terence.Goldsmith@smu.ca</a>
-    <a class="email_unread">Touching Base</a>
-  </div>*/
 }
 
-// for testing purposes only
-/*function printAcc() {
-  var sentAMail01 = new Email((new Date()).getTime(),"Justin@gmail.com",
-    "Terry@Goldsmith.ca", "na-cc", "This is a Test!", "Hi terry, I am testing" +
-    "stuff right now, Justin", false);
-  var sentAMail02 = new Email((new Date()).getTime()+1,"Justin@gmail.com",
-    "Terry@Goldsmith.ca", "na-cc", "Oops!", "Hi terry, I meant to attach" +
-    "the files. Here they are. Justin", false);
-  var acc = new Account("Justin", [], [sentAMail01, sentAMail02]);
-  console.log( JSON.stringify(acc) );
-  console.log((typeof acc.name));
-}*/
+// function addInboxEmail() {
+//   var student = getAccount("student");
+//   var email = new Email((new Date()).getTime(),"Charli@tbd.com",
+//     "Student@???.ca", "na-cc", "Welcome to Autism NS", "Hi student," +
+//     "welcome to the email server.", true);
+//
+//   student.inboxMail.push(email);
+//   saveAccount(student);
+// }
 
-function addInboxEmail() {
-  var student = getAccount("student");
-  var email = new Email((new Date()).getTime(),"Charli@tbd.com",
-    "Student@???.ca", "na-cc", "Welcome to Autism NS", "Hi student," +
-    "welcome to the email server.", true);
+/*
+* Sends an email from the compose.html page
+* @param from the sender of the email
+* @returns    N/A
+*/
+function sendMail(from) {
+console.log("1");
 
-  student.inboxMail.push(email);
-  saveAccount(student);
+  // get the fields from the compose page
+  var to = $("#email_to").val();
+  var cc = $("#email_cc").val();
+  var subject = $("#email_subject").val();
+  var body = $("#email_body").val();
+
+console.log("2");
+
+  // create the email object
+  var email = new Email( (new Date()).getTime(), from, to, cc, subject, body,
+    false, "");
+
+  // save the email object to the sender's sent items
+  email.owner = from;
+  var sender = getAccount(from);
+  sender.sentMail.push(email);
+  saveAccount(sender);
+
+console.log("3");
+
+  // save the email object to the recipient's inbox
+  email.owner = to;
+  var recipient = getAccount(to);
+  recipient.inboxMail.push(email);
+  saveAccount(recipient);
+
+console.log("4");
+
+  // redirect the sender to their sent mail
+  window.location = "sentitems.html";
+
+console.log("5");
+}
+
+function deleteMail(owner, emailDateMillis) {
+  var account = getAccount(owner);
+
+  account.inboxMail = [];
+  account.sentMail = [];
+
+  for (var i = 0; i < account.inboxMail.length; i ++) {
+    if (account.inboxMail[i].date == emailDateMillis) {
+      account.inboxMail.splice(i, 1);
+      i --;
+    }
+  }
+  for (var i = 0; i < account.sentMail.length; i ++) {
+    if (account.sentMail[i].date == emailDateMillis) {
+      account.sentMail.splice(i, 1);
+      i --;
+    }
+  }
+
+  saveAccount(account);
+  location.reload();
 }
