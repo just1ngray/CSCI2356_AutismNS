@@ -15,6 +15,7 @@
 
     <script src="scripts/jquery.js"></script>
     <script src="scripts/myScript.js"></script>
+    <script src="scripts/emailManager.js"></script>
   </head>
 
   <body>
@@ -28,20 +29,10 @@
       <a class="email_title">SUBJECT</a>
 
       <!-- Display emails -->
-      <div class="email" onclick="inboxItem()">
-        <a class="email_unread">Terence.Goldsmith@smu.ca</a>
-        <a class="email_unread">Touching Base</a>
-      </div>
-
-      <div class="email" onclick="inboxItem()">
-        <a class="email_unread">smu@mobilaid.ca</a>
-        <a class="email_unread">February Meeting</a>
-      </div>
-
-      <div class="email" onclick="inboxItem()">
-        <a class="email_read">Chrystal@tbd.ca</a>
-        <a class="email_read">Setting Up System</a>
-      </div>
+      <div id="inbox_emails"> </div>
+      <script>
+        displayEmails("inbox_emails", getAccount("student").inboxMail, true)
+      </script>
 
     </div>
 
@@ -49,8 +40,8 @@
     <div class="input-group-text" data-role="header"></div>
 
     <!-- Horizontally aligned navigation buttons -->
-    <a href="sentitems.html" class="btn navButton" onclick="">Sent Items</a>
-    <a class="btn navButton" onclick="compose()">Compose</a>
+    <a href="sentitems.html" class="btn navButton">Sent Items</a>
+    <a href="compose.html" class="btn navButton">Compose</a>
 
   </body>
 </html>
