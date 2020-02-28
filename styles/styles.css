@@ -74,6 +74,10 @@ label {
   margin: auto 0;
 }
 
+label:hover {
+  cursor: help;
+}
+
 /* Creates space between the label and the text input */
 input {
   margin-left: 1rem;
