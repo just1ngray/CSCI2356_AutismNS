@@ -47,11 +47,20 @@ Vitor J.
     
   Justin G.
   =========
--I already finished a bunch of this stuff. Make sure you're running the most recent code by running 'git pull' when in your local    project directory. Give the current system some tests! It'd suck to have you work on stuff that is already finshed.
--Sounds like a great idea to change the tags. I just kept them as-is since they're simple for me to understand but knock yourself out if you want to improve it!
+-I already finished a bunch of this stuff. Make sure you're running the most recent code by running 'git pull' when in your local    
+ project directory. Give the current system some tests! It'd suck to have you work on stuff that is already finshed.
+-Sounds like a great idea to change the tags. I just kept them as-is since they're simple for me to understand but knock yourself out 
+ if you want to improve it!
 -Also really important: make sure you're pulling from the master branch!
 
 Vitor J.
 ==========
     - I'll work on the clickable headers and help info then.
     - Just tested the current system. Looks good!
+    
+Justin G.
+=========
+    - Just went on an adventure and found a nifty way to organize who's doing what.
+    - https://github.com/just1ngray/CSCI2356_AutismNS/projects/1
+    - You can create notes by pressing +, and move them around by dragging.
+    - If you guys still want to use this, I am cool with that
