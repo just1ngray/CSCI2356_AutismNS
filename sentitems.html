@@ -21,7 +21,14 @@
   <body>
 
     <!-- Header -->
-    <div class="input-group-text" data-role="header">SENT ITEMS</div>
+    <div class="input-group-text" data-role="header">
+      SENT ITEMS
+
+      <div id="sign_in_form"></div>
+      <script>
+        addSignIn("sign_in_form")
+      </script>
+    </div>
 
     <!-- Content: shows all sent items -->
     <div class="content" data-role="content">
@@ -31,7 +38,7 @@
       <!-- Display emails -->
       <div id="sent_emails"></div>
       <script>
-        displayEmails("sent_emails", getAccount("student").sentMail, false)
+        displayEmails("sent_emails", getAccount( getSignedInAccount() ).sentMail, false)
       </script>
 
     </div>
