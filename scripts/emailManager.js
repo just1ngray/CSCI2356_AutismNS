@@ -8,14 +8,12 @@
 function getAccount(name) {
   if (typeof (window.Storage) === "undefined"){
 		// storage not supported by browser
-    console.log("Error: Storage is not supported by this browser.");
+    console.error("Storage is not supported by this browser");
   } else if (localStorage.getItem(name) == null){
 	   // nothing stored at that key
-     console.log("New account for " + name);
      return new Account(name, [], []);
   } else {
     // result successfully found
-    console.log("Found data for " + name);
     return JSON.parse(localStorage.getItem(name));
   }
 }
@@ -28,20 +26,19 @@ function getAccount(name) {
 function saveAccount(account) {
   console.log("Saving " + account.name);
   if (account.name == null || typeof account.name != "string") {
-    console.log("Error: Invalid account");
+    console.error("Invalid account");
   } else {
     try {
       localStorage.setItem(account.name, JSON.stringify(account));
-      console.log("Saved " + account.name);
     } catch (error) {
-      console.log("Error: Could not save " + account.name + ". " + error.name
+      console.error("Could not save " + account.name + ". " + error.name
         + ": " + error.message);
     }
   }
 }
 
 /*
-* Creates a new account object (for either admin or student)
+* Creates a new account object (for either admin or student or other?)
 *
 * USAGE:
 * var testAcc = new Account("Tester", [], []);
@@ -98,7 +95,7 @@ function Email(date, from, to, cc, subject, body, isRead, owner) {
 * @param emails   an array of email objects
 * @param isInbox  bool if the emails should respect isRead property (only
 *                 respect bold when in inbox, otherwise always not bolded)
-* @returns        N/A
+* @returns        NA
 */
 function displayEmails(id, emails, isInbox) {
   // get and clear the element where the emails should be displayed
@@ -111,18 +108,26 @@ function displayEmails(id, emails, isInbox) {
     var doBolding = !email.isRead && isInbox; // if the email should be bolded
 
     // create the content of the email to be displayed
-    var content = '<div class="email">'; // TODO: add onclick="something()" that links to an email
+    var content = '<div class="email" onclick="viewMail('
+      + "'" + escape(JSON.stringify(email)) + "'" + ')">';
 
+    // other person involved
     content += '<a class="'
       + (doBolding ? 'email_unread' : 'email_read') + '">'
       + (isInbox ? email.from : email.to) + '</a>';
 
+    // subject
     content += '<a class="'
       + (doBolding ? 'email_unread' : 'email_read') + '">'
       + email.subject + '</a>';
 
-    //content += '<a class="btn deleteButton" onclick="deleteMail()">X</a>';
-    content += '<a class="btn deleteButton" onclick="deleteMail(' + email.date + ')">X</a>';
+    // delete button
+    // content += '<a class="btn deleteButton" onclick="deleteMail('
+    //   + "'" + email.owner + "', "
+    //   + "'" + email.date + "'"
+    //   + ')">X</a>';
+    content += '<a class="btn deleteButton" onclick="deleteMail('
+      + "'" + escape(JSON.stringify(email)) + "'" + ')">X</a>';
 
     content += '</div>';
 
@@ -130,16 +135,6 @@ function displayEmails(id, emails, isInbox) {
     element.append(content);
   }
 }
-
-// function addInboxEmail() {
-//   var student = getAccount("student");
-//   var email = new Email((new Date()).getTime(),"Charli@tbd.com",
-//     "Student@???.ca", "na-cc", "Welcome to Autism NS", "Hi student," +
-//     "welcome to the email server.", true);
-//
-//   student.inboxMail.push(email);
-//   saveAccount(student);
-// }
 
 /*
 * Sends an email from the compose.html page
@@ -173,22 +168,69 @@ function sendMail(from) {
   window.location = "sentitems.html";
 }
 
-function deleteMail(millis) {
-  var account = getAccount("student");
+/*
+* Deletes an email.
+* @param stringifiedEmail escape(JSON.stringify(some email)) version of the
+*                         email you want to delete
+* @returns NA
+*/
+function deleteMail(stringifiedEmail) {
+  // the unescaped, parsed email represented by stringifiedEmail
+  var email = JSON.parse(unescape(stringifiedEmail));
 
-  for (var i = 0; i < account.inboxMail.length; i ++) {
-    if (account.inboxMail[i].date == millis) {
-      account.inboxMail.splice(i, 1);
-      i --;
+  // get the current account state of the owner
+  var account = getAccount(email.owner);
+
+  if (email.owner === email.to) {
+    // email is in inbox: delete through inbox if found
+    for (var i = 0; i < account.inboxMail.length; i ++) {
+      if (escape(JSON.stringify(account.inboxMail[i])) === stringifiedEmail) {
+        account.inboxMail.splice(i, 1);
+        i --;
+      }
     }
-  }
-  for (var i = 0; i < account.sentMail.length; i ++) {
-    if (account.sentMail[i].date == millis) {
-      account.sentMail.splice(i, 1);
-      i --;
+  } else if (email.owner === email.from) {
+    // email is in sent mail: delete through sent mail if found
+    for (var i = 0; i < account.sentMail.length; i ++) {
+      if (escape(JSON.stringify(account.sentMail[i])) === stringifiedEmail) {
+        account.sentMail.splice(i, 1);
+        i --;
+      }
     }
+  } else {
+    console.error("Owner was not a member of the email. Cannot delete.");
   }
 
-  saveAccount(account);
-  location.reload();
+  saveAccount(account); // save the new state of the account
+  location.reload();    // reload the page to update the email list
+}
+
+function viewMail(stringifiedEmail) {
+  // the unescaped, parsed email represented by stringifiedEmail
+  var email = JSON.parse(unescape(stringifiedEmail));
+
+  //window.location = "email.html";
+  $(this).attr("href", "email.html");
+
+  $(document).ready(function() {
+
+    if (email.owner === email.to) {
+      // INBOX ITEM
+      $("#title").html("VIEWING INBOX ITEM");
+      $("#non_owner_type").html("From");
+      $("#non_owner").html(email.from);
+    } else if (email.owner === email.from) {
+      // SENT ITEM
+      $("#title").html("VIEWING SENT ITEM");
+      $("#non_owner_type").html("To");
+      $("#non_owner").html(email.to);
+    } else {
+      console.error("Unidentified owner of an email. Cannot view.")
+    }
+
+    $("#email_cc").html(email.cc);
+    $("#email.subject").html(email.subject);
+    $("#email.body").html(email.body);
+
+  });
 }
