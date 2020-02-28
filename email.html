@@ -1,0 +1,59 @@
+<!--
+   - Assignment #2: Shows a sent email, currently left blank.
+   - author: Justin Gray (A00426753)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+
+    <title>Your Email System</title>
+
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/myScript.js"></script>
+    <script src="scripts/emailManager.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Header and title page -->
+    <div class="input-group-text" data-role="header" id="title"></div>
+
+    <!-- Content to view the sent item's details -->
+    <div class="content" data-role="content">
+
+      <div class="input-group-text">
+        <a class="title_column" id="non_owner_type"></a>
+        <input class="form-control" id="non_owner" readonly></input>
+      </div>
+
+      <div class="input-group-text">
+        <a class="title_column">Cc</a>
+        <input class="form-control" id="email_cc" readonly></input>
+      </div>
+
+      <div class="input-group-text">
+        <a class="title_column">Subject</a>
+        <input class="form-control" id="email_subject" readonly></input>
+      </div>
+
+      <div class="input-group-text">
+        <a class="title_column">Body</a>
+        <textarea class="form-control" id="email_body" rows="10" readonly>
+        </textarea>
+      </div>
+
+    </div>
+
+    <!-- Footer to separate body from buttons -->
+    <div class="input-group-text" data-role="header"></div>
+
+    <!-- Navigation button -->
+    <a class="btn navButton" onclick="back()">Back</a>
+
+  </body>
+</html>
