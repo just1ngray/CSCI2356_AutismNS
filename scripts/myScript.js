@@ -9,6 +9,11 @@
 *   been run.
 * @returns N/A
 */
-function cancelCompose() {
+function back() {
   window.history.back();
+}
+
+function doThings(a, b) {
+  alert(a);
+  alert(b);
 }
