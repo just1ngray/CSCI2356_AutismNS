@@ -67,10 +67,23 @@ body {
 */
 
 /* The left column of any non-email-box page. */
-.title_column {
+label {
   width: 60px;
   text-align: right;
   padding-right: 3px;
+  margin: auto 0;
+}
+
+/* Creates space between the label and the text input */
+input {
+  margin-left: 1rem;
+}
+
+/* Defines the size of the email body area */
+#email_body {
+  height: 15em;
+  margin-left: 1rem;
+  width: 100%;
 }
 
 /*
@@ -94,7 +107,7 @@ body {
     transition-duration: 0.4s;
 }
 
-/* A navigation button's styling when hovering. */
+/* A navigation button's styling when hovering */
 .navButton:hover {
     background-color: snow;
     cursor: pointer;
