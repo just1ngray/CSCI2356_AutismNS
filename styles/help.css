@@ -1,0 +1,10 @@
+/* This file is used by all documents inside the "help" folder */
+/* No info on organization yet */
+/* Author: Vitor Jeronimo (A00431599) */
+
+/* Defines the style of basics elements of the page */
+body {
+    background-color: #b9d3ec;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0.8rem;
+}
