@@ -92,10 +92,10 @@ input {
 
 /* Styling for the sign in form */
 .signin {
-  width: 200px;
-  height: 30px;
-  position: absolute;
-  left: 690px;
+  position: relative;
+  left: 380px;
+  width: 450px;
+  text-align: right;
 }
 
 /* A navigation button's styling */
