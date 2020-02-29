@@ -1,6 +1,37 @@
 // Description: This file contains functions that link the header fields on compose.html to help pages.
 // Author: Vitor Jeronimo (A00431599)
 
+
+// || Navigation
+
+$("#btn_sentitems").on("click", function() {
+    window.location.href = "sentitems.html";
+});
+
+$("#btn_compose").on("click", function() {
+    window.location.href = "compose.html";
+});
+
+$("#btn_inbox").on("click", function() {
+    window.location.href = "index.html";
+});
+
+$("#btn_sentitems").on("click", function() {
+    window.location.href = "sentitems.html";
+});
+
+$("#btn_cancel").on("click", function() {
+    window.history.back();
+});
+
+$("#btn_back").on("click", function() {
+    window.history.back();
+});
+
+
+
+// || Help Links
+
 // Opens a help page with info about the header field "To"
 // Returns: N/A
 $("#email_to_label").on("click", function() {

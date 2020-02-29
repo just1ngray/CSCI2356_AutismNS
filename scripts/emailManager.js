@@ -158,8 +158,7 @@ function displayEmails(id, emails, isInbox) {
     var doBolding = !email.isRead && isInbox; // if the email should be bolded
 
     // create the content of the email to be displayed
-    var content = '<div class="email" onclick="viewMail('
-      + "'" + escape(JSON.stringify(email)) + "'" + ')">';
+    var content = '<div class="email" onclick="window.open("email.html")>';
 
     // other person involved
     content += '<a class="'
