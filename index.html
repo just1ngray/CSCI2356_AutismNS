@@ -5,50 +5,52 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"/>
 
-    <title>Your Email System</title>
+<head>
+  <title>Your Email System</title>
 
-    <link rel="stylesheet" href="styles/bootstrap.css">
-    <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/bootstrap.css">
+  <link rel="stylesheet" href="styles/styles.css">
 
-    <script src="scripts/jquery.js"></script>
-    <script src="scripts/myScript.js"></script>
-    <script src="scripts/emailManager.js"></script>
-  </head>
+  <script src="scripts/jquery.js"></script>
+  <script src="scripts/myScript.js"></script>
+  <script src="scripts/emailManager.js"></script>
 
-  <body>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-    <!-- Header bar -->
-    <div class="input-group-text" data-role="header">
-      INBOX
+<body>
 
-      <div id="sign_in_form"></div>
-      <script>
-        addSignIn("sign_in_form")
-      </script>
-    </div>
+  <!-- Header bar -->
+  <header class="input-group-text" data-role="header">
+    INBOX
+    
+    <div id="sign_in_form"></div>
+    <script>
+      addSignIn("sign_in_form")
+    </script>
+  </header>
 
-    <!-- List of emails -->
-    <div class="content" data-role="content">
-      <a class="email_title">FROM</a>
-      <a class="email_title">SUBJECT</a>
+  <!-- List of emails -->
+  <main>
+    <a class="email_title">FROM</a>
+    <a class="email_title">SUBJECT</a>
 
-      <!-- Display emails -->
-      <div id="inbox_emails"> </div>
-      <script>
-        displayEmails("inbox_emails", getAccount( getSignedInAccount() ).inboxMail, true)
-      </script>
+    <!-- Display emails -->
+    <div id="inbox_emails"> </div>
+    <script>
+      displayEmails("inbox_emails", getAccount(getSignedInAccount()).inboxMail, true)
+    </script>
 
-    </div>
+  </main>
 
-    <!-- Bottom of email list -->
-    <div class="input-group-text" data-role="header"></div>
+  <!-- Bottom of email list -->
+  <footer class="input-group-text"></footer>
 
-    <!-- Horizontally aligned navigation buttons -->
-    <a href="sentitems.html" class="btn navButton">Sent Items</a>
-    <a href="compose.html" class="btn navButton">Compose</a>
+  <!-- Horizontally aligned navigation buttons -->
+  <button href="sentitems.html" class="btn navButton">Sent Items</button>
+  <button href="compose.html" class="btn navButton">Compose</button>
 
-  </body>
+</body>
+
 </html>
