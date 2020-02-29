@@ -28,22 +28,22 @@
   <main>
 
     <div class="input-group-text">
-      <label for="email_to" id="email_to_label">To </label>
+      <label for="email_to" id="email_to_label">To</label>
       <input class="form-control" type="email" id="email_to" />
     </div>
 
     <div class="input-group-text">
-      <label for="email_cc" id="email_cc_label">Cc </label>
+      <label for="email_cc" id="email_cc_label">Cc</label>
       <input class="form-control" type="email" id="email_cc" />
     </div>
 
     <div class="input-group-text">
-      <label for="email_subject" id="email_subject_label">Subject </label>
+      <label for="email_subject" id="email_subject_label">Subject</label>
       <input class="form-control" type="text" id="email_subject" />
     </div>
 
     <div class="input-group-text">
-      <label for="email_body" id="email_body_label">Body </label>
+      <label for="email_body" id="email_body_label">Body</label>
       <textarea class="form-control" id="email_body">
         </textarea>
     </div>
@@ -55,12 +55,13 @@
 
   <!-- Action buttons: prints to console or cancels message -->
   <section>
-    <button class="btn navButton" onclick='sendMail("student")'>Send</button>
-    <button class="btn navButton" onclick="back()">Cancel</button>
+    <button id="btn_send" class="btn navButton" onclick='sendMail("student")'>Send</button>
+    <button id="btn_cancel" class="btn navButton">Cancel</button>
   </section>
 
-  <!-- This Script tag goes at the bottom of the document because it uses JQuery to select elements from this file, so all the IDs and classes must be loaded on the browser before being referenced in the JS file. -->
+
   <script src="scripts/help.js"></script>
+  <script src="scripts/navigation.js"></script>
 </body>
 
 </html>

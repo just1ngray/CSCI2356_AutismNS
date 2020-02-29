@@ -5,50 +5,53 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"/>
 
-    <title>Your Email System</title>
+<head>
+  <title>Your Email System</title>
 
-    <link rel="stylesheet" href="styles/bootstrap.css">
-    <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/bootstrap.css">
+  <link rel="stylesheet" href="styles/styles.css">
 
-    <script src="scripts/jquery.js"></script>
-    <script src="scripts/myScript.js"></script>
-    <script src="scripts/emailManager.js"></script>
-  </head>
+  <script src="scripts/jquery.js"></script>
+  <script src="scripts/myScript.js"></script>
+  <script src="scripts/emailManager.js"></script>
 
-  <body>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-    <!-- Header -->
-    <div class="input-group-text" data-role="header">
-      SENT ITEMS
+<body>
 
-      <div id="sign_in_form"></div>
-      <script>
-        addSignIn("sign_in_form")
-      </script>
-    </div>
+  <!-- Header -->
+  <header class="input-group-text" data-role="header">
+    SENT ITEMS
 
-    <!-- Content: shows all sent items -->
-    <div class="content" data-role="content">
-      <a class="email_title">TO</a>
-      <a class="email_title">SUBJECT</a>
+    <div id="sign_in_form"></div>
+    <script>
+      addSignIn("sign_in_form")
+    </script>
+  </header>
 
-      <!-- Display emails -->
-      <div id="sent_emails"></div>
-      <script>
-        displayEmails("sent_emails", getAccount( getSignedInAccount() ).sentMail, false)
-      </script>
+  <!-- Content: shows all sent items -->
+  <main>
+    <a class="email_title">TO</a>
+    <a class="email_title">SUBJECT</a>
 
-    </div>
+    <!-- Display emails -->
+    <div id="sent_emails"></div>
+    <script>
+      displayEmails("sent_emails", getAccount(getSignedInAccount()).sentMail, false)
+    </script>
 
-    <!-- Footer bar -->
-    <div class="input-group-text" data-role="header"></div>
+  </main>
 
-    <!-- Navigation buttons -->
-    <a href="index.html" class="btn navButton">Inbox</a>
-    <a href="compose.html" class="btn navButton">Compose</a>
+  <!-- Footer bar -->
+  <footer class="input-group-text"></footer>
 
-  </body>
+  <!-- Navigation buttons -->
+  <button id="btn_inbox" class="btn navButton">Inbox</button>
+  <button id="btn_compose" class="btn navButton">Compose</button>
+
+  <script src="scripts/navigation.js"></script>
+</body>
+
 </html>
