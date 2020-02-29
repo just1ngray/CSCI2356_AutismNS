@@ -1,60 +1,65 @@
 <!--
    - Assignment #2: Compose an email page.
-   - author: Justin Gray (A00426753)
+   - author: Justin Gray (A00426753), Vitor Jeronimo (A00431599)
 -->
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"/>
 
-    <title>Your Email System</title>
+<head>
+  <title>Your Email System</title>
 
-    <link rel="stylesheet" href="styles/bootstrap.css">
-    <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/bootstrap.css">
+  <link rel="stylesheet" href="styles/styles.css">
 
-    <script src="scripts/jquery.js"></script>
-    <script src="scripts/myScript.js"></script>
-    <script src="scripts/emailManager.js"></script>
-  </head>
+  <script src="scripts/jquery.js"></script>
+  <script src="scripts/myScript.js"></script>
+  <script src="scripts/emailManager.js"></script>
 
-  <body>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-    <!-- Header bar -->
-    <div class="input-group-text" data-role="header">COMPOSE</div>
+<body>
 
-    <!-- Content: forms -->
-    <div class="content" data-role="content">
+  <!-- Header bar -->
+  <header class="input-group-text">COMPOSING</header>
 
-      <div class="input-group-text">
-        <a class="title_column">To</a>
-        <input class="form-control" id="email_to" placeholder=""></input>
-      </div>
+  <!-- Content: forms -->
+  <main>
 
-      <div class="input-group-text">
-        <a class="title_column">Cc</a>
-        <input class="form-control" id="email_cc" placeholder=""></input>
-      </div>
-
-      <div class="input-group-text">
-        <a class="title_column">Subject</a>
-        <input class="form-control" id="email_subject" placeholder=""></input>
-      </div>
-
-      <div class="input-group-text">
-        <a class="title_column">Body</a>
-        <textarea class="form-control" id="email_body" rows="10" placeholder="">
-        </textarea>
-      </div>
-
+    <div class="input-group-text">
+      <label for="email_to" id="email_to_label">To </label>
+      <input class="form-control" type="email" id="email_to" />
     </div>
 
-    <!-- Bottom of form, line across page -->
-    <div class="input-group-text" data-role="header"></div>
+    <div class="input-group-text">
+      <label for="email_cc" id="email_cc_label">Cc </label>
+      <input class="form-control" type="email" id="email_cc" />
+    </div>
 
-    <!-- Action buttons: prints to console or cancels message -->
-    <a class="btn navButton" onclick='sendMail()'>Send</a>
-    <a class="btn navButton" onclick="back()">Cancel</a>
+    <div class="input-group-text">
+      <label for="email_subject" id="email_subject_label">Subject </label>
+      <input class="form-control" type="text" id="email_subject" />
+    </div>
 
-  </body>
+    <div class="input-group-text">
+      <label for="email_body" id="email_body_label">Body </label>
+      <textarea class="form-control" id="email_body">
+        </textarea>
+    </div>
+
+  </main>
+
+  <!-- Bottom of form, line across page -->
+  <footer class="input-group-text"></footer>
+
+  <!-- Action buttons: prints to console or cancels message -->
+  <section>
+    <button class="btn navButton" onclick='sendMail("student")'>Send</button>
+    <button class="btn navButton" onclick="back()">Cancel</button>
+  </section>
+
+  <script src="scripts/help.js"></script>
+</body>
+
 </html>
