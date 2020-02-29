@@ -21,7 +21,14 @@
   <body>
 
     <!-- Header bar -->
-    <div class="input-group-text" data-role="header">INBOX</div>
+    <div class="input-group-text" data-role="header">
+      INBOX
+
+      <div id="sign_in_form"></div>
+      <script>
+        addSignIn("sign_in_form")
+      </script>
+    </div>
 
     <!-- List of emails -->
     <div class="content" data-role="content">
@@ -31,7 +38,7 @@
       <!-- Display emails -->
       <div id="inbox_emails"> </div>
       <script>
-        displayEmails("inbox_emails", getAccount("student").inboxMail, true)
+        displayEmails("inbox_emails", getAccount( getSignedInAccount() ).inboxMail, true)
       </script>
 
     </div>
