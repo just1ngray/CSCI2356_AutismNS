@@ -92,8 +92,9 @@ input {
 
 /* Styling for the sign in form */
 .signin {
-  position: relative;
-  left: 380px;
+  position: absolute;
+  top: 5px;
+  left: 445px;
   width: 450px;
   text-align: right;
 }
