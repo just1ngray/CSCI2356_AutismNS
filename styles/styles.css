@@ -113,3 +113,8 @@ input {
     background-color: snow;
     cursor: pointer;
 }
+
+/* Styles the view email text. */
+.viewEmailText {
+  text-align: left;
+}
