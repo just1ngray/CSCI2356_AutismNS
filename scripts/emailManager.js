@@ -157,28 +157,25 @@ function displayEmails(id, emails, isInbox) {
 
   // look through each email and display
   for (var i = 0; i < emails.length; i ++) {
-    var email = emails[i];  // the individual email
+    var email = emails[i];                    // the individual email
     var doBolding = !email.isRead && isInbox; // if the email should be bolded
 
     // create the content of the email to be displayed
-    var content = '<div class="email" onclick="viewMail(' + "'"
-      + escape(JSON.stringify(email)) + "'" + ')">';
+    var content = '<div class="email">';
 
     // other person involved
     content += '<a class="'
-      + (doBolding ? 'email_unread' : 'email_read') + '">'
+      + (doBolding ? 'email_unread' : 'email_read') + '"'
+      + 'onclick="viewMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')">'
       + (isInbox ? email.from : email.to) + '</a>';
 
     // subject
     content += '<a class="'
-      + (doBolding ? 'email_unread' : 'email_read') + '">'
+      + (doBolding ? 'email_unread' : 'email_read') + '"'
+      + 'onclick="viewMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')">'
       + email.subject + '</a>';
 
     // delete button
-    // content += '<a class="btn deleteButton" onclick="deleteMail('
-    //   + "'" + email.owner + "', "
-    //   + "'" + email.date + "'"
-    //   + ')">X</a>';
     content += '<a class="btn deleteButton" onclick="deleteMail('
       + "'" + escape(JSON.stringify(email)) + "'" + ')">X</a>';
 
