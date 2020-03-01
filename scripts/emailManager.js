@@ -7,10 +7,11 @@ function addSignIn(id) {
   var element = $("#" + id);
 
   // ugly but functional: needs to be styled
-  var content = '<form>';
-  content += '<label>Sign-In:</label>';
-  content += '<input type="text" id="username" placeholder="' + getSignedInAccount() + '">'
-  content += '<input type="submit" value="Submit" onclick="signIn()">';
+  var content = '<form class="signin">';
+  content += '<mylabel>Email Address:</mylabel>';
+  content += '<input type="email" id="username" value="'
+    + getSignedInAccount() + '">'
+  content += '<input type="submit" value="Sign-In" onclick="signIn()">';
   content += '</form>';
 
   element.html(content);
@@ -21,7 +22,7 @@ function addSignIn(id) {
 * @returns  NA
 */
 function signIn() {
-  var account = getAccount( $("#username").val() );
+  var account = getAccount( $("#username").val().toLowerCase() );
 
   try {
     localStorage.setItem("loggedInAccount", account.name);
@@ -32,7 +33,7 @@ function signIn() {
 }
 
 /*
-* Gets the current signed-in account.
+* Gets the current signed-in account's name.
 * @return the current signed-in account, student if  none!
 */
 function getSignedInAccount() {
@@ -59,12 +60,12 @@ function getAccount(name) {
   if (typeof (window.Storage) === "undefined"){
 		// storage not supported by browser
     console.error("Storage is not supported by this browser");
-  } else if (localStorage.getItem(name) == null){
+  } else if (localStorage.getItem(name.toLowerCase()) == null){
 	   // nothing stored at that key
      return new Account(name, [], []);
   } else {
     // result successfully found
-    return JSON.parse(localStorage.getItem(name));
+    return JSON.parse(localStorage.getItem(name.toLowerCase()));
   }
 }
 
@@ -74,7 +75,9 @@ function getAccount(name) {
 * @returns        N/A
 */
 function saveAccount(account) {
-  console.log("Saving " + account.name);
+  // caps insensitive: easier sign-in
+  account.name = account.name.toLowerCase();
+
   if (account.name == null || typeof account.name != "string") {
     console.error("Invalid account");
   } else {
@@ -158,7 +161,8 @@ function displayEmails(id, emails, isInbox) {
     var doBolding = !email.isRead && isInbox; // if the email should be bolded
 
     // create the content of the email to be displayed
-    var content = '<div class="email" onclick="window.open("email.html")>';
+    var content = '<div class="email" onclick="viewMail(' + "'"
+      + escape(JSON.stringify(email)) + "'" + ')">';
 
     // other person involved
     content += '<a class="'
@@ -190,13 +194,23 @@ function displayEmails(id, emails, isInbox) {
 * @returns    N/A
 */
 function sendMail() {
-  var from = getSignedInAccount().name;
+  var from = getSignedInAccount();
 
   // get the fields from the compose page
   var to = $("#email_to").val();
   var cc = $("#email_cc").val();
   var subject = $("#email_subject").val();
   var body = $("#email_body").val();
+
+  // non-empty checks
+  if (to.trim() === "" || subject.trim() === "" || body.trim() === "") {
+    alert("You missed some information! \n"
+      + "Check to make sure you have filled in: To, Subject, and Body \n"
+      + "\n"
+      + "For more help, click on the words To, Subject, and Body"
+    );
+    return;
+  }
 
   // create the email object
   var email = new Email( (new Date()).getTime(), from, to, cc, subject, body,
@@ -255,33 +269,89 @@ function deleteMail(stringifiedEmail) {
   location.reload();    // reload the page to update the email list
 }
 
-// TODO: finish
+/*
+* Views a specific (1)stringified and (2)escaped email.
+* Sets all pre-conditions for the loadMail() method which will be called when
+* we change the window's location to email.html.
+* @param stringifiedEmail  the stringified and escaped email to view
+* @returns                 NA
+*/
 function viewMail(stringifiedEmail) {
   // the unescaped, parsed email represented by stringifiedEmail
-  var email = JSON.parse(unescape(stringifiedEmail));
+  var email = JSON.parse( unescape(stringifiedEmail) );
 
-  //window.location = "email.html";
-  $(this).attr("href", "email.html");
+  // set the storage to display the right email
+  try {
+    localStorage.setItem("displayEmail", JSON.stringify(email));
+  } catch (error) {
+    console.error("Could not save displayEmail for viewing mail");
+  }
 
-  $(document).ready(function() {
+  // open the email.html page
+  window.location = "email.html";
+}
 
-    if (email.owner === email.to) {
-      // INBOX ITEM
-      $("#title").html("VIEWING INBOX ITEM");
-      $("#non_owner_type").html("From");
-      $("#non_owner").html(email.from);
-    } else if (email.owner === email.from) {
-      // SENT ITEM
-      $("#title").html("VIEWING SENT ITEM");
-      $("#non_owner_type").html("To");
-      $("#non_owner").html(email.to);
-    } else {
-      console.error("Unidentified owner of an email. Cannot view.")
+/*
+* Loads the stored email information into the fields on the page.
+* If no email is found, go back.
+* If the owner of the email is no longer signed in, do not display the email!
+* @returns  NA
+*/
+function loadMail() {
+  if (typeof (window.Storage) === "undefined"){
+		// storage not supported by browser
+    console.error("Storage is not supported by this browser");
+    window.history.back();
+    return;
+  } else if (localStorage.getItem("displayEmail") == null){
+	   // nothing stored at that key
+     console.error("No email to display.")
+     window.history.back();
+     return;
+  } else {
+    // result successfully found
+    var email = JSON.parse(localStorage.getItem("displayEmail"));
+
+    // pass check if: signed-in user is the owner of the email to display
+    if (!(email.owner === getSignedInAccount())) {
+      console.error("Owner of the email not signed in");
+      window.history.back();
+      return;
     }
 
-    $("#email_cc").html(email.cc);
-    $("#email.subject").html(email.subject);
-    $("#email.body").html(email.body);
+    // load the email once the page has finished loading
+    $(document).ready(function() {
+      if (email.owner === email.to) {
+        // INBOX ITEM
+        $("#title").html("VIEWING INBOX ITEM");
+        $("#non_owner_type").html("From");
+        $("#non_owner").html(email.from);
 
-  });
+        // set email to be read
+        if (!email.isRead) {
+          var account = getAccount(email.owner);
+          for (var i = 0; i < account.inboxMail.length; i ++) {
+            if (JSON.stringify(email) === JSON.stringify(account.inboxMail[i])){
+              account.inboxMail[i].isRead = true;
+              break;
+            }
+          }
+          saveAccount(account);
+        }
+      } else if (email.owner === email.from) {
+        // SENT ITEM
+        $("#title").html("VIEWING SENT ITEM");
+        $("#non_owner_type").html("To");
+        $("#non_owner").html(email.to);
+      } else {
+        console.error("Owner of email was not sender or recipient")
+        window.history.back();
+        return;
+      }
+
+      $("#email_cc").html(email.cc);
+      $("#email_subject").html(email.subject);
+      $("#email_body").html(email.body);
+    });
+  }
 }
