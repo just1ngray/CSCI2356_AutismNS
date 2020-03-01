@@ -19,7 +19,7 @@
   <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
+<body onload="loadMail()">
 
   <!-- Header and title page -->
   <header class="input-group-text" id="title"></header>
@@ -29,25 +29,23 @@
 
     <div class="input-group-text">
       <label for="non_owner" id="non_owner_type"></label>
-      <input class="form-control" id="non_owner" readonly></input>
+      <p class="form-control viewEmailText" id="non_owner"></p>
     </div>
 
     <div class="input-group-text">
       <label for="email_cc">Cc</label>
-      <input class="form-control" id="email_cc" readonly></input>
+      <p class="form-control viewEmailText" id="email_cc"></p>
     </div>
 
     <div class="input-group-text">
       <label for="email_subject">Subject</label>
-      <input class="form-control" id="email_subject" readonly></input>
+      <p class="form-control viewEmailText" id="email_subject"></p>
     </div>
 
     <div class="input-group-text">
       <label for="email_body">Body</label>
-      <textarea class="form-control" id="email_body" readonly>
-        </textarea>
+      <p class="form-control viewEmailText" id="email_body"></p>
     </div>
-
   </main>
 
   <!-- Footer to separate body from buttons -->
@@ -55,6 +53,7 @@
 
   <!-- Navigation button -->
   <button id="btn_back" class="btn navButton">Back</button>
+  <button id="btn_compose" class="btn navButton">Reply</button>
 
   <script src="scripts/navigation.js"></script>
 </body>
