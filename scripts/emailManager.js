@@ -78,6 +78,21 @@ function saveAccount(account) {
   // caps insensitive: easier sign-in
   account.name = account.name.toLowerCase();
 
+  // sort inbox in descending order by date (newest at top)
+  account.inboxMail = account.inboxMail.sort(
+    function(a, b) {
+      return b.date - a.date;
+    }
+  );
+
+  // sort sent mail in descending order by date (newest at top)
+  account.sentMail = account.sentMail.sort(
+    function(a, b) {
+      return b.date - a.date;
+    }
+  );
+
+  // save
   if (account.name == null || typeof account.name != "string") {
     console.error("Invalid account");
   } else {
