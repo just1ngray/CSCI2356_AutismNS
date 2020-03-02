@@ -241,7 +241,7 @@ function sendMail() {
   saveAccount(recipient);
 
   // redirect the sender to their sent mail
-  window.location = "sentitems.html";
+  goTo("sentitems.html");
 }
 
 /*
@@ -300,7 +300,7 @@ function viewMail(stringifiedEmail) {
   }
 
   // open the email.html page
-  window.location = "email.html";
+  goTo("email.html");
 }
 
 /*
@@ -313,12 +313,12 @@ function loadMail() {
   if (typeof (window.Storage) === "undefined"){
 		// storage not supported by browser
     console.error("Storage is not supported by this browser");
-    window.history.back();
+    goBack();
     return;
   } else if (localStorage.getItem("displayEmail") == null){
 	   // nothing stored at that key
      console.error("No email to display.")
-     window.history.back();
+     goBack();
      return;
   } else {
     // result successfully found
@@ -327,7 +327,7 @@ function loadMail() {
     // pass check if: signed-in user is the owner of the email to display
     if (!(email.owner === getSignedInAccount())) {
       console.error("Owner of the email not signed in");
-      window.history.back();
+      goBack();
       return;
     }
 
@@ -357,7 +357,7 @@ function loadMail() {
         $("#non_owner").html(email.to);
       } else {
         console.error("Owner of email was not sender or recipient")
-        window.history.back();
+        goBack();
         return;
       }
 
