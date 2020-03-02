@@ -22,6 +22,7 @@ body {
 .email {
   padding: 1rem 0.75rem;
   line-height: 1.5;
+  display: inline;
 }
 
 /* Changes to the email styling when you're hovering over it. */

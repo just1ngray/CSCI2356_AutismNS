@@ -64,11 +64,11 @@ function displayEmails(id, emails, isInbox) {
       + 'onclick="viewMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')">'
       + email.subject + '</a>';
 
+    content += '</div>';
+
     // delete button
     content += '<a class="btn deleteButton" onclick="deleteMail('
       + "'" + escape(JSON.stringify(email)) + "'" + ')">X</a>';
-
-    content += '</div>';
 
     // add the content to the element
     element.append(content);
