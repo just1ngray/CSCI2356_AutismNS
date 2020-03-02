@@ -40,7 +40,8 @@ function goBack() {
 */
 function openHelp(id) {
   // the text inside the label of the id
-  var label = $("#" + id);
+  //var label = $("#" + id).val();
+  var label = document.getElementById(id).innerHTML;
 
   // depending on the valid of label, open a different window
   switch (label) {
@@ -59,6 +60,6 @@ function openHelp(id) {
       window.open("./help/helpbody.html", "_blank", "width=500, height=200, left=300, top=250");
       break;
     default:
-      console.error("Help window not found for given label at id:" + id);
+      console.error("Help window not found for " + label + " at id:" + id);
   }
 }
