@@ -23,13 +23,13 @@ function goTo(href) {
 function goBack() {
   if (typeof (window.Storage) === "undefined"){
 		// storage not supported by browser
-    window.history.back();
-  } else if (localStorage.getItem("lastPage") != null){
+    window.history.go(-1).reload();
+  } else if (localStorage.getItem("lastPage") != null) {
     // valid page found
 	  window.location.href = localStorage.getItem("lastPage");
   } else {
     // use in-browser history
-    window.history.back();
+    window.history.go(-1).reload();
   }
 }
 
