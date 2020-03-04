@@ -1,34 +1,16 @@
-/*
-* Creates a new email object.
-*
-* USAGE:
-* var testEmail = new Email(somedate, "From@Me.com", "To@You.ca", "",
-*   "This is a TEST!", "Hi, did it work?", false);
-* console.log(testEmail.from);
-* PRINTS: From@Me.com
-*
-* @param date     when the email was sent (number of milliseconds since
-*   1970/01/01. Use ( (new Date()).getTime() )
-* @param from     the sender of the email (string)
-* @param to       the recipient of the email (string)
-* @param cc       any other recipients (string)
-* @param subject  the subject of the email (string)
-* @param body     body of the email message (string)
-* @param isRead   if the email has been read (bool)
-* @param owner    the owner of the email
-* @returns        the new email object
-*/
-function Email(date, from, to, cc, subject, body, isRead, owner) {
-  this.date = date;
-  this.from = from;
-  this.to = to;
+function Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date, owner, isInbox) {
+  this.fakeFrom = fakeFrom;
+  this.fakeTo = fakeTo;
   this.cc = cc;
   this.subject = subject;
   this.body = body;
   this.isRead = isRead;
-  this.owner = owner;
+  this.realFrom = realFrom;
+  this.realTo = realTo;
+  this.date = date;
 
-  // TODO: Add other information (isFlagged, etc.)?
+  this.owner = owner;
+  this.isInbox = isInbox;
 }
 
 /*
@@ -45,7 +27,7 @@ function displayEmails(id, emails, isInbox) {
   element.html("");
 
   // look through each email and display
-  for (var i = 0; i < emails.length; i ++) {
+  for (var i = 0; i < Math.min(10, emails.length); i ++) {
     var email = emails[i];                    // the individual email
     var doBolding = !email.isRead && isInbox; // if the email should be bolded
 
@@ -56,7 +38,7 @@ function displayEmails(id, emails, isInbox) {
     content += '<a class="'
       + (doBolding ? 'email_unread' : 'email_read') + '"'
       + 'onclick="viewMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')">'
-      + (isInbox ? email.from : email.to) + '</a>';
+      + (isInbox ? email.fakeFrom : email.fakeTo) + '</a>';
 
     // subject
     content += '<a class="'
@@ -80,9 +62,10 @@ function displayEmails(id, emails, isInbox) {
 * @returns    N/A
 */
 function sendMail() {
-  var from = getSignedInAccount();
-
   // get the fields from the compose page
+
+  // no from found, must be from student or from found and take that
+  var from = $("#email_from").length === 0 ? "student" : $("#email_from").val();
   var to = $("#email_to").val();
   var cc = $("#email_cc").val();
   var subject = $("#email_subject").val();
@@ -99,19 +82,27 @@ function sendMail() {
   }
 
   // create the email object
-  var email = new Email( (new Date()).getTime(), from, to, cc, subject, body,
-    false, "");
+  // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date, owner, isInbox)
+  var email = new Email(from, to, cc, subject, body, false,
+    from === "student" ? "student" : "admin",   // if from is student, realFrom is student, otherwise admin
+    from === "student" ? "admin" : "student",   // if from is student, realTo is admin, otherwise student
+    (new Date()).getTime(),
+    "",
+    false
+  );
 
   // save the email object to the sender's sent items
-  email.owner = from;
-  var sender = getAccount(from);
-  sender.sentMail.push(email);
+  email.owner = email.realFrom;
+  email.isInbox = false;
+  var sender = getAccount(email.realFrom);
+  sender.sentMail.unshift(email);
   saveAccount(sender);
 
   // save the email object to the recipient's inbox
-  email.owner = to;
-  var recipient = getAccount(to);
-  recipient.inboxMail.push(email);
+  email.owner = email.realTo;
+  email.isInbox = true;
+  var recipient = getAccount(email.realTo);
+  recipient.inboxMail.unshift(email);
   saveAccount(recipient);
 
   // redirect the sender to their sent mail
@@ -128,27 +119,25 @@ function deleteMail(stringifiedEmail) {
   // the unescaped, parsed email represented by stringifiedEmail
   var email = JSON.parse(unescape(stringifiedEmail));
 
-  // get the current account state of the owner
+  // who should we delete the email from
   var account = getAccount(email.owner);
 
-  if (email.owner === email.to) {
-    // email is in inbox: delete through inbox if found
+  if (email.isInbox) {
+    // email is in inbox: delete through inbox
     for (var i = 0; i < account.inboxMail.length; i ++) {
       if (escape(JSON.stringify(account.inboxMail[i])) === stringifiedEmail) {
         account.inboxMail.splice(i, 1);
         i --;
       }
     }
-  } else if (email.owner === email.from) {
-    // email is in sent mail: delete through sent mail if found
+  } else {
+    // email is in sent mail: delete through sent mail
     for (var i = 0; i < account.sentMail.length; i ++) {
       if (escape(JSON.stringify(account.sentMail[i])) === stringifiedEmail) {
         account.sentMail.splice(i, 1);
         i --;
       }
     }
-  } else {
-    console.error("Owner was not a member of the email. Cannot delete.");
   }
 
   saveAccount(account); // save the new state of the account
@@ -171,6 +160,18 @@ function viewMail(stringifiedEmail) {
     localStorage.setItem("displayEmail", JSON.stringify(email));
   } catch (error) {
     console.error("Could not save displayEmail for viewing mail");
+  }
+
+  // set email to be read
+  if (!email.isRead) {
+    var account = getAccount(email.owner);
+    for (var i = 0; i < account.inboxMail.length; i ++) {
+      if (JSON.stringify(email) === JSON.stringify(account.inboxMail[i])){
+        account.inboxMail[i].isRead = true;
+        break;
+      }
+    }
+    saveAccount(account);
   }
 
   // open the email.html page
@@ -198,46 +199,21 @@ function loadMail() {
     // result successfully found
     var email = JSON.parse(localStorage.getItem("displayEmail"));
 
-    // pass check if: signed-in user is the owner of the email to display
-    if (!(email.owner === getSignedInAccount())) {
-      console.error("Owner of the email not signed in");
-      goBack();
-      return;
+    // load the email
+    if (email.isInbox) {
+      // INBOX ITEM
+      $("#title").html("VIEWING INBOX ITEM");
+      $("#non_owner_type").html("From");
+      $("#non_owner").html(email.fakeFrom);
+    } else {
+      // SENT ITEM
+      $("#title").html("VIEWING SENT ITEM");
+      $("#non_owner_type").html("To");
+      $("#non_owner").html(email.fakeTo);
     }
 
-    // load the email once the page has finished loading
-    $(document).ready(function() {
-      if (email.owner === email.to) {
-        // INBOX ITEM
-        $("#title").html("VIEWING INBOX ITEM");
-        $("#non_owner_type").html("From");
-        $("#non_owner").html(email.from);
-
-        // set email to be read
-        if (!email.isRead) {
-          var account = getAccount(email.owner);
-          for (var i = 0; i < account.inboxMail.length; i ++) {
-            if (JSON.stringify(email) === JSON.stringify(account.inboxMail[i])){
-              account.inboxMail[i].isRead = true;
-              break;
-            }
-          }
-          saveAccount(account);
-        }
-      } else if (email.owner === email.from) {
-        // SENT ITEM
-        $("#title").html("VIEWING SENT ITEM");
-        $("#non_owner_type").html("To");
-        $("#non_owner").html(email.to);
-      } else {
-        console.error("Owner of email was not sender or recipient")
-        goBack();
-        return;
-      }
-
-      $("#email_cc").html(email.cc);
-      $("#email_subject").html(email.subject);
-      $("#email_body").html(email.body);
-    });
+    $("#email_cc").html(email.cc);
+    $("#email_subject").html(email.subject);
+    $("#email_body").html(email.body);
   }
 }

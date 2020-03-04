@@ -1,13 +1,13 @@
 <!--
-   - Assignment #2: Compose an email page.
-   - author: Justin Gray (A00426753), Vitor Jeronimo (A00431599)
+   - Assignment #2: Shows a sent email, currently left blank.
+   - author: Justin Gray (A00426753)
 -->
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Your Email System</title>
+  <title>Admin Email System</title>
 
   <link rel="stylesheet" href="../styles/bootstrap.css">
   <link rel="stylesheet" href="../styles/styles.css">
@@ -21,47 +21,42 @@
   <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
+<body onload="loadMail()">
 
-  <!-- Header bar -->
-  <header class="input-group-text">COMPOSING</header>
+  <!-- Header and title page -->
+  <header class="input-group-text" id="title"></header>
 
-  <!-- Content: forms -->
+  <!-- Content to view the sent item's details -->
   <main>
 
     <div class="input-group-text">
-      <label for="email_to" id="email_to_label" onclick='openHelp("email_to_label")'>To</label>
-      <input class="form-control" type="email" id="email_to" />
+      <label for="non_owner" id="non_owner_type" onclick='openHelp("non_owner_type")'></label>
+      <span class="form-control viewEmailText" id="non_owner"></span>
     </div>
 
     <div class="input-group-text">
       <label for="email_cc" id="email_cc_label" onclick='openHelp("email_cc_label")'>Cc</label>
-      <input class="form-control" type="email" id="email_cc" />
+      <span class="form-control viewEmailText" id="email_cc"></span>
     </div>
 
     <div class="input-group-text">
       <label for="email_subject" id="email_subject_label" onclick='openHelp("email_subject_label")'>Subject</label>
-      <input class="form-control" type="text" id="email_subject" />
+      <span class="form-control viewEmailText" id="email_subject"></span>
     </div>
 
     <div class="input-group-text">
       <label for="email_body" id="email_body_label" onclick='openHelp("email_body_label")'>Body</label>
-      <textarea class="form-control" id="email_body"></textarea>
+      <span class="form-control viewEmailText" id="email_body"></span>
     </div>
-
   </main>
 
-  <!-- Bottom of form, line across page -->
+  <!-- Footer to separate body from buttons -->
   <footer class="input-group-text"></footer>
 
-  <!-- Action buttons: prints to console or cancels message -->
-  <section>
-    <button id="btn_send" class="btn navButton" onclick='sendMail()'>Send</button>
-    <button id="btn_cancel" class="btn navButton" onclick='goBack()'>Cancel</button>
-  </section>
+  <!-- Navigation button -->
+  <button id="btn_back" class="btn navButton" onclick='goBack()'>Back</button>
+  <button id="btn_compose" class="btn navButton" onclick='goTo("compose.html")'>Reply</button>
 
-
-  <script src="../scripts/help.js"></script>
   <script src="../scripts/navigation.js"></script>
 </body>
 

@@ -7,7 +7,7 @@
 <html lang="en">
 
 <head>
-  <title>Your Email System</title>
+  <title>Admin Email System</title>
 
   <link rel="stylesheet" href="../styles/bootstrap.css">
   <link rel="stylesheet" href="../styles/styles.css">
@@ -28,6 +28,11 @@
 
   <!-- Content: forms -->
   <main>
+
+    <div class="input-group-text">
+      <label for="email_from" id="email_from_label" onclick='openHelp("email_from_label")'>From</label>
+      <input class="form-control" type="email" id="email_from" />
+    </div>
 
     <div class="input-group-text">
       <label for="email_to" id="email_to_label" onclick='openHelp("email_to_label")'>To</label>
