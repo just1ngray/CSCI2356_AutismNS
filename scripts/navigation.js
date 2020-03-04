@@ -21,12 +21,12 @@ function goTo(href) {
 * @returns  NA
 */
 function goBack() {
-  if (typeof (window.Storage) === "undefined"){
-		// storage not supported by browser
+  if (typeof (window.Storage) === "undefined") {
+    // storage not supported by browser
     window.history.go(-1).reload();
   } else if (localStorage.getItem("lastPage") != null) {
     // valid page found
-	  window.location.href = localStorage.getItem("lastPage");
+    window.location.href = localStorage.getItem("lastPage");
   } else {
     // use in-browser history
     window.history.go(-1).reload();
@@ -46,18 +46,19 @@ function openHelp(id) {
   // depending on the valid of label, open a different window
   switch (label) {
     case "To":
-      window.open("./help/helpto.html", "_blank", "width=500, height=200, left=300, top=250");
+      window.open("../help/helpto.html", "_blank", "width=500, height=200, left=300, top=250");
       break;
     case "From":
+      window.open("../help/helpfrom.html", "_blank", "width=500, height=200, left=300, top=250");
       break;
     case "Cc":
-      window.open("./help/helpcc.html", "_blank", "width=500, height=200, left=300, top=250");
+      window.open("../help/helpcc.html", "_blank", "width=500, height=200, left=300, top=250");
       break;
     case "Subject":
-      window.open("./help/helpsubject.html", "_blank", "width=500, height=200, left=300, top=250");
+      window.open("../help/helpsubject.html", "_blank", "width=500, height=200, left=300, top=250");
       break;
     case "Body":
-      window.open("./help/helpbody.html", "_blank", "width=500, height=200, left=300, top=250");
+      window.open("../help/helpbody.html", "_blank", "width=500, height=200, left=300, top=250");
       break;
     default:
       console.error("Help window not found for " + label + " at id:" + id);
