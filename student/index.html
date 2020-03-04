@@ -9,13 +9,14 @@
 <head>
   <title>Your Email System</title>
 
-  <link rel="stylesheet" href="styles/bootstrap.css">
-  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="../styles/bootstrap.css">
+  <link rel="stylesheet" href="../styles/styles.css">
 
-  <script src="scripts/jquery.js"></script>
-  <script src="scripts/myScript.js"></script>
-  <script src="scripts/emailManager.js"></script>
-  <script src="scripts/accountManager.js"></script>
+  <script src="../scripts/jquery.js"></script>
+  <script src="../scripts/myScript.js"></script>
+  <script src="../scripts/emailManager.js"></script>
+  <script src="../scripts/accountManager.js"></script>
+  <script src="../scripts/io.js"></script>
 
   <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -23,14 +24,7 @@
 <body>
 
   <!-- Header bar -->
-  <header class="input-group-text" data-role="header">
-    INBOX
-
-    <div id="sign_in_form"></div>
-    <script>
-      addSignIn("sign_in_form")
-    </script>
-  </header>
+  <header class="input-group-text" data-role="header">INBOX</header>
 
   <!-- List of emails -->
   <main>
@@ -38,9 +32,9 @@
     <a class="email_title">SUBJECT</a>
 
     <!-- Display emails -->
-    <div id="inbox_emails"> </div>
+    <div id="inbox_emails"></div>
     <script>
-      displayEmails("inbox_emails", getAccount(getSignedInAccount()).inboxMail, true)
+      displayEmails("inbox_emails", getAccount("student").inboxMail, true)
     </script>
 
   </main>
@@ -52,7 +46,7 @@
   <button id="btn_sentitems" class="btn navButton" onclick='goTo("sentitems.html")'>Sent Items</button>
   <button id="btn_compose" class="btn navButton" onclick='goTo("compose.html")'>Compose</button>
 
-  <script src="scripts/navigation.js"></script>
+  <script src="../scripts/navigation.js"></script>
 </body>
 
 </html>
