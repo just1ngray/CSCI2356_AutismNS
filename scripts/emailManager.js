@@ -80,6 +80,12 @@ function sendMail() {
     );
     return;
   }
+  if (from.trim() === "") {
+    alert("You missed some information! \n"
+      + "Check to make sure you have filled in: From \n"
+    );
+    return;
+  }
 
   // create the email object
   // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date, owner, isInbox)
@@ -96,17 +102,23 @@ function sendMail() {
   email.isInbox = false;
   var sender = getAccount(email.realFrom);
   sender.sentMail.unshift(email);
-  saveAccount(sender);
 
   // save the email object to the recipient's inbox
   email.owner = email.realTo;
   email.isInbox = true;
   var recipient = getAccount(email.realTo);
   recipient.inboxMail.unshift(email);
-  saveAccount(recipient);
 
-  // redirect the sender to their sent mail
-  goTo("sentitems.html");
+  // save accounts if both have room for the email
+  try {
+    saveAccounts(sender, recipient);
+
+    // redirect the sender to their sent mail
+    goTo("sentitems.html");
+  } catch (err) {
+    alert(err.name + " " + err.message);
+    return;
+  }
 }
 
 /*
@@ -215,5 +227,12 @@ function loadMail() {
     $("#email_cc").html(email.cc);
     $("#email_subject").html(email.subject);
     $("#email_body").html(email.body);
+  }
+}
+
+class MailSaveError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "MailSaveError";
   }
 }
