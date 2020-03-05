@@ -17,6 +17,19 @@ function Account(name, inboxMail, sentMail) {
   this.sentMail = sentMail;
 }
 
+function saveAccounts(sender, recipient) {
+  if (recipient.inboxMail.length > 10) {
+    throw new MailSaveError("Their inbox is full!\n"
+      + "They need to delete some emails to make room.");
+  }
+  if (sender.sentMail.length > 10) {
+    throw new MailSaveError("Your sent mail is full!\n"
+      + "You need to delete some emails to make room.");
+  }
+  saveAccount(sender);
+  saveAccount(recipient);
+}
+
 /*
 * Saves an account to local storage.
 * @param account  the account to save to local storage
@@ -32,6 +45,11 @@ function saveAccount(account) {
       return b.date - a.date;
     }
   );
+  // inbox too big error
+  if (account.inboxMail.length > 10) {
+    throw new MailSaveError(account.name + "'s inbox is full!\n"
+      + "Could not save account.");
+  }
 
   // sort sent mail in descending order by date (newest at top)
   account.sentMail = account.sentMail.sort(
@@ -39,6 +57,11 @@ function saveAccount(account) {
       return b.date - a.date;
     }
   );
+  // sentMail too big error
+  if (account.sentMail.length > 10) {
+    throw new MailSaveError(account.name + "'s sent mail is full!\n"
+      + "Could not save account.");
+  }
 
   // save
   if (account.name == null || typeof account.name != "string") {
