@@ -120,3 +120,8 @@ input {
   text-align: left;
   margin-left: 1rem;
 }
+
+/* Style for the help message on composing page */
+.help_message {
+  margin: auto;
+}
