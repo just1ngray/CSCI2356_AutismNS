@@ -236,3 +236,7 @@ class MailSaveError extends Error {
     this.name = "MailSaveError";
   }
 }
+
+function reviewMail() {
+  window.open("../help/emailreview.html", "_blank", "width=500, height=200, left=300, top=250");
+}
