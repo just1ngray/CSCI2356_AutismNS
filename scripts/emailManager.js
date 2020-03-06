@@ -58,70 +58,6 @@ function displayEmails(id, emails, isInbox) {
 }
 
 /*
-* Sends an email from the compose.html page
-* @returns    N/A
-*/
-function sendMail() {
-  // get the fields from the compose page
-
-  // no from found, must be from student or from found and take that
-  var from = $("#email_from").length === 0 ? "student" : $("#email_from").val();
-  var to = $("#email_to").val();
-  var cc = $("#email_cc").val();
-  var subject = $("#email_subject").val();
-  var body = $("#email_body").val();
-
-  // non-empty checks
-  if (to.trim() === "" || subject.trim() === "" || body.trim() === "") {
-    alert("You missed some information! \n"
-      + "Check to make sure you have filled in: To, Subject, and Body \n"
-      + "\n"
-      + "For more help, click on the words To, Subject, and Body"
-    );
-    return;
-  }
-  if (from.trim() === "") {
-    alert("You missed some information! \n"
-      + "Check to make sure you have filled in: From \n"
-    );
-    return;
-  }
-
-  // create the email object
-  // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date, owner, isInbox)
-  var email = new Email(from, to, cc, subject, body, false,
-    from === "student" ? "student" : "admin",   // if from is student, realFrom is student, otherwise admin
-    from === "student" ? "admin" : "student",   // if from is student, realTo is admin, otherwise student
-    (new Date()).getTime(),
-    "",
-    false
-  );
-
-  // save the email object to the sender's sent items
-  email.owner = email.realFrom;
-  email.isInbox = false;
-  var sender = getAccount(email.realFrom);
-  sender.sentMail.unshift(email);
-
-  // save the email object to the recipient's inbox
-  email.owner = email.realTo;
-  email.isInbox = true;
-  var recipient = getAccount(email.realTo);
-  recipient.inboxMail.unshift(email);
-
-  // save accounts if both have room for the email
-  try {
-    saveAccounts(sender, recipient);
-
-    // redirect the sender to their sent mail
-    goTo("sentitems.html");
-  } catch (err) {
-    alert(err.name + " " + err.message);
-    return;
-  }
-}
-
-/*
 * Deletes an email.
 * @param stringifiedEmail escape(JSON.stringify(some email)) version of the
 *                         email you want to delete
@@ -193,7 +129,6 @@ function viewMail(stringifiedEmail) {
 /*
 * Loads the stored email information into the fields on the page.
 * If no email is found, go back.
-* If the owner of the email is no longer signed in, do not display the email!
 * @returns  NA
 */
 function loadMail() {
