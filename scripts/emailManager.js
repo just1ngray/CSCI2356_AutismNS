@@ -27,7 +27,7 @@ function displayEmails(id, emails, isInbox) {
   element.html("");
 
   // look through each email and display
-  for (var i = 0; i < Math.min(10, emails.length); i ++) {
+  for (var i = 0; i < Math.min(10, emails.length); i++) {
     var email = emails[i];                    // the individual email
     var doBolding = !email.isRead && isInbox; // if the email should be bolded
 
@@ -57,11 +57,7 @@ function displayEmails(id, emails, isInbox) {
   }
 }
 
-/*
-* Sends an email from the compose.html page
-* @returns    N/A
-*/
-function sendMail() {
+function reviewMail() {
   // get the fields from the compose page
 
   // no from found, must be from student or from found and take that
@@ -72,17 +68,16 @@ function sendMail() {
   var body = $("#email_body").val();
 
   // non-empty checks
+  if (from.trim() === "") {
+    alert("\"From\" field is blank!");
+    return;
+  }
+
   if (to.trim() === "" || subject.trim() === "" || body.trim() === "") {
     alert("You missed some information! \n"
       + "Check to make sure you have filled in: To, Subject, and Body \n"
       + "\n"
       + "For more help, click on the words To, Subject, and Body"
-    );
-    return;
-  }
-  if (from.trim() === "") {
-    alert("You missed some information! \n"
-      + "Check to make sure you have filled in: From \n"
     );
     return;
   }
@@ -97,6 +92,19 @@ function sendMail() {
     false
   );
 
+  write("emailToSend", email);
+
+  window.open("../help/emailreview.html", "_blank", "width=500, height=200, left=300, top=250");
+}
+
+/*
+* Sends an email from the compose.html page
+* @returns    N/A
+*/
+function sendMail() {
+
+  var email = read("emailToSend");
+
   // save the email object to the sender's sent items
   email.owner = email.realFrom;
   email.isInbox = false;
@@ -109,16 +117,20 @@ function sendMail() {
   var recipient = getAccount(email.realTo);
   recipient.inboxMail.unshift(email);
 
+
   // save accounts if both have room for the email
   try {
     saveAccounts(sender, recipient);
-
-    // redirect the sender to their sent mail
-    goTo("sentitems.html");
+    removeMailToSend();
   } catch (err) {
     alert(err.name + " " + err.message);
     return;
   }
+}
+
+function removeMailToSend() {
+  localStorage.removeItem("emailToSend");
+  window.close();
 }
 
 /*
@@ -136,19 +148,20 @@ function deleteMail(stringifiedEmail) {
 
   if (email.isInbox) {
     // email is in inbox: delete through inbox
-    for (var i = 0; i < account.inboxMail.length; i ++) {
+    for (var i = 0; i < account.inboxMail.length; i++) {
       if (escape(JSON.stringify(account.inboxMail[i])) === stringifiedEmail) {
         account.inboxMail.splice(i, 1);
-        i --;
+        i--;
       }
     }
   } else {
     // email is in sent mail: delete through sent mail
-    for (var i = 0; i < account.sentMail.length; i ++) {
+    for (var i = 0; i < account.sentMail.length; i++) {
       if (escape(JSON.stringify(account.sentMail[i])) === stringifiedEmail) {
         account.sentMail.splice(i, 1);
-        i --;
+        i--;
       }
+      alert("Done");
     }
   }
 
@@ -165,7 +178,7 @@ function deleteMail(stringifiedEmail) {
 */
 function viewMail(stringifiedEmail) {
   // the unescaped, parsed email represented by stringifiedEmail
-  var email = JSON.parse( unescape(stringifiedEmail) );
+  var email = JSON.parse(unescape(stringifiedEmail));
 
   // set the storage to display the right email
   try {
@@ -177,8 +190,8 @@ function viewMail(stringifiedEmail) {
   // set email to be read
   if (!email.isRead) {
     var account = getAccount(email.owner);
-    for (var i = 0; i < account.inboxMail.length; i ++) {
-      if (JSON.stringify(email) === JSON.stringify(account.inboxMail[i])){
+    for (var i = 0; i < account.inboxMail.length; i++) {
+      if (JSON.stringify(email) === JSON.stringify(account.inboxMail[i])) {
         account.inboxMail[i].isRead = true;
         break;
       }
@@ -197,16 +210,16 @@ function viewMail(stringifiedEmail) {
 * @returns  NA
 */
 function loadMail() {
-  if (typeof (window.Storage) === "undefined"){
-		// storage not supported by browser
+  if (typeof (window.Storage) === "undefined") {
+    // storage not supported by browser
     console.error("Storage is not supported by this browser");
     goBack();
     return;
-  } else if (localStorage.getItem("displayEmail") == null){
-	   // nothing stored at that key
-     console.error("No email to display.")
-     goBack();
-     return;
+  } else if (localStorage.getItem("displayEmail") == null) {
+    // nothing stored at that key
+    console.error("No email to display.")
+    goBack();
+    return;
   } else {
     // result successfully found
     var email = JSON.parse(localStorage.getItem("displayEmail"));
@@ -235,8 +248,4 @@ class MailSaveError extends Error {
     super(message);
     this.name = "MailSaveError";
   }
-}
-
-function reviewMail() {
-  window.open("../help/emailreview.html", "_blank", "width=500, height=200, left=300, top=250");
 }

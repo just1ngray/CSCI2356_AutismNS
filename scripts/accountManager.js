@@ -67,7 +67,7 @@ function saveAccount(account) {
   if (account.name == null || typeof account.name != "string") {
     console.error("Invalid account");
   } else {
-    write(account.name, JSON.stringify(account));
+    write(account.name, account);
   }
 }
 
@@ -87,6 +87,6 @@ function getAccount(name) {
      return new Account(name, [], []);
   } else {
     // result successfully found
-    return JSON.parse(acc);
+    return acc;
   }
 }
