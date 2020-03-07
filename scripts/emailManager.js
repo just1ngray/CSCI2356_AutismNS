@@ -248,14 +248,12 @@ function confirmation(id) {
   switch (id) {
 
     case "send":
-      confirm("Are you sure that you want to send this email?");
       if (confirm("Are you sure that you want to send this email?")) {
         sendMail();
       }
       break;
 
     case "cancel":
-      confirm("Are you sure that you want to cancel? All the changes in this email will be lost.");
       if (confirm("Are you sure that you want to cancel? All the changes in this email will be lost.")) {
         goBack();
       }
@@ -263,9 +261,8 @@ function confirmation(id) {
 
     //This case is not yet completed as we have to show a confirmation page before sending
     case "delete":
-      confirm("Are you sure that you want to delete this email?");
       if (confirm("Are you sure that you want to delete this email?")) {
-        
+
       }
       break;
 
