@@ -27,7 +27,7 @@ function displayEmails(id, emails, isInbox) {
   element.html("");
 
   // look through each email and display
-  for (var i = 0; i < Math.min(10, emails.length); i ++) {
+  for (var i = 0; i < Math.min(10, emails.length); i++) {
     var email = emails[i];                    // the individual email
     var doBolding = !email.isRead && isInbox; // if the email should be bolded
 
@@ -136,18 +136,18 @@ function deleteMail(stringifiedEmail) {
 
   if (email.isInbox) {
     // email is in inbox: delete through inbox
-    for (var i = 0; i < account.inboxMail.length; i ++) {
+    for (var i = 0; i < account.inboxMail.length; i++) {
       if (escape(JSON.stringify(account.inboxMail[i])) === stringifiedEmail) {
         account.inboxMail.splice(i, 1);
-        i --;
+        i--;
       }
     }
   } else {
     // email is in sent mail: delete through sent mail
-    for (var i = 0; i < account.sentMail.length; i ++) {
+    for (var i = 0; i < account.sentMail.length; i++) {
       if (escape(JSON.stringify(account.sentMail[i])) === stringifiedEmail) {
         account.sentMail.splice(i, 1);
-        i --;
+        i--;
       }
     }
   }
@@ -165,7 +165,7 @@ function deleteMail(stringifiedEmail) {
 */
 function viewMail(stringifiedEmail) {
   // the unescaped, parsed email represented by stringifiedEmail
-  var email = JSON.parse( unescape(stringifiedEmail) );
+  var email = JSON.parse(unescape(stringifiedEmail));
 
   // set the storage to display the right email
   try {
@@ -177,8 +177,8 @@ function viewMail(stringifiedEmail) {
   // set email to be read
   if (!email.isRead) {
     var account = getAccount(email.owner);
-    for (var i = 0; i < account.inboxMail.length; i ++) {
-      if (JSON.stringify(email) === JSON.stringify(account.inboxMail[i])){
+    for (var i = 0; i < account.inboxMail.length; i++) {
+      if (JSON.stringify(email) === JSON.stringify(account.inboxMail[i])) {
         account.inboxMail[i].isRead = true;
         break;
       }
@@ -197,16 +197,16 @@ function viewMail(stringifiedEmail) {
 * @returns  NA
 */
 function loadMail() {
-  if (typeof (window.Storage) === "undefined"){
-		// storage not supported by browser
+  if (typeof (window.Storage) === "undefined") {
+    // storage not supported by browser
     console.error("Storage is not supported by this browser");
     goBack();
     return;
-  } else if (localStorage.getItem("displayEmail") == null){
-	   // nothing stored at that key
-     console.error("No email to display.")
-     goBack();
-     return;
+  } else if (localStorage.getItem("displayEmail") == null) {
+    // nothing stored at that key
+    console.error("No email to display.")
+    goBack();
+    return;
   } else {
     // result successfully found
     var email = JSON.parse(localStorage.getItem("displayEmail"));
@@ -234,5 +234,40 @@ class MailSaveError extends Error {
   constructor(message) {
     super(message);
     this.name = "MailSaveError";
+  }
+}
+
+
+/*
+*Confirms before sending, deleting, canceling
+*returns  true if the user clicked "OK", and false otherwise and performs respective event
+*/
+function confirmation(id) {
+
+  // depending on the id, display appropriate dialog box
+  switch (id) {
+
+    case "send":
+      confirm("Are you sure that you want to send this email?");
+      if (confirm("Are you sure that you want to send this email?")) {
+        sendMail();
+      }
+      break;
+
+    case "cancel":
+      confirm("Are you sure that you want to cancel? All the changes in this email will be lost.");
+      if (confirm("Are you sure that you want to cancel? All the changes in this email will be lost.")) {
+        goBack();
+      }
+      break;
+
+    //This case is not yet completed as we have to show a confirmation page before sending
+    case "delete":
+      confirm("Are you sure that you want to delete this email?");
+      if (confirm("Are you sure that you want to delete this email?")) {
+        
+      }
+      break;
+
   }
 }
