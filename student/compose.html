@@ -35,7 +35,12 @@
 
     <div class="input-group-text">
       <label for="email_to" id="email_to_label" onclick='openHelp("email_to_label")'>To</label>
-      <input class="form-control" type="email" id="email_to" />
+      <select class="form-control" type="email" id="email_to">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+      </select>
     </div>
 
     <div class="input-group-text">
@@ -60,8 +65,8 @@
 
   <!-- Action buttons: prints to console or cancels message -->
   <section>
-    <button id="btn_send" class="btn navButton" onclick='sendMail()'>Send</button>
-    <button id="btn_cancel" class="btn navButton" onclick='goBack()'>Cancel</button>
+    <button id="btn_send" class="btn navButton" onclick='confirmation("send")'>Send</button>
+    <button id="btn_cancel" class="btn navButton" onclick='confirmation("cancel")'>Cancel</button>
   </section>
 
 
