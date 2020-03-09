@@ -239,3 +239,29 @@ class MailSaveError extends Error {
     this.name = "MailSaveError";
   }
 }
+
+
+/*
+*Confirms before sending, deleting, canceling
+*returns  true if the user clicked "OK", and false otherwise and performs respective event
+*/
+function confirmation(id) {
+
+  // depending on the id, display appropriate dialog box
+  switch (id) {
+
+    case "cancel":
+      if (confirm("Are you sure that you want to cancel? All the changes in this email will be lost.")) {
+        goBack();
+      }
+      break;
+
+    //This case is not yet completed as we have to show a confirmation page before sending
+    case "delete":
+      if (confirm("Are you sure that you want to delete this email?")) {
+
+      }
+      break;
+
+  }
+}

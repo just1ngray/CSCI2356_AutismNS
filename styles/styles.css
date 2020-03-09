@@ -68,22 +68,16 @@ label {
   width: 60px;
   text-align: right;
   padding-right: 3px;
-  margin: auto 0;
+  margin: auto 1rem auto 0;
 }
 
 label:hover {
   cursor: help;
 }
 
-/* Creates space between the label and the text input */
-input {
-  margin-left: 1rem;
-}
-
 /* Defines the size of the email body area */
 #email_body {
   height: 15em;
-  margin-left: 1rem;
   width: 100%;
 }
 
