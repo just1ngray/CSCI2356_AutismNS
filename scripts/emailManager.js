@@ -58,6 +58,7 @@ function displayEmails(id, emails, isInbox) {
 }
 
 /*
+
 * Deletes an email.
 * @param stringifiedEmail escape(JSON.stringify(some email)) version of the
 *                         email you want to delete
@@ -172,9 +173,6 @@ class MailSaveError extends Error {
   }
 }
 
-
-
-
 function sendPreview() {
   var from = $("#email_from").length === 0 ? "student" : $("#email_from").val();
   var to = $("#email_to").val();
@@ -252,5 +250,30 @@ function confirmSend() {
   } catch (err) {
     alert(err.message);
     return;
+  }
+}
+
+/*
+*Confirms before sending, deleting, canceling
+*returns  true if the user clicked "OK", and false otherwise and performs respective event
+*/
+function confirmation(id) {
+
+  // depending on the id, display appropriate dialog box
+  switch (id) {
+
+    case "cancel":
+      if (confirm("Are you sure that you want to cancel? All the changes in this email will be lost.")) {
+        goBack();
+      }
+      break;
+
+    //This case is not yet completed as we have to show a confirmation page before sending
+    case "delete":
+      if (confirm("Are you sure that you want to delete this email?")) {
+
+      }
+      break;
+
   }
 }
