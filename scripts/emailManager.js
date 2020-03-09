@@ -237,10 +237,13 @@ function sendPreview() {
   }
 
   // create the email object
-  // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date, owner, isInbox)
+  // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date,
+  //   owner, isInbox)
   var email = new Email(from, to, cc, subject, body, false,
-    from === "student" ? "student" : "admin",   // if from is student, realFrom is student, otherwise admin
-    from === "student" ? "admin" : "student",   // if from is student, realTo is admin, otherwise student
+    // if from is student, realFrom is student, otherwise admin
+    from === "student" ? "student" : "admin",
+    // if from is student, realTo is admin, otherwise student
+    from === "student" ? "admin" : "student",
     (new Date()).getTime(),
     "",
     false
