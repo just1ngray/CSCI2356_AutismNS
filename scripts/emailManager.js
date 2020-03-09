@@ -2,7 +2,7 @@
 * This file manages emails in our email system. Emails are created, sent,
 * displayed, and deleted from this file.
 *
-* @author Justin Gray (A00426753)
+* @author Justin Gray
 * @author Vitor Jeronimo
 * @author Jay Patel
 */
@@ -53,7 +53,7 @@ function displayEmails(id, emails, isInbox) {
   element.html("");
 
   // look through each email and display
-  for (var i = 0; i < Math.min(10, emails.length); i ++) {
+  for (var i = 0; i < emails.length; i ++) {
     var email = emails[i];                    // the individual email
     var doBolding = !email.isRead && isInbox; // if the email should be bolded
 
@@ -144,7 +144,7 @@ function viewMail(stringifiedEmail) {
   if (!email.isRead) {
     var account = getAccount(email.owner);
     for (var i = 0; i < account.inboxMail.length; i ++) {
-      if (JSON.stringify(email) === JSON.stringify(account.inboxMail[i])){
+      if (email.date === account.inboxMail[i].date){
         account.inboxMail[i].isRead = true;
         break;
       }
@@ -198,21 +198,7 @@ function loadMail() {
   }
 }
 
-/*
-* Handles when mail cannot be saved due to oversized inbox/sent mail.
-*/
-class MailSaveError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "MailSaveError";
-  }
-}
-
-/*
-* Compose.html's send button calls this function. It creates a replica sent mail
-* page that shows all entered information (to,cc,sub,body), and asks questions.
-*/
-function sendPreview() {
+function send() {
   // retrieve field data from the page
   var from = $("#email_from").length === 0 ? "student" : $("#email_from").val();
   var to = $("#email_to").val();
@@ -221,20 +207,20 @@ function sendPreview() {
   var body = $("#email_body").val();
 
   // non-empty checks
-  if (to.trim() === "" || subject.trim() === "" || body.trim() === "") {
-    alert("You missed some information! \n"
-      + "Check to make sure you have filled in: To, Subject, and Body \n"
-      + "\n"
-      + "For more help, click on the words To, Subject, and Body"
-    );
-    return;
-  }
-  if (from.trim() === "") {
-    alert("You missed some information! \n"
-      + "Check to make sure you have filled in: From \n"
-    );
-    return;
-  }
+  // if (to.trim() === "" || subject.trim() === "" || body.trim() === "") {
+  //   alert("You missed some information! \n"
+  //     + "Check to make sure you have filled in: To, Subject, and Body \n"
+  //     + "\n"
+  //     + "For more help, click on the words To, Subject, and Body"
+  //   );
+  //   return;
+  // }
+  // if (from.trim() === "") {
+  //   alert("You missed some information! \n"
+  //     + "Check to make sure you have filled in: From \n"
+  //   );
+  //   return;
+  // }
 
   // create the email object
   // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date,
@@ -252,81 +238,16 @@ function sendPreview() {
   // save the email object to the sender's sent items
   email.owner = email.realFrom;
   email.isInbox = false;
-  try {
-    localStorage.setItem("emailToSend", JSON.stringify(email));
-    localStorage.setItem("displayEmail", JSON.stringify(email));
-  } catch (err) {
-    console.log(err.message);
-  }
+  var sender = getAccount(email.owner);
+  sender.sentMail.unshift(email);
+  saveAccount(sender);
 
   // save the email object to the recipient's inbox
   email.owner = email.realTo;
   email.isInbox = true;
-  try {
-    localStorage.setItem("emailToRecieve", JSON.stringify(email));
-  } catch (err) {
-    console.log(err.message);
-  }
+  var recipient = getAccount(email.owner);
+  recipient.inboxMail.unshift(email);
+  saveAccount(recipient);
 
-  // redirect to the emailReview.html page to review the email
-  goTo("emailReview.html");
-}
-
-/*
-* Sends an email given data set in emailToRecieve and emailToSend localStorage.
-* Called on emailReview.html page.
-*/
-function confirmSend() {
-  // retrieve the emails from storage
-  var emailRecieve = JSON.parse(localStorage.getItem("emailToRecieve"));
-  var emailSend = JSON.parse(localStorage.getItem("emailToSend"));
-
-  // save the email object to the sender's sent items
-  var sender = getAccount(emailSend.owner);
-  sender.sentMail.unshift(emailSend);
-
-  // save the email object to the recipient's inbox
-  var recipient = getAccount(emailRecieve.owner);
-  recipient.inboxMail.unshift(emailRecieve);
-
-  // save accounts if both have room for the email
-  try {
-    saveAccounts(sender, recipient);
-
-    // redirect the sender to their sent mail
-    goTo("sentitems.html");
-  } catch (err) {
-    // someone had too little space to store the email: send a message
-    // accordingly
-    alert(err.message);
-    return;
-  }
-}
-
-/*
-* Confirms before sending, deleting, canceling
-* @returns  true if the user clicked "OK", and false otherwise and performs
-*           respective event
-*/
-function confirmation(id) {
-
-  // depending on the id, display appropriate dialog box
-  switch (id) {
-
-    case "cancel":
-      if (confirm("Are you sure that you want to cancel? All the changes in "
-        + "this email will be lost.")) {
-        goBack();
-      }
-      break;
-
-    //This case is not yet completed as we have to show a confirmation page
-    //before sending
-    case "delete":
-      if (confirm("Are you sure that you want to delete this email?")) {
-
-      }
-      break;
-
-  }
+  goTo("sentitems.html");
 }

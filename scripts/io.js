@@ -6,7 +6,7 @@
 * All localStorage read/writing that does not call io.js is very temporary and
 * will never involve a server.
 *
-* @author Justin Gray (A00426753)
+* @author Justin Gray
 * @author Vitor Jeronimo
 * @author Jay Patel
 */
@@ -27,6 +27,8 @@ function read(key) {
 /*
 * Writes data into storage using a key value pair. Value is written at location
 * key. Just like a map.
+* @param key    where to store the value
+* @param value  the value to store
 */
 function write(key, value) {
   try {

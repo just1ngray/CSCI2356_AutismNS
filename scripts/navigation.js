@@ -13,10 +13,15 @@
 */
 function goTo(href) {
   // write current page into localStorage for going back functionality
-  try {
-    localStorage.setItem("lastPage", window.location.href);
-  } catch (error) {
-    console.log("Could not save lastPage");
+
+  // if no page history is found, OR
+  // the page found is the page we are not going to
+  if (getLastPage() == null || getLastPage() != href) {
+    try {
+      localStorage.setItem("lastPage", window.location.href);
+    } catch (error) {
+      console.log("Could not save lastPage");
+    }
   }
 
   // go to the new href
@@ -39,12 +44,27 @@ function goBack(doRefresh) {
   if (typeof (window.Storage) === "undefined") {
     // storage not supported by browser
     window.history.go(-1).reload();
-  } else if (localStorage.getItem("lastPage") != null) {
-    // valid page found
-    window.location.href = localStorage.getItem("lastPage");
   } else {
-    // use in-browser history
-    window.history.go(-1).reload();
+    // storage supported
+    var lastPage = getLastPage();
+
+    if (lastPage == null) {
+      // no lastPage found, just go back
+      window.history.go(-1).reload();
+    } else {
+      // lastPage found, go there
+      window.location.href = lastPage;
+    }
+  }
+}
+
+function getLastPage() {
+  if (typeof (window.Storage) === "undefined") {
+    // storage not supported by browser
+    return null;
+  } else {
+    // valid page found or return null if no page found
+    return localStorage.getItem("lastPage");
   }
 }
 
@@ -81,5 +101,33 @@ function openHelp(id) {
       break;
     default:
       console.error("Help window not found for " + label + " at id:" + id);
+  }
+}
+
+/*
+* Confirms before sending, deleting, canceling
+* @returns  true if the user clicked "OK", and false otherwise and performs
+*           respective event
+*/
+function confirmation(id) {
+
+  // depending on the id, display appropriate dialog box
+  switch (id) {
+
+    case "cancel":
+      if (confirm("Are you sure that you want to cancel? All the changes in "
+        + "this email will be lost.")) {
+        goBack();
+      }
+      break;
+
+    //This case is not yet completed as we have to show a confirmation page
+    //before sending
+    case "delete":
+      if (confirm("Are you sure that you want to delete this email?")) {
+
+      }
+      break;
+
   }
 }

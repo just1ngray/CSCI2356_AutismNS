@@ -29,9 +29,9 @@
   <!-- Content: forms -->
   <main>
 
-    <div class="input-group-text">
+    <!-- <div class="input-group-text">
       <span class="help_message">Did you know that you can click on To, Cc, Subject or Body and help will appear?</span>
-    </div>
+    </div> -->
 
     <div class="input-group-text">
       <label for="email_from" id="email_from_label" onclick='openHelp("email_from_label")'>From</label>
@@ -65,7 +65,7 @@
 
   <!-- Action buttons: prints to console or cancels message -->
   <section>
-    <button id="btn_send" class="btn navButton" onclick='sendPreview()'>Send</button>
+    <button id="btn_send" class="btn navButton" onclick='send()'>Send</button>
     <button id="btn_cancel" class="btn navButton" onclick='goBack()'>Cancel</button>
   </section>
 
