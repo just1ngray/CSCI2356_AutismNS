@@ -30,7 +30,7 @@ function Account(name, inboxMail, sentMail) {
 
 /*
 * Saves multiple accounts (but only if each CAN be saved). Used when an email
-* is being saved, hense the sender and recipient parameters.
+* is being saved, hence the sender and recipient parameters.
 * @param sender           the sender of the email
 * @param recipient        the recipient of the email
 * @throws MailSaveError   if one or both of the mail boxes is full
