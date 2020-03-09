@@ -1,4 +1,32 @@
-function Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date, owner, isInbox) {
+/*
+* This file manages emails in our email system. Emails are created, sent,
+* displayed, and deleted from this file.
+*
+* @author Justin Gray (A00426753)
+* @author Vitor Jeronimo
+* @author Jay Patel
+*/
+
+/*
+* Create an email object. Note realFrom vs. fakeFrom allows for admins to send
+* mail as other aliases (i.e. professors)
+*
+* @param fakeFrom the displayed 'from' person
+* @param fakeTo   the displayed 'to' person
+* @param cc       anyone copied to the email (no functionality)
+* @param subject  the subject of the email
+* @param body     the body of the email
+* @param isRead   if the email has been read
+* @param realFrom who is this email really from (student/admin)
+* @param realTo   who is this email really to (student/admin)
+* @param date     time of when the email was created
+* @param owner    the owner of this email (string name link to account)
+* @param isInbox  if this email is in an inbox and respects isRead properties
+* @returns        the new email object
+*/
+function Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo,
+  date, owner, isInbox) {
+
   this.fakeFrom = fakeFrom;
   this.fakeTo = fakeTo;
   this.cc = cc;
@@ -8,7 +36,6 @@ function Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, da
   this.realFrom = realFrom;
   this.realTo = realTo;
   this.date = date;
-
   this.owner = owner;
   this.isInbox = isInbox;
 }
@@ -17,8 +44,7 @@ function Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, da
 * Display the emails dynamically.
 * @param id       the id of the element where the emails should be displayed
 * @param emails   an array of email objects
-* @param isInbox  bool if the emails should respect isRead property (only
-*                 respect bold when in inbox, otherwise always not bolded)
+* @param isInbox  bool if the emails are a part of an inbox
 * @returns        NA
 */
 function displayEmails(id, emails, isInbox) {
@@ -61,20 +87,22 @@ function displayEmails(id, emails, isInbox) {
 
 * Deletes an email.
 * @param stringifiedEmail escape(JSON.stringify(some email)) version of the
-*                         email you want to delete
-* @returns NA
+*                         email to delete
+* @returns                NA
 */
 function deleteMail(stringifiedEmail) {
   // the unescaped, parsed email represented by stringifiedEmail
+  // aka the email object
   var email = JSON.parse(unescape(stringifiedEmail));
 
-  // who should we delete the email from
+  // which account is the email being deleted from
   var account = getAccount(email.owner);
 
   if (email.isInbox) {
     // email is in inbox: delete through inbox
     for (var i = 0; i < account.inboxMail.length; i ++) {
-      if (escape(JSON.stringify(account.inboxMail[i])) === stringifiedEmail) {
+      // date is the unique identifier
+      if (account.inboxMail[i].date === email.date) {
         account.inboxMail.splice(i, 1);
         i --;
       }
@@ -82,7 +110,8 @@ function deleteMail(stringifiedEmail) {
   } else {
     // email is in sent mail: delete through sent mail
     for (var i = 0; i < account.sentMail.length; i ++) {
-      if (escape(JSON.stringify(account.sentMail[i])) === stringifiedEmail) {
+      // date is the unique identifier
+      if (account.sentMail[i].date === email.date) {
         account.sentMail.splice(i, 1);
         i --;
       }
@@ -120,6 +149,7 @@ function viewMail(stringifiedEmail) {
         break;
       }
     }
+    // save the new state of the account (with the read email)
     saveAccount(account);
   }
 
@@ -130,6 +160,8 @@ function viewMail(stringifiedEmail) {
 /*
 * Loads the stored email information into the fields on the page.
 * If no email is found, go back.
+* Preconditions for proper use: an email is stored at displayEmail in
+* localStorage
 * @returns  NA
 */
 function loadMail() {
@@ -166,6 +198,9 @@ function loadMail() {
   }
 }
 
+/*
+* Handles when mail cannot be saved due to oversized inbox/sent mail.
+*/
 class MailSaveError extends Error {
   constructor(message) {
     super(message);
@@ -173,7 +208,12 @@ class MailSaveError extends Error {
   }
 }
 
+/*
+* Compose.html's send button calls this function. It creates a replica sent mail
+* page that shows all entered information (to,cc,sub,body), and asks questions.
+*/
 function sendPreview() {
+  // retrieve field data from the page
   var from = $("#email_from").length === 0 ? "student" : $("#email_from").val();
   var to = $("#email_to").val();
   var cc = $("#email_cc").val();
@@ -225,11 +265,16 @@ function sendPreview() {
     console.log(err.message);
   }
 
+  // redirect to the emailReview.html page to review the email
   goTo("emailReview.html");
 }
 
+/*
+* Sends an email given data set in emailToRecieve and emailToSend localStorage.
+* Called on emailReview.html page.
+*/
 function confirmSend() {
-  // retrieve the emails
+  // retrieve the emails from storage
   var emailRecieve = JSON.parse(localStorage.getItem("emailToRecieve"));
   var emailSend = JSON.parse(localStorage.getItem("emailToSend"));
 
@@ -248,14 +293,17 @@ function confirmSend() {
     // redirect the sender to their sent mail
     goTo("sentitems.html");
   } catch (err) {
+    // someone had too little space to store the email: send a message
+    // accordingly
     alert(err.message);
     return;
   }
 }
 
 /*
-*Confirms before sending, deleting, canceling
-*returns  true if the user clicked "OK", and false otherwise and performs respective event
+* Confirms before sending, deleting, canceling
+* @returns  true if the user clicked "OK", and false otherwise and performs
+*           respective event
 */
 function confirmation(id) {
 
@@ -263,12 +311,14 @@ function confirmation(id) {
   switch (id) {
 
     case "cancel":
-      if (confirm("Are you sure that you want to cancel? All the changes in this email will be lost.")) {
+      if (confirm("Are you sure that you want to cancel? All the changes in "
+        + "this email will be lost.")) {
         goBack();
       }
       break;
 
-    //This case is not yet completed as we have to show a confirmation page before sending
+    //This case is not yet completed as we have to show a confirmation page
+    //before sending
     case "delete":
       if (confirm("Are you sure that you want to delete this email?")) {
 
