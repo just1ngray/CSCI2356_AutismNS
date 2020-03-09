@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="../styles/styles.css">
 
   <script src="../scripts/jquery.js"></script>
-  <script src="../scripts/myScript.js"></script>
   <script src="../scripts/emailManager.js"></script>
   <script src="../scripts/accountManager.js"></script>
   <script src="../scripts/io.js"></script>
@@ -35,17 +34,36 @@
 
     <div class="input-group-text">
       <label for="email_to" id="email_to_label" onclick='openHelp("email_to_label")'>To</label>
-      <select class="form-control" type="email" id="email_to">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-      </select>
+
+      <div class="input-group">
+
+        <div class="input-group-prepend">
+          <select class="btn btn-outline-secondary dropdown-toggle" id="email_to_dropdown">
+            <option value="">Email List</option>
+            <option value="charli">Charli</option>
+            <option value="chrystal">Chrystal</option>
+            <option value="terry">Terry</option>
+          </select>
+        </div>
+        <input type="email" class="form-control" id="email_to">
+      </div>
     </div>
 
     <div class="input-group-text">
       <label for="email_cc" id="email_cc_label" onclick='openHelp("email_cc_label")'>Cc</label>
-      <input class="form-control" type="email" id="email_cc" />
+
+      <div class="input-group">
+
+        <div class="input-group-prepend">
+          <select class="btn btn-outline-secondary dropdown-toggle" id="email_cc_dropdown">
+            <option value="">Email List</option>
+            <option value="charli">Charli</option>
+            <option value="chrystal">Chrystal</option>
+            <option value="terry">Terry</option>
+          </select>
+        </div>
+        <input type="email" class="form-control" id="email_cc">
+      </div>
     </div>
 
     <div class="input-group-text">
@@ -69,7 +87,7 @@
     <button id="btn_cancel" class="btn navButton" onclick='confirmation("cancel")'>Cancel</button>
   </section>
 
-
+  <script src="../scripts/myScript.js"></script>
   <script src="../scripts/navigation.js"></script>
 </body>
 
