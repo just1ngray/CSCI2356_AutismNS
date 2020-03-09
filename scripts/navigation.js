@@ -24,10 +24,18 @@ function goTo(href) {
 }
 
 /*
-* Takes the user back one page. Refreshes the page if needed.
+* Takes the user back one page.
+* @param    if the page needs to be refreshed (default is true)
 * @returns  NA
 */
-function goBack() {
+function goBack(doRefresh) {
+  // go back without refreshing
+  if (doRefresh != null && !doRefresh) {
+    window.history.go(-1);
+    return;
+  }
+
+  // goBack and refresh
   if (typeof (window.Storage) === "undefined") {
     // storage not supported by browser
     window.history.go(-1).reload();
