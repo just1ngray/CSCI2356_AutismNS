@@ -27,7 +27,7 @@ function displayEmails(id, emails, isInbox) {
   element.html("");
 
   // look through each email and display
-  for (var i = 0; i < Math.min(10, emails.length); i++) {
+  for (var i = 0; i < Math.min(10, emails.length); i ++) {
     var email = emails[i];                    // the individual email
     var doBolding = !email.isRead && isInbox; // if the email should be bolded
 
@@ -89,25 +89,28 @@ function sendMail() {
 
   // create the email object
   // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date, owner, isInbox)
-  var email = new Email(from, to, cc, subject, body, false,
+  var emailToSend = new Email(from, to, cc, subject, body, false,
     from === "student" ? "student" : "admin",   // if from is student, realFrom is student, otherwise admin
     from === "student" ? "admin" : "student",   // if from is student, realTo is admin, otherwise student
     (new Date()).getTime(),
-    "",
+    from === "student" ? "student" : "admin",
     false
+  );
+  var emailToRecieve = new Email(from, to, cc, subject, body, false,
+    from === "student" ? "student" : "admin",   // if from is student, realFrom is student, otherwise admin
+    from === "student" ? "admin" : "student",   // if from is student, realTo is admin, otherwise student
+    (new Date()).getTime(),
+    from === "student" ? "admin" : "student",
+    true
   );
 
   // save the email object to the sender's sent items
-  email.owner = email.realFrom;
-  email.isInbox = false;
-  var sender = getAccount(email.realFrom);
-  sender.sentMail.unshift(email);
+  var sender = getAccount(emailToSend.realFrom);
+  sender.sentMail.unshift(emailToSend);
 
   // save the email object to the recipient's inbox
-  email.owner = email.realTo;
-  email.isInbox = true;
-  var recipient = getAccount(email.realTo);
-  recipient.inboxMail.unshift(email);
+  var recipient = getAccount(emailToRecieve.realTo);
+  recipient.inboxMail.unshift(emailToRecieve);
 
   // save accounts if both have room for the email
   try {
@@ -136,18 +139,18 @@ function deleteMail(stringifiedEmail) {
 
   if (email.isInbox) {
     // email is in inbox: delete through inbox
-    for (var i = 0; i < account.inboxMail.length; i++) {
+    for (var i = 0; i < account.inboxMail.length; i ++) {
       if (escape(JSON.stringify(account.inboxMail[i])) === stringifiedEmail) {
         account.inboxMail.splice(i, 1);
-        i--;
+        i --;
       }
     }
   } else {
     // email is in sent mail: delete through sent mail
-    for (var i = 0; i < account.sentMail.length; i++) {
+    for (var i = 0; i < account.sentMail.length; i ++) {
       if (escape(JSON.stringify(account.sentMail[i])) === stringifiedEmail) {
         account.sentMail.splice(i, 1);
-        i--;
+        i --;
       }
     }
   }
@@ -165,7 +168,7 @@ function deleteMail(stringifiedEmail) {
 */
 function viewMail(stringifiedEmail) {
   // the unescaped, parsed email represented by stringifiedEmail
-  var email = JSON.parse(unescape(stringifiedEmail));
+  var email = JSON.parse( unescape(stringifiedEmail) );
 
   // set the storage to display the right email
   try {
@@ -177,8 +180,8 @@ function viewMail(stringifiedEmail) {
   // set email to be read
   if (!email.isRead) {
     var account = getAccount(email.owner);
-    for (var i = 0; i < account.inboxMail.length; i++) {
-      if (JSON.stringify(email) === JSON.stringify(account.inboxMail[i])) {
+    for (var i = 0; i < account.inboxMail.length; i ++) {
+      if (JSON.stringify(email) === JSON.stringify(account.inboxMail[i])){
         account.inboxMail[i].isRead = true;
         break;
       }
@@ -197,16 +200,16 @@ function viewMail(stringifiedEmail) {
 * @returns  NA
 */
 function loadMail() {
-  if (typeof (window.Storage) === "undefined") {
-    // storage not supported by browser
+  if (typeof (window.Storage) === "undefined"){
+		// storage not supported by browser
     console.error("Storage is not supported by this browser");
     goBack();
     return;
-  } else if (localStorage.getItem("displayEmail") == null) {
-    // nothing stored at that key
-    console.error("No email to display.")
-    goBack();
-    return;
+  } else if (localStorage.getItem("displayEmail") == null){
+	   // nothing stored at that key
+     console.error("No email to display.")
+     goBack();
+     return;
   } else {
     // result successfully found
     var email = JSON.parse(localStorage.getItem("displayEmail"));
