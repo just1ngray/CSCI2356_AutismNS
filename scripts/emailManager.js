@@ -247,12 +247,6 @@ function confirmation(id) {
   // depending on the id, display appropriate dialog box
   switch (id) {
 
-    case "send":
-      if (confirm("Are you sure that you want to send this email?")) {
-        sendMail();
-      }
-      break;
-
     case "cancel":
       if (confirm("Are you sure that you want to cancel? All the changes in this email will be lost.")) {
         goBack();
