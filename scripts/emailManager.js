@@ -58,73 +58,7 @@ function displayEmails(id, emails, isInbox) {
 }
 
 /*
-* Sends an email from the compose.html page
-* @returns    N/A
-*/
-function sendMail() {
-  // get the fields from the compose page
 
-  // no from found, must be from student or from found and take that
-  var from = $("#email_from").length === 0 ? "student" : $("#email_from").val();
-  var to = $("#email_to").val();
-  var cc = $("#email_cc").val();
-  var subject = $("#email_subject").val();
-  var body = $("#email_body").val();
-
-  // non-empty checks
-  if (to.trim() === "" || subject.trim() === "" || body.trim() === "") {
-    alert("You missed some information! \n"
-      + "Check to make sure you have filled in: To, Subject, and Body \n"
-      + "\n"
-      + "For more help, click on the words To, Subject, and Body"
-    );
-    return;
-  }
-  if (from.trim() === "") {
-    alert("You missed some information! \n"
-      + "Check to make sure you have filled in: From \n"
-    );
-    return;
-  }
-
-  // create the email object
-  // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date, owner, isInbox)
-  var emailToSend = new Email(from, to, cc, subject, body, false,
-    from === "student" ? "student" : "admin",   // if from is student, realFrom is student, otherwise admin
-    from === "student" ? "admin" : "student",   // if from is student, realTo is admin, otherwise student
-    (new Date()).getTime(),
-    from === "student" ? "student" : "admin",
-    false
-  );
-  var emailToRecieve = new Email(from, to, cc, subject, body, false,
-    from === "student" ? "student" : "admin",   // if from is student, realFrom is student, otherwise admin
-    from === "student" ? "admin" : "student",   // if from is student, realTo is admin, otherwise student
-    (new Date()).getTime(),
-    from === "student" ? "admin" : "student",
-    true
-  );
-
-  // save the email object to the sender's sent items
-  var sender = getAccount(emailToSend.realFrom);
-  sender.sentMail.unshift(emailToSend);
-
-  // save the email object to the recipient's inbox
-  var recipient = getAccount(emailToRecieve.realTo);
-  recipient.inboxMail.unshift(emailToRecieve);
-
-  // save accounts if both have room for the email
-  try {
-    saveAccounts(sender, recipient);
-
-    // redirect the sender to their sent mail
-    goTo("sentitems.html");
-  } catch (err) {
-    alert(err.name + " " + err.message);
-    return;
-  }
-}
-
-/*
 * Deletes an email.
 * @param stringifiedEmail escape(JSON.stringify(some email)) version of the
 *                         email you want to delete
@@ -196,7 +130,6 @@ function viewMail(stringifiedEmail) {
 /*
 * Loads the stored email information into the fields on the page.
 * If no email is found, go back.
-* If the owner of the email is no longer signed in, do not display the email!
 * @returns  NA
 */
 function loadMail() {
@@ -240,6 +173,85 @@ class MailSaveError extends Error {
   }
 }
 
+function sendPreview() {
+  var from = $("#email_from").length === 0 ? "student" : $("#email_from").val();
+  var to = $("#email_to").val();
+  var cc = $("#email_cc").val();
+  var subject = $("#email_subject").val();
+  var body = $("#email_body").val();
+
+  // non-empty checks
+  if (to.trim() === "" || subject.trim() === "" || body.trim() === "") {
+    alert("You missed some information! \n"
+      + "Check to make sure you have filled in: To, Subject, and Body \n"
+      + "\n"
+      + "For more help, click on the words To, Subject, and Body"
+    );
+    return;
+  }
+  if (from.trim() === "") {
+    alert("You missed some information! \n"
+      + "Check to make sure you have filled in: From \n"
+    );
+    return;
+  }
+
+  // create the email object
+  // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date, owner, isInbox)
+  var email = new Email(from, to, cc, subject, body, false,
+    from === "student" ? "student" : "admin",   // if from is student, realFrom is student, otherwise admin
+    from === "student" ? "admin" : "student",   // if from is student, realTo is admin, otherwise student
+    (new Date()).getTime(),
+    "",
+    false
+  );
+
+  // save the email object to the sender's sent items
+  email.owner = email.realFrom;
+  email.isInbox = false;
+  try {
+    localStorage.setItem("emailToSend", JSON.stringify(email));
+    localStorage.setItem("displayEmail", JSON.stringify(email));
+  } catch (err) {
+    console.log(err.message);
+  }
+
+  // save the email object to the recipient's inbox
+  email.owner = email.realTo;
+  email.isInbox = true;
+  try {
+    localStorage.setItem("emailToRecieve", JSON.stringify(email));
+  } catch (err) {
+    console.log(err.message);
+  }
+
+  goTo("emailReview.html");
+}
+
+function confirmSend() {
+  // retrieve the emails
+  var emailRecieve = JSON.parse(localStorage.getItem("emailToRecieve"));
+  var emailSend = JSON.parse(localStorage.getItem("emailToSend"));
+
+  // save the email object to the sender's sent items
+  var sender = getAccount(emailSend.owner);
+  sender.sentMail.unshift(emailSend);
+
+  // save the email object to the recipient's inbox
+  var recipient = getAccount(emailRecieve.owner);
+  recipient.inboxMail.unshift(emailRecieve);
+
+  // save accounts if both have room for the email
+  try {
+    saveAccounts(sender, recipient);
+
+    // redirect the sender to their sent mail
+    goTo("sentitems.html");
+  } catch (err) {
+    alert(err.message);
+    return;
+  }
+}
 
 /*
 *Confirms before sending, deleting, canceling
