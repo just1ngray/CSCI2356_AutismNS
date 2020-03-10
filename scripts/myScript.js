@@ -1,3 +1,15 @@
+/*
+* This file contain functions that create dropdown menus for compose.html
+*
+* @author Justin Gray
+* @author Vitor Jeronimo
+* @author Jay Patel
+*/
+
+/*Creates a dropdown menu for the "To" field. Also, it detects the user's 
+ *choice and updates the input field.
+ *@returns N/A
+ */
 $("#email_to_dropdown").on("change", function () {
     var email = this.value;
 
@@ -14,6 +26,10 @@ $("#email_to_dropdown").on("change", function () {
     }
 });
 
+/*Creates a dropdown menu for the "Cc" field. Also, it detects the user's
+ * choice and updates the input field.
+ @returns N/A
+ */
 $("#email_cc_dropdown").on("change", function () {
     var email = this.value;
 
