@@ -1,6 +1,8 @@
 <!--
-   - Assignment #2: A list of all your sent emails.
-   - author: Justin Gray (A00426753)
+   - Project: A list of all your sent emails.
+   - author: Justin Gray (A00426753),
+   - author: Jay Patel (A00433907),
+   - author: Vitor Jeronimo (A00431599)
 -->
 
 <!DOCTYPE html>
@@ -9,16 +11,20 @@
 <head>
   <title>Admin Email System</title>
 
+  <!--linking of css files-->
   <link rel="stylesheet" href="../styles/bootstrap.css">
   <link rel="stylesheet" href="../styles/styles.css">
 
+  <!--linking of js files-->
   <script src="../scripts/jquery.js"></script>
   <script src="../scripts/myScript.js"></script>
   <script src="../scripts/emailManager.js"></script>
   <script src="../scripts/accountManager.js"></script>
   <script src="../scripts/io.js"></script>
 
-  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" name="viewport" content="width=device-width,
+   initial-scale=1.0">
+
 </head>
 
 <body>
@@ -43,8 +49,14 @@
   <footer class="input-group-text"></footer>
 
   <!-- Navigation buttons -->
-  <button id="btn_inbox" class="btn navButton" onclick='goTo("index.html")'>Inbox</button>
-  <button id="btn_compose" class="btn navButton" onclick='goTo("compose.html")'>Compose</button>
+
+  <!--Inbox button-->
+  <button id="btn_inbox" class="btn navButton" 
+  onclick='goTo("index.html")'>Inbox</button>
+  
+  <!--Compose button-->
+  <button id="btn_compose" class="btn navButton" 
+  onclick='goTo("compose.html")'>Compose</button>
 
   <script src="../scripts/navigation.js"></script>
 </body>

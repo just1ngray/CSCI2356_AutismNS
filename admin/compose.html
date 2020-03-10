@@ -1,6 +1,8 @@
 <!--
-   - Assignment #2: Compose an email page.
-   - author: Justin Gray (A00426753), Vitor Jeronimo (A00431599)
+   - Project: Compose an email page.
+   - author: Justin Gray (A00426753),
+   - author: Jay Patel (A00433907),
+   - author: Vitor Jeronimo (A00431599)
 -->
 
 <!DOCTYPE html>
@@ -9,17 +11,21 @@
 <head>
   <title>Admin Email System</title>
 
+  <!--linking of css files-->
   <link rel="stylesheet" href="../styles/bootstrap.css">
   <link rel="stylesheet" href="../styles/styles.css">
 
+  <!--linking of js files-->
   <script src="../scripts/jquery.js"></script>
   <script src="../scripts/myScript.js"></script>
   <script src="../scripts/emailManager.js"></script>
   <script src="../scripts/accountManager.js"></script>
   <script src="../scripts/io.js"></script>
 
-  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+  <meta charset="utf-8" name="viewport" content="width=device-width,
+   initial-scale=1.0">
+
+  </head>
 
 <body>
 
@@ -30,31 +36,50 @@
   <main>
 
     <!-- <div class="input-group-text">
-      <span class="help_message">Did you know that you can click on To, Cc, Subject or Body and help will appear?</span>
+      <span class="help_message">Did you know that you can click on To, Cc,
+         Subject or Body and help will appear?</span>
     </div> -->
 
+    
+    <!--email layout-->
+
     <div class="input-group-text">
-      <label for="email_from" id="email_from_label" onclick='openHelp("email_from_label")'>From</label>
+
+      <label for="email_from" id="email_from_label" 
+      onclick='openHelp("email_from_label")'>From</label>
+      
       <input class="form-control" type="email" id="email_from"/>
     </div>
 
     <div class="input-group-text">
-      <label for="email_to" id="email_to_label" onclick='openHelp("email_to_label")'>To</label>
+
+      <label for="email_to" id="email_to_label" 
+      onclick='openHelp("email_to_label")'>To</label>
+      
       <input class="form-control" type="email" id="email_to" />
     </div>
 
     <div class="input-group-text">
-      <label for="email_cc" id="email_cc_label" onclick='openHelp("email_cc_label")'>Cc</label>
+
+      <label for="email_cc" id="email_cc_label" 
+      onclick='openHelp("email_cc_label")'>Cc</label>
+      
       <input class="form-control" type="email" id="email_cc" />
     </div>
 
     <div class="input-group-text">
-      <label for="email_subject" id="email_subject_label" onclick='openHelp("email_subject_label")'>Subject</label>
+
+      <label for="email_subject" id="email_subject_label" 
+      onclick='openHelp("email_subject_label")'>Subject</label>
+      
       <input class="form-control" type="text" id="email_subject" />
     </div>
 
     <div class="input-group-text">
-      <label for="email_body" id="email_body_label" onclick='openHelp("email_body_label")'>Body</label>
+
+      <label for="email_body" id="email_body_label" 
+      onclick='openHelp("email_body_label")'>Body</label>
+      
       <textarea class="form-control" id="email_body"></textarea>
     </div>
 
@@ -65,8 +90,14 @@
 
   <!-- Action buttons: prints to console or cancels message -->
   <section>
-    <button id="btn_send" class="btn navButton" onclick='send()'>Send</button>
-    <button id="btn_cancel" class="btn navButton" onclick='goBack()'>Cancel</button>
+
+    <!--Send button-->
+    <button id="btn_send" class="btn navButton" 
+    onclick='send()'>Send</button>
+    
+    <!--Cancel button-->
+    <button id="btn_cancel" class="btn navButton" 
+    onclick='goBack()'>Cancel</button>
   </section>
 
 
