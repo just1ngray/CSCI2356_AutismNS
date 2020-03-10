@@ -1,7 +1,7 @@
 /*
 * This file manages navigation in our email system.
 *
-* @author Justin Gray (A00426753)
+* @author Justin Gray
 * @author Vitor Jeronimo
 * @author Jay Patel
 */
