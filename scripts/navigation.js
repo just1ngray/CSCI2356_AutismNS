@@ -14,7 +14,7 @@
 function goTo(href) {
   // save current page to localstorage if it's sentitems.html or index.html
   if (window.location.href.includes("sentitems.html")
-      || window.location.href.includes("index.html")) {
+    || window.location.href.includes("index.html")) {
     try {
       // write current page into localStorage for going back functionality
       localStorage.setItem("lastPage", window.location.href);
@@ -35,8 +35,8 @@ function goTo(href) {
 function goBack(doRefresh) {
   // if they are composing an email and press back (or cancel), confirm action
   if (window.location.href.includes("compose.html")
-      && !confirm("Are you sure you want to cancel? \n"
-                  + "Press OK to cancel composing this email.")) {
+    && !confirm("Are you sure you want to cancel? \n"
+      + "Press OK to cancel composing this email.")) {
     // this is an extremely confusing method to confirm a cancel because...
     // > User presses the Cancel button because they want to go back to inbox
     // 'Are you sure you want to cancel?' message appears
@@ -142,4 +142,12 @@ function confirmation(id) {
       break;
 
   }
+}
+
+/*
+ * On clicking Help button, this displays an alert for now
+ *@returns NA
+ */
+function masterHelp() {
+  alert("Stub function.");
 }
