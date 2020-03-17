@@ -36,26 +36,22 @@
   <main>
 
     <div class="input-group-text">
-      <label for="non_owner" id="non_owner_type"
-        onclick='openHelp("non_owner_type")'></label>
+      <label for="non_owner" id="non_owner_type" onclick='openHelp("non_owner_type")'></label>
       <span class="form-control viewEmailText" id="non_owner"></span>
     </div>
 
     <div class="input-group-text">
-      <label for="email_cc" id="email_cc_label"
-        onclick='openHelp("email_cc_label")'>Cc</label>
+      <label for="email_cc" id="email_cc_label" onclick='openHelp("email_cc_label")'>Cc</label>
       <span class="form-control viewEmailText" id="email_cc"></span>
     </div>
 
     <div class="input-group-text">
-      <label for="email_subject" id="email_subject_label"
-        onclick='openHelp("email_subject_label")'>Subject</label>
+      <label for="email_subject" id="email_subject_label" onclick='openHelp("email_subject_label")'>Subject</label>
       <span class="form-control viewEmailText" id="email_subject"></span>
     </div>
 
     <div class="input-group-text">
-      <label for="email_body" id="email_body_label"
-        onclick='openHelp("email_body_label")'>Body</label>
+      <label for="email_body" id="email_body_label" onclick='openHelp("email_body_label")'>Body</label>
       <span class="form-control viewEmailText" id="email_body"></span>
     </div>
   </main>
@@ -66,12 +62,13 @@
   <!-- Navigation buttons -->
 
   <!--Reply button-->
-  <button id="btn_compose" class="btn navButton"
-    onclick='goTo("compose.html")'>Reply</button>
+  <button id="btn_compose" class="btn navButton" onclick='goTo("compose.html")'>Reply</button>
 
   <!--back button-->
-  <button id="btn_back" class="btn navButton"
-    onclick='goBack()'>Back</button>
+  <button id="btn_back" class="btn navButton" onclick='goBack()'>Back</button>
+
+  <!--Help button-->
+  <button id="btn_help" class="btn navButton" onclick='masterHelp()'>Help</button>
 
   <script src="../scripts/navigation.js"></script>
 </body>
