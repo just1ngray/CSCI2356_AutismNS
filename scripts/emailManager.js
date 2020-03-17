@@ -204,8 +204,10 @@ function loadMail() {
 */
 function send() {
   // if the sender of the email is the student account
-  var isStudentSender = $("#email_from").length === 0;
-
+  // $("#email_from").length is true when the id exists
+  // thus, on the student system (where id DNE), it's false (!false = true)
+  var isStudentSender = !($("#email_from").length);
+  
   // retrieve field data from the page
   var from = isStudentSender ? "student" : $("#email_from").val();
   var to = $("#email_to").val();
@@ -233,8 +235,8 @@ function send() {
   // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date,
   //   owner, isInbox)
   var email = new Email(from, to, cc, subject, body, false,
-    isStudentSender ? "student" : "admin",                // realFrom
-    isStudentSender === "student" ? "admin" : "student",  // realTo
+    isStudentSender ? "student" : "admin",  // realFrom
+    isStudentSender ? "admin" : "student",  // realTo
     (new Date()).getTime(),
     "",
     false
