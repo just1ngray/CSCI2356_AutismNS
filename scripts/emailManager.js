@@ -198,9 +198,16 @@ function loadMail() {
   }
 }
 
+/*
+* Sends an email (from elements on the page)
+* @returns  NA
+*/
 function send() {
+  // if the sender of the email is the student account
+  var isStudentSender = $("#email_from").length === 0;
+
   // retrieve field data from the page
-  var from = $("#email_from").length === 0 ? "student" : $("#email_from").val();
+  var from = isStudentSender ? "student" : $("#email_from").val();
   var to = $("#email_to").val();
   var cc = $("#email_cc").val();
   var subject = $("#email_subject").val();
@@ -226,10 +233,8 @@ function send() {
   // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date,
   //   owner, isInbox)
   var email = new Email(from, to, cc, subject, body, false,
-    // if from is student, realFrom is student, otherwise admin
-    from === "student" ? "student" : "admin",
-    // if from is student, realTo is admin, otherwise student
-    from === "student" ? "admin" : "student",
+    isStudentSender ? "student" : "admin",                // realFrom
+    isStudentSender === "student" ? "admin" : "student",  // realTo
     (new Date()).getTime(),
     "",
     false
