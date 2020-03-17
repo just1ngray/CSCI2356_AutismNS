@@ -119,5 +119,5 @@ label:hover {
 
 /* Style for the help message on composing page */
 .help_message {
-  margin: auto;
+  background-color: #ffffb3;
 }
