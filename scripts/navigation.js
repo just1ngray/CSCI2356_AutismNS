@@ -143,11 +143,3 @@ function confirmation(id) {
 
   }
 }
-
-/*
- * On clicking Help button, this displays an alert for now
- *@returns NA
- */
-function masterHelp() {
-  alert("Stub function.");
-}
