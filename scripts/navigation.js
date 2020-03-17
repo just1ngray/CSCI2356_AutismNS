@@ -12,12 +12,11 @@
 * @returns    NA
 */
 function goTo(href) {
-  // write current page into localStorage for going back functionality
-
-  // if no page history is found, OR
-  // the page found is the page we are not going to
-  if (getLastPage() == null || getLastPage() != href) {
+  // save current page to localstorage if it's sentitems.html or index.html
+  if (window.location.href.includes("sentitems.html")
+      || window.location.href.includes("index.html")) {
     try {
+      // write current page into localStorage for going back functionality
       localStorage.setItem("lastPage", window.location.href);
     } catch (error) {
       console.log("Could not save lastPage");
