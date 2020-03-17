@@ -208,6 +208,19 @@ function loadMail() {
 * @returns  NA
 */
 function send() {
+  // confirm send (and opportunity to cancel!)
+  if (!confirm(
+    "1) Is everything spelled correctly? \n"
+    + "\n"
+    + "2) Did you use full sentences? \n"
+    + "\n"
+    + "3) Is the email addressed to the correct person? \n"
+    + "\n"
+    + "4) Did you sign your name at the end of the email?"
+  )) {
+    return;
+  }
+
   // if the sender of the email is the student account
   // $("#email_from").length is true when the id exists
   // thus, on the student system (where id DNE), it's false (!false = true)
