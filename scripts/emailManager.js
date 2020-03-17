@@ -91,6 +91,11 @@ function displayEmails(id, emails, isInbox) {
 * @returns                NA
 */
 function deleteMail(stringifiedEmail) {
+  // option to cancel deleting the email
+  if (!confirm("Are you sure you want to delete this email?")) {
+    return;
+  }
+
   // the unescaped, parsed email represented by stringifiedEmail
   // aka the email object
   var email = JSON.parse(unescape(stringifiedEmail));
@@ -203,11 +208,24 @@ function loadMail() {
 * @returns  NA
 */
 function send() {
+  // confirm send (and opportunity to cancel!)
+  if (!confirm(
+    "1) Is everything spelled correctly? \n"
+    + "\n"
+    + "2) Did you use full sentences? \n"
+    + "\n"
+    + "3) Is the email addressed to the correct person? \n"
+    + "\n"
+    + "4) Did you sign your name at the end of the email?"
+  )) {
+    return;
+  }
+
   // if the sender of the email is the student account
   // $("#email_from").length is true when the id exists
   // thus, on the student system (where id DNE), it's false (!false = true)
   var isStudentSender = !($("#email_from").length);
-  
+
   // retrieve field data from the page
   var from = isStudentSender ? "student" : $("#email_from").val();
   var to = $("#email_to").val();
@@ -215,21 +233,11 @@ function send() {
   var subject = $("#email_subject").val();
   var body = $("#email_body").val();
 
-  // non-empty checks
-  // if (to.trim() === "" || subject.trim() === "" || body.trim() === "") {
-  //   alert("You missed some information! \n"
-  //     + "Check to make sure you have filled in: To, Subject, and Body \n"
-  //     + "\n"
-  //     + "For more help, click on the words To, Subject, and Body"
-  //   );
-  //   return;
-  // }
-  // if (from.trim() === "") {
-  //   alert("You missed some information! \n"
-  //     + "Check to make sure you have filled in: From \n"
-  //   );
-  //   return;
-  // }
+  // if admin left from field blank
+  if (!isStudentSender && from.length == 0) {
+    alert('"From" field is blank.');
+    return;
+  }
 
   // create the email object
   // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date,

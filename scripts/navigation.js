@@ -33,6 +33,19 @@ function goTo(href) {
 * @returns  NA
 */
 function goBack(doRefresh) {
+  // if they are composing an email and press back (or cancel), confirm action
+  if (window.location.href.includes("compose.html")
+      && !confirm("Are you sure you want to cancel? \n"
+                  + "Press OK to cancel composing this email.")) {
+    // this is an extremely confusing method to confirm a cancel because...
+    // > User presses the Cancel button because they want to go back to inbox
+    // 'Are you sure you want to cancel?' message appears
+    // OK: [i do want to cancel]
+    // CANCEL: [i don't want to cancel][i want to cancel because it says cancel]
+    // It'd confuse me! I am not sure of a better method however.
+    return;
+  }
+
   // go back without refreshing
   if (doRefresh != null && !doRefresh) {
     window.history.go(-1);
