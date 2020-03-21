@@ -44,21 +44,38 @@
     <!--email layout-->
 
     <div class="input-group-text">
-      <label for="email_from" id="email_from_label"
-        onclick='openHelp("email_from_label")'>From</label>
-      <input class="form-control" type="email" id="email_from" />
+      <label for="email_from" id="email_from_label" onclick='openHelp("email_from_label")'>From</label>
+      <div class="input-group">
+        <select class="btn btn-outline-secondary email_dropdown" id="email_from_dropdown">
+          <option value="">Email List</option>
+          <option value="charli">Charli</option>
+          <option value="chrystal">Chrystal</option>
+          <option value="terry">Terry</option>
+        </select>
+        <input type="email" class="form-control" id="email_from">
+      </div>
     </div>
 
     <div class="input-group-text">
-      <label for="email_to" id="email_to_label"
-        onclick='openHelp("email_to_label")'>To</label>
-      <input class="form-control" type="email" id="email_to" />
+      <label for="email_to" id="email_to_label" onclick='openHelp("email_to_label")'>To</label>
+      <div class="input-group">
+        <select class="btn btn-outline-secondary email_dropdown" id="email_to_dropdown">
+          <option value="">Email List</option>
+          <option value="student">Student</option>
+        </select>
+        <input type="email" class="form-control" id="email_to">
+      </div>
     </div>
 
     <div class="input-group-text">
-      <label for="email_cc" id="email_cc_label"
-        onclick='openHelp("email_cc_label")'>Cc</label>
-      <input class="form-control" type="email" id="email_cc" />
+      <label for="email_cc" id="email_cc_label" onclick='openHelp("email_cc_label")'>Cc</label>
+      <div class="input-group">
+        <select class="btn btn-outline-secondary email_dropdown" id="email_cc_dropdown">
+          <option value="">Email List</option>
+          <option value="student">Student</option>
+        </select>
+        <input type="email" class="form-control" id="email_cc">
+      </div>
     </div>
 
     <div class="input-group-text">
@@ -87,9 +104,10 @@
     <!--Cancel button-->
     <button id="btn_cancel" class="btn navButton"
       onclick='goBack()'>Cancel</button>
+      
   </section>
 
-
+  <script src="../scripts/myScript.js"></script>
   <script src="../scripts/navigation.js"></script>
 </body>
 

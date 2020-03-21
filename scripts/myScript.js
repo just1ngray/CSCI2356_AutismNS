@@ -6,42 +6,32 @@
 * @author Jay Patel
 */
 
-/*Creates a dropdown menu for the "To" field. Also, it detects the user's 
- *choice and updates the input field.
+/* Detects a change in any dropdown menu that has the class "email_dropdown" and updates the correct input field with the chosen email address
  *@returns N/A
  */
-$("#email_to_dropdown").on("change", function () {
+$(".email_dropdown").on("change", function () {
+    // Get the id of the dropdown menu and remove the "_dropdown" part of it in order to obtain the corresponding input id
+    var field = $(this).attr("id").replace("_dropdown", "");
+
+    // Get selected email address
     var email = this.value;
 
+    // Set the correct email address into the corresponding input field
     switch (email) {
         case "charli":
-            $("#email_to").val("Charli@tbd.ca");
+            $(`#${field}`).val("Charli@tbd.ca");
             break;
         case "chrystal":
-            $("#email_to").val("Chrystal@tbd.ca");
+            $(`#${field}`).val("Chrystal@tbd.ca");
             break;
         case "terry":
-            $("#email_to").val("Terrence.Goldsmith@smu.ca");
+            $(`#${field}`).val("Terrence.Goldsmith@smu.ca");
             break;
-    }
-});
-
-/*Creates a dropdown menu for the "Cc" field. Also, it detects the user's
- * choice and updates the input field.
- @returns N/A
- */
-$("#email_cc_dropdown").on("change", function () {
-    var email = this.value;
-
-    switch (email) {
-        case "charli":
-            $("#email_cc").val("Charli@tbd.ca");
+        case "student":
+            $(`#${field}`).val("student@example.ca");
             break;
-        case "chrystal":
-            $("#email_cc").val("Chrystal@tbd.ca");
-            break;
-        case "terry":
-            $("#email_cc").val("Terrence.Goldsmith@smu.ca");
+        default:
+            $(`#${field}`).val("");
             break;
     }
 });
