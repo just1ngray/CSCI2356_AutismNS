@@ -9,6 +9,10 @@
 * @author Jay Patel
 */
 
+// ==========================================================================
+// Email Account Methods
+// ==========================================================================
+
 /*
 * Creates a new account object (for either admin or student or other?)
 *
@@ -77,5 +81,36 @@ function getAccount(name) {
   } else {
     // result successfully found
     return JSON.parse(acc);
+  }
+}
+
+// ==========================================================================
+// I/O Methods
+// ==========================================================================
+
+/*
+* Reads data from storage by a key.
+*/
+function read(key) {
+  if (typeof (window.Storage) === "undefined"){
+		// storage not supported by browser
+    return "undefined";
+  } else {
+    // return null or the found value
+    return localStorage.getItem(key);
+  }
+}
+
+/*
+* Writes data into storage using a key value pair. Value is written at location
+* key. Just like a map.
+* @param key    where to store the value
+* @param value  the value to store
+*/
+function write(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (error) {
+    console.error(error.name + ": " + error.message);
   }
 }
