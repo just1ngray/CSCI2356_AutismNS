@@ -4,9 +4,9 @@
 * handle many accounts without much modification. Room for expansion is
 * important.
 *
+* @author Jay Patel
 * @author Justin Gray
 * @author Vitor Jeronimo
-* @author Jay Patel
 */
 
 // ==========================================================================

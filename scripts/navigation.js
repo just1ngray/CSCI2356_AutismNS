@@ -1,9 +1,9 @@
 /*
 * This file manages navigation in our email system.
 *
+* @author Jay Patel
 * @author Justin Gray
 * @author Vitor Jeronimo
-* @author Jay Patel
 */
 
 /*
@@ -117,7 +117,7 @@ function openHelp(id) {
 }
 
 /*
-* Confirms before sending, deleting, canceling
+* Confirms before deleting and canceling an email
 * @returns  true if the user clicked "OK", and false otherwise and performs
 *           respective event
 */
