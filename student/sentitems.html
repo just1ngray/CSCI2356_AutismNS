@@ -1,8 +1,8 @@
 <!--
-   - Project: A list of all your sent emails.
-   - author: Justin Gray (A00426753),
-   - author: Jay Patel (A00433907),
-   - author: Vitor Jeronimo (A00431599)
+  - Project: A list of all your sent emails.
+  - author: Jay Patel (A00433907),
+  - author: Justin Gray (A00426753),
+  - author: Vitor Jeronimo (A00431599)
 -->
 
 <!DOCTYPE html>
@@ -11,16 +11,14 @@
 <head>
   <title>Your Email System</title>
 
-  <!--linking of css files-->
+  <!-- Linking of CSS files -->
   <link rel="stylesheet" href="../styles/bootstrap.css">
   <link rel="stylesheet" href="../styles/styles.css">
 
-  <!--linking of js files-->
+  <!-- Linking of JS files -->
   <script src="../scripts/jquery.js"></script>
-  <script src="../scripts/myScript.js"></script>
   <script src="../scripts/emailManager.js"></script>
   <script src="../scripts/accountManager.js"></script>
-  <script src="../scripts/io.js"></script>
 
   <meta charset="utf-8" name="viewport" content="width=device-width,
     initial-scale=1.0">
@@ -29,13 +27,15 @@
 
 <body>
 
-  <!-- Header -->
+  <!-- Header Bar -->
   <header class="input-group-text" data-role="header">SENT ITEMS</header>
 
-  <!-- Content: shows all sent items -->
+  <!-- Content: list of sent items -->
   <main>
-    <a class="email_title">TO</a>
-    <a class="email_title">SUBJECT</a>
+    <section>
+      <a class="email_title">TO</a>
+      <a class="email_title">SUBJECT</a>
+    </section>
 
     <!-- Display emails -->
     <div id="sent_emails"></div>
@@ -47,18 +47,19 @@
 
   </main>
 
-  <!-- Footer bar -->
+  <!-- Separator -->
   <footer class="input-group-text"></footer>
 
-  <!-- Navigation buttons -->
+  <!-- Navigation Buttons -->
+  <section>
 
-  <!--Inbox button-->
-  <button id="btn_inbox" class="btn navButton"
-    onclick='goTo("index.html")'>Inbox</button>
+    <!--Inbox Button-->
+    <button id="btn_inbox" class="btn navButton" onclick='goTo("index.html")'>Inbox</button>
 
-  <!--Compose button-->
-  <button id="btn_compose" class="btn navButton"
-    onclick='goTo("compose.html")'>Compose</button>
+    <!--Compose Button-->
+    <button id="btn_compose" class="btn navButton" onclick='goTo("compose.html")'>Compose</button>
+
+  </section>
 
   <script src="../scripts/navigation.js"></script>
 </body>

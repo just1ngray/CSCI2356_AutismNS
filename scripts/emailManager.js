@@ -2,9 +2,9 @@
 * This file manages emails in our email system. Emails are created, sent,
 * displayed, and deleted from this file.
 *
+* @author Jay Patel
 * @author Justin Gray
 * @author Vitor Jeronimo
-* @author Jay Patel
 */
 
 /*

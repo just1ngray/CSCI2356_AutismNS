@@ -1,8 +1,8 @@
 <!--
-   - Project: Homepage and list of emails in your inbox.
-   - author: Justin Gray (A00426753),
-   - author: Jay Patel (A00433907),
-   - author: Vitor Jeronimo (A00431599)
+  - Project: Homepage and list of emails in your inbox.
+  - author: Jay Patel (A00433907),
+  - author: Justin Gray (A00426753),
+  - author: Vitor Jeronimo (A00431599)
 -->
 
 <!DOCTYPE html>
@@ -11,16 +11,14 @@
 <head>
   <title>Your Email System</title>
 
-  <!--linking the css files-->
+  <!-- Linking of CSS files -->
   <link rel="stylesheet" href="../styles/bootstrap.css">
   <link rel="stylesheet" href="../styles/styles.css">
 
-  <!--linking the js files-->
+  <!-- Linking of JS files -->
   <script src="../scripts/jquery.js"></script>
-  <script src="../scripts/myScript.js"></script>
   <script src="../scripts/emailManager.js"></script>
   <script src="../scripts/accountManager.js"></script>
-  <script src="../scripts/io.js"></script>
 
   <meta charset="utf-8" name="viewport" content="width=device-width,
     initial-scale=1.0">
@@ -29,15 +27,15 @@
 
 <body>
 
-  <!-- Header bar -->
+  <!-- Header Bar -->
   <header class="input-group-text" data-role="header">INBOX</header>
 
-  <!-- List of emails -->
+  <!-- Content: list of emails -->
   <main>
-
-    <!--Sub-headings-->
-    <a class="email_title">FROM</a>
-    <a class="email_title">SUBJECT</a>
+    <section>
+      <a class="email_title">FROM</a>
+      <a class="email_title">SUBJECT</a>
+    </section>
 
     <!-- Display emails -->
     <div id="inbox_emails"></div>
@@ -49,18 +47,19 @@
 
   </main>
 
-  <!-- Bottom of email list -->
+  <!-- Separator -->
   <footer class="input-group-text"></footer>
 
-  <!-- Horizontally aligned navigation buttons -->
+  <!-- Navigation Buttons -->
+  <section>
 
-  <!--Sent items button-->
-  <button id="btn_sentitems" class="btn navButton"
-    onclick='goTo("sentitems.html")'>Sent Items</button>
+    <!--Sent Items Button-->
+    <button id="btn_sentitems" class="btn navButton" onclick='goTo("sentitems.html")'>Sent Items</button>
 
-  <!--Compose button-->
-  <button id="btn_compose" class="btn navButton"
-    onclick='goTo("compose.html")'>Compose</button>
+    <!--Compose Button-->
+    <button id="btn_compose" class="btn navButton" onclick='goTo("compose.html")'>Compose</button>
+
+  </section>
 
   <script src="../scripts/navigation.js"></script>
 </body>

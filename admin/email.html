@@ -1,8 +1,8 @@
 <!--
-   - Project: Shows a sent or inbox email, generated with JavaScript.
-   - author: Justin Gray (A00426753),
-   - author: Jay Patel (A00433907),
-   - author: Vitor Jeronimo (A00431599)
+  - Project: Shows a sent/inbox email, generated with JavaScript.
+  - author: Jay Patel (A00433907),
+  - author: Justin Gray (A00426753),
+  - author: Vitor Jeronimo (A00431599)
 -->
 
 <!DOCTYPE html>
@@ -11,16 +11,14 @@
 <head>
   <title>Admin Email System</title>
 
-  <!--linking of css files-->
+  <!-- Linking of CSS files-->
   <link rel="stylesheet" href="../styles/bootstrap.css">
   <link rel="stylesheet" href="../styles/styles.css">
 
-  <!--linking of js files-->
+  <!-- Linking of JS files -->
   <script src="../scripts/jquery.js"></script>
-  <script src="../scripts/myScript.js"></script>
   <script src="../scripts/emailManager.js"></script>
   <script src="../scripts/accountManager.js"></script>
-  <script src="../scripts/io.js"></script>
 
   <meta charset="utf-8" name="viewport" content="width=device-width,
    initial-scale=1.0">
@@ -29,49 +27,51 @@
 
 <body onload="loadMail()">
 
-  <!-- Header and title page -->
+  <!-- Header Bar -->
   <header class="input-group-text" id="title"></header>
 
-  <!-- Content to view the sent item's details -->
+  <!-- Content: email information -->
   <main>
 
+    <!-- From/To Info -->
     <div class="input-group-text">
-      <label for="non_owner" id="non_owner_type"
-        onclick='openHelp("non_owner_type")'></label>
+      <label for="non_owner" id="non_owner_type" onclick='openHelp("non_owner_type")'></label>
       <span class="form-control viewEmailText" id="non_owner"></span>
     </div>
 
+    <!-- Cc Info -->
     <div class="input-group-text">
-      <label for="email_cc" id="email_cc_label"
-        onclick='openHelp("email_cc_label")'>Cc</label>
+      <label for="email_cc" id="email_cc_label" onclick='openHelp("email_cc_label")'>Cc</label>
       <span class="form-control viewEmailText" id="email_cc"></span>
     </div>
 
+    <!-- Subject Info -->
     <div class="input-group-text">
-      <label for="email_subject" id="email_subject_label"
-        onclick='openHelp("email_subject_label")'>Subject</label>
+      <label for="email_subject" id="email_subject_label" onclick='openHelp("email_subject_label")'>Subject</label>
       <span class="form-control viewEmailText" id="email_subject"></span>
     </div>
 
+    <!-- Email Body Content -->
     <div class="input-group-text">
-      <label for="email_body" id="email_body_label"
-        onclick='openHelp("email_body_label")'>Body</label>
+      <label for="email_body" id="email_body_label" onclick='openHelp("email_body_label")'>Body</label>
       <span class="form-control viewEmailText" id="email_body"></span>
     </div>
+
   </main>
 
-  <!-- Footer to separate body from buttons -->
+  <!-- Separator -->
   <footer class="input-group-text"></footer>
 
-  <!-- Navigation buttons -->
+  <!-- Buttons -->
+  <section>
 
-  <!--Reply button-->
-  <button id="btn_compose" class="btn navButton"
-    onclick='goTo("compose.html")'>Reply</button>
+    <!-- Reply Button -->
+    <button id="btn_compose" class="btn navButton" onclick='goTo("compose.html")'>Reply</button>
 
-  <!--back button-->
-  <button id="btn_back" class="btn navButton"
-    onclick='goBack()'>Back</button>
+    <!--Back Button-->
+    <button id="btn_back" class="btn navButton" onclick='goBack()'>Back</button>
+
+  </section>
 
   <script src="../scripts/navigation.js"></script>
 </body>
