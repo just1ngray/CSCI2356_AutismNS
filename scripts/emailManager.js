@@ -222,9 +222,7 @@ function send() {
   }
 
   // if the sender of the email is the student account
-  // $("#email_from").length is true when the id exists
-  // thus, on the student system (where id DNE), it's false (!false = true)
-  var isStudentSender = !($("#email_from").length);
+  var isStudentSender = window.location.href.includes('student');
 
   // retrieve field data from the page
   var from = isStudentSender ? "student" : $("#email_from").val();
