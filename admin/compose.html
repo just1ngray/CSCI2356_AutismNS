@@ -39,6 +39,15 @@
       appear?
     </span>
 
+    <!-- To Input -->
+    <div class="input-group-text">
+      <label for="email_to" id="email_to_label" onclick='openHelp("email_to_label")'>To</label>
+      <input list="email_to_list" type="email" class="form-control" id="email_to">
+      <datalist id="email_to_list">
+        <option value="Student@example.ca">Student</option>
+      </datalist>
+    </div>
+
     <!-- From Input -->
     <div class="input-group-text">
       <label for="email_from" id="email_from_label" onclick='openHelp("email_from_label")'>From</label>
@@ -47,15 +56,6 @@
         <option value="Charli@tbd.ca">Charli</option>
         <option value="Chrystal@tbd.ca">Chrystal</option>
         <option value="Terence.Goldsmith@smu.ca">Terry</option>
-      </datalist>
-    </div>
-
-    <!-- To Input -->
-    <div class="input-group-text">
-      <label for="email_to" id="email_to_label" onclick='openHelp("email_to_label")'>To</label>
-      <input list="email_to_list" type="email" class="form-control" id="email_to">
-      <datalist id="email_to_list">
-        <option value="Student@example.ca">Student</option>
       </datalist>
     </div>
 
