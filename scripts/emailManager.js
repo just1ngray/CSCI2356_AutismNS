@@ -7,7 +7,7 @@
 * @author Vitor Jeronimo
 */
 
-// this is the ugdev.cs.smu.ca + port we are using for this function
+// this is the ugdev.cs.smu.ca + port we are using for this server
 var SERVER_URL = "http://140.184.230.209:3355";
 
 /*
@@ -56,7 +56,7 @@ function displayMailbox(id, accountName, boxName) {
   element.html("");
 
   // retrieve the account from the server
-  $.post(SERVER_URL + '/account', {name: accountName}, function(result) {
+  $.post(SERVER_URL + '/getAccount', {name: accountName}, function(result) {
     // retrieve the emails depending on the mailbox we are displaying
     var emails = function() {
       if (boxName.toLowerCase().includes("inbox")) {
@@ -296,5 +296,49 @@ function send() {
   recipient.inboxMail.unshift(email);
   saveAccount(recipient);
 
+
+
+
+  $.post(SERVER_URL + '/writeAccount', {
+    name: 'student',
+    inboxMail: [fakeIn, fakeIn],
+    sentMail: [fakeOut, fakeOut, fakeOut]
+  }).fail(function(err) {
+    // if we have an error, print a message and tell the user of the website
+    console.error(err);
+  });
+
+
+
+
   goTo("sentitems.html");
+}
+
+
+var fakeIn = {
+  fakeFrom: "professor@smu.ca",
+  fakeTo: "student@smu.ca",
+  cc: "The rest of the class!",
+  subject: "COVID19 Response",
+  body: "You all fail. Muhahah!",
+  isRead: false,
+  realFrom: "admin",
+  realTo: "student",
+  date: (new Date()).getTime(),
+  owner: "student",
+  isInbox: true
+}
+
+var fakeOut = {
+  fakeFrom: "student",
+  fakeTo: "McDonalds@ImHungry.com",
+  cc: "",
+  subject: "Can I has Cheeseburger?",
+  body: "Please, could I please pls has Cheeseburger?!",
+  isRead: false,
+  realFrom: "student",
+  realTo: "admin",
+  date: (new Date()).getTime(),
+  owner: "student",
+  isInbox: false
 }
