@@ -7,9 +7,6 @@
 * @author Vitor Jeronimo
 */
 
-// this is the ugdev.cs.smu.ca + port we are using for this server
-var SERVER_URL = "http://140.184.230.209:3355";
-
 /*
 * Create an email object. Note realFrom vs. fakeFrom allows for admins to send
 * mail as other aliases (i.e. professors)
@@ -55,33 +52,27 @@ function displayMailbox(id, accountName, boxName) {
   var element = $("#" + id);
   element.html("");
 
-  // retrieve the account from the server
-  $.post(SERVER_URL + '/getAccount', {name: accountName}, function(result) {
-    // retrieve the emails depending on the mailbox we are displaying
+  getServerAccount(accountName, function(account) {
+    console.log(account);
+
+    // retrieve the email array (as emails()) for the account by boxName
     var emails = function() {
       if (boxName.toLowerCase().includes("inbox")) {
-        return result.inboxMail;
+        return account.inboxMail;
       } else if (boxName.toLowerCase().includes("sent")
                 || boxName.toLowerCase().includes("send")) {
-        return result.sentMail;
+        return account.sentMail;
       } else {
         console.error(accountName + " did not have a mail box by the name of "
-          + boxName)
+          + boxName);
       }
     }
-
-    console.log('Displaying ' + emails().length + ' emails in ' + boxName
-                + ' mail for ' + accountName);
 
     // for each retrieved email, add it to the website
     for (var i = 0; i < emails().length; i ++) {
       var email = emails()[i];
       element.append( formatHTMLEmail(email) );
     }
-  }).fail(function(err) {
-    // if we have an error, print a message and tell the user of the website
-    console.error(err);
-    element.html("Couldn't display emails: something went wrong!");
   });
 }
 
@@ -135,30 +126,34 @@ function deleteMail(stringifiedEmail) {
   var email = JSON.parse(unescape(stringifiedEmail));
 
   // which account is the email being deleted from
-  var account = getAccount(email.owner);
-
-  if (email.isInbox) {
-    // email is in inbox: delete through inbox
-    for (var i = 0; i < account.inboxMail.length; i ++) {
-      // date is the unique identifier
-      if (account.inboxMail[i].date === email.date) {
-        account.inboxMail.splice(i, 1);
-        i --;
+  getServerAccount(email.owner, function(account) {
+    // remove the email from whichever mailbox it is stored inside
+    if (email.isInbox) {
+      // email is in inbox: delete through inbox
+      for (var i = 0; i < account.inboxMail.length; i ++) {
+        // date is the unique identifier
+        if (account.inboxMail[i].date === email.date) {
+          account.inboxMail.splice(i, 1);
+          i --;
+        }
+      }
+    } else {
+      // email is in sent mail: delete through sent mail
+      for (var i = 0; i < account.sentMail.length; i ++) {
+        // date is the unique identifier
+        if (account.sentMail[i].date === email.date) {
+          account.sentMail.splice(i, 1);
+          i --;
+        }
       }
     }
-  } else {
-    // email is in sent mail: delete through sent mail
-    for (var i = 0; i < account.sentMail.length; i ++) {
-      // date is the unique identifier
-      if (account.sentMail[i].date === email.date) {
-        account.sentMail.splice(i, 1);
-        i --;
-      }
-    }
-  }
 
-  saveAccount(account); // save the new state of the account
-  location.reload();    // reload the page to update the email list
+    saveServerAccount(account, function() {
+      // reload the page after the email has been deleted
+      location.reload(true);
+    });
+
+  });
 }
 
 /*
@@ -181,15 +176,16 @@ function viewMail(stringifiedEmail) {
 
   // set email to be read
   if (!email.isRead) {
-    var account = getAccount(email.owner);
-    for (var i = 0; i < account.inboxMail.length; i ++) {
-      if (email.date === account.inboxMail[i].date){
-        account.inboxMail[i].isRead = true;
-        break;
+    getServerAccount(email.owner, function(account) {
+      for (var i = 0; i < account.inboxMail.length; i ++) {
+        if (email.date === account.inboxMail[i].date){
+          account.inboxMail[i].isRead = true;
+          break;
+        }
       }
-    }
-    // save the new state of the account (with the read email)
-    saveAccount(account);
+      // save the new state of the account (with the read email)
+      saveServerAccount(account);
+    });
   }
 
   // open the email.html page
@@ -282,63 +278,20 @@ function send() {
     false
   );
 
-  // save the email object to the sender's sent items
-  email.owner = email.realFrom;
-  email.isInbox = false;
-  var sender = getAccount(email.owner);
-  sender.sentMail.unshift(email);
-  saveAccount(sender);
-
   // save the email object to the recipient's inbox
-  email.owner = email.realTo;
-  email.isInbox = true;
-  var recipient = getAccount(email.owner);
-  recipient.inboxMail.unshift(email);
-  saveAccount(recipient);
-
-
-
-
-  $.post(SERVER_URL + '/writeAccount', {
-    name: 'student',
-    inboxMail: [fakeIn, fakeIn],
-    sentMail: [fakeOut, fakeOut, fakeOut]
-  }).fail(function(err) {
-    // if we have an error, print a message and tell the user of the website
-    console.error(err);
+  getServerAccount(email.realTo, function(account) {
+    email.owner = email.realTo;
+    email.isInbox = true;
+    account.inboxMail.unshift(email);
+    saveServerAccount(account);
   });
 
-
-
-
-  goTo("sentitems.html");
-}
-
-
-var fakeIn = {
-  fakeFrom: "professor@smu.ca",
-  fakeTo: "student@smu.ca",
-  cc: "The rest of the class!",
-  subject: "COVID19 Response",
-  body: "You all fail. Muhahah!",
-  isRead: false,
-  realFrom: "admin",
-  realTo: "student",
-  date: (new Date()).getTime(),
-  owner: "student",
-  isInbox: true
-}
-
-var fakeOut = {
-  fakeFrom: "student",
-  fakeTo: "McDonalds@ImHungry.com",
-  cc: "",
-  subject: "Can I has Cheeseburger?",
-  body: "Please, could I please pls has Cheeseburger?!",
-  isRead: false,
-  realFrom: "student",
-  realTo: "admin",
-  date: (new Date()).getTime(),
-  owner: "student",
-  isInbox: false
+  // save the email object to the sender's sent items
+  getServerAccount(email.realFrom, function(account) {
+    email.owner = email.realFrom;
+    email.isInbox = false;
+    account.sentMail.unshift(email);
+    saveServerAccount(account);
+    goTo("sentitems.html");
+  });
 }
