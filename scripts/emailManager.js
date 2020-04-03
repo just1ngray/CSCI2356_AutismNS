@@ -7,6 +7,9 @@
 * @author Vitor Jeronimo
 */
 
+// this is the ugdev.cs.smu.ca + port we are using for this function
+var SERVER_URL = "http://140.184.230.209:3355";
+
 /*
 * Create an email object. Note realFrom vs. fakeFrom allows for admins to send
 * mail as other aliases (i.e. professors)
@@ -41,50 +44,81 @@ function Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo,
 }
 
 /*
-* Display the emails dynamically.
-* @param id       the id of the element where the emails should be displayed
-* @param emails   an array of email objects
-* @param isInbox  bool if the emails are a part of an inbox
-* @returns        NA
+* Displays an account's specified mailbox
+* @param id           the element's id where to display the list of emails
+* @param accountName  the name of the account to display (student/admin)
+* @param boxName      the name of the mailbox to display (inbox/sent)
+* @returns            NA
 */
-function displayEmails(id, emails, isInbox) {
-  // get and clear the element where the emails should be displayed
+function displayMailbox(id, accountName, boxName) {
+  // get and clear the element where we want to display the mailbox
   var element = $("#" + id);
   element.html("");
 
-  // look through each email and display
-  for (var i = 0; i < emails.length; i ++) {
-    var email = emails[i];                    // the individual email
-    var doBolding = !email.isRead && isInbox; // if the email should be bolded
+  // retrieve the account from the server
+  $.post(SERVER_URL + '/account', {name: accountName}, function(result) {
+    // retrieve the emails depending on the mailbox we are displaying
+    var emails = function() {
+      if (boxName.toLowerCase().includes("inbox")) {
+        return result.inboxMail;
+      } else if (boxName.toLowerCase().includes("sent")
+                || boxName.toLowerCase().includes("send")) {
+        return result.sentMail;
+      } else {
+        console.error(accountName + " did not have a mail box by the name of "
+          + boxName)
+      }
+    }
 
-    // create the content of the email to be displayed
-    var content = '<div class="email">';
+    console.log('Displaying ' + emails().length + ' emails in ' + boxName
+                + ' mail for ' + accountName);
 
-    // other person involved
-    content += '<a class="'
-      + (doBolding ? 'email_unread' : 'email_read') + '"'
-      + 'onclick="viewMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')">'
-      + (isInbox ? email.fakeFrom : email.fakeTo) + '</a>';
-
-    // subject
-    content += '<a class="'
-      + (doBolding ? 'email_unread' : 'email_read') + '"'
-      + 'onclick="viewMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')">'
-      + email.subject + '</a>';
-
-    content += '</div>';
-
-    // delete button
-    content += '<a class="btn deleteButton" onclick="deleteMail('
-      + "'" + escape(JSON.stringify(email)) + "'" + ')">X</a>';
-
-    // add the content to the element
-    element.append(content);
-  }
+    // for each retrieved email, add it to the website
+    for (var i = 0; i < emails().length; i ++) {
+      var email = emails()[i];
+      element.append( formatHTMLEmail(email) );
+    }
+  }).fail(function(err) {
+    // if we have an error, print a message and tell the user of the website
+    console.error(err);
+    element.html("Couldn't display emails: something went wrong!");
+  });
 }
 
 /*
+* Formats an email into a html string for list-view displayed
+* @param email  the email to format into a html string
+* @returns      the formatted email as a html string
+*/
+function formatHTMLEmail(email) {
+  // if the email should be bolded
+  var doBolding = !email.isRead && email.isInbox;
 
+  // create the content of the email to be displayed
+  var content = '<div class="email">';
+
+  // other person involved
+  content += '<a class="'
+    + (doBolding ? 'email_unread' : 'email_read') + '"'
+    + 'onclick="viewMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')">'
+    + (email.isInbox ? email.fakeFrom : email.fakeTo) + '</a>';
+
+  // subject
+  content += '<a class="'
+    + (doBolding ? 'email_unread' : 'email_read') + '"'
+    + 'onclick="viewMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')">'
+    + email.subject + '</a>';
+
+  content += '</div>';
+
+  // delete button
+  content += '<a class="btn deleteButton" onclick="deleteMail('
+    + "'" + escape(JSON.stringify(email)) + "'" + ')">X</a>';
+
+  return content;
+}
+
+/*
 * Deletes an email.
 * @param stringifiedEmail escape(JSON.stringify(some email)) version of the
 *                         email to delete
