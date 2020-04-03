@@ -71,47 +71,22 @@ function saveAccount(account) {
 * @param name the name of the account (must be unique)
 * @returns    the account in storage (or a blank new account if none found)
 */
-// function getAccount(name) {
-//   var acc = read(name);
-//   if (acc === "undefined"){
-// 		// storage not supported by browser
-//   } else if (acc == null) {
-// 	   // nothing stored at that key
-//      return new Account(name, [], []);
-//   } else {
-//     // result successfully found
-//     return JSON.parse(acc);
-//   }
-// }
+function getAccount(name) {
+  var acc = read(name);
+  if (acc === "undefined"){
+		// storage not supported by browser
+  } else if (acc == null) {
+	   // nothing stored at that key
+     return new Account(name, [], []);
+  } else {
+    // result successfully found
+    return JSON.parse(acc);
+  }
+}
 
 // ==========================================================================
 // I/O Methods to Server Storage
 // ==========================================================================
-
-var SERVER_URL = "http://140.184.230.209:3355"
-
-function getAccount(accountName) {
-  $.post(SERVER_URL + '/account', { name:accountName}, function(result) {
-
-    // HELP! <------------------------------------------------------------------
-    // If you run emailNode.js on the ugdev server, it should return a single
-    // inbox email and a single sent items email.
-    // (And it does)
-    // BUT! I am getting this error:
-        // Uncaught TypeError: Cannot read property 'inboxMail' of undefined
-        // at index.html:43
-    // despite 'inboxMail' being printed as one of the properties/keys (line 106)
-
-    console.log(result);
-    console.log(Object.keys(result))
-    return result;
-  }).fail(gotError);
-}
-
-function gotError(err) {
-  console.error(err);
-}
-
 
 /*
 * Reads data from storage by a key.
