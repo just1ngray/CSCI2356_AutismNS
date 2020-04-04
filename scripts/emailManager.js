@@ -267,31 +267,26 @@ function send() {
     return;
   }
 
-  // create the email object
-  // Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo, date,
-  //   owner, isInbox)
-  var email = new Email(from, to, cc, subject, body, false,
-    isStudentSender ? "student" : "admin",  // realFrom
-    isStudentSender ? "admin" : "student",  // realTo
-    (new Date()).getTime(),
-    "",
-    false
-  );
+  var realTo = isStudentSender ? 'admin' : 'student';
+  var realFrom = isStudentSender ? 'student' : 'admin';
 
-  // save the email object to the recipient's inbox
-  getServerAccount(email.realTo, function(account) {
-    email.owner = email.realTo;
-    email.isInbox = true;
+  // fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo,
+  // date, owner, isInbox
+
+  getServerAccount(realTo, function(account) {
+    var email = new Email(from, to, cc, subject, body, false, realFrom, realTo,
+      (new Date()).getTime(), realTo, true);
     account.inboxMail.unshift(email);
     saveServerAccount(account);
   });
 
-  // save the email object to the sender's sent items
-  getServerAccount(email.realFrom, function(account) {
-    email.owner = email.realFrom;
-    email.isInbox = false;
+  getServerAccount(realFrom, function(account) {
+    var email = new Email(from, to, cc, subject, body, false, realFrom, realTo,
+      (new Date()).getTime(), realFrom, false);
     account.sentMail.unshift(email);
-    saveServerAccount(account);
-    goTo("sentitems.html");
+    saveServerAccount(account, function() {
+      console.log("woof");
+      goTo("sentitems.html");
+    });
   });
 }
