@@ -154,7 +154,7 @@ function masterHelp(id) {
   switch (id) {
 
     case "Inbox":
-      alert("The purpose of this page is to display the emails you have recieved.");
+      alert("The purpose of this page is to display all the emails you have recieved.");
       break;
 
     case "Compose":
@@ -166,7 +166,7 @@ function masterHelp(id) {
       break;
 
     case "ViewSent":
-      alert("The purpose of this page is to view an email.");
+      alert("The purpose of this page is to view an email sent.");
       break;
   }
 }
