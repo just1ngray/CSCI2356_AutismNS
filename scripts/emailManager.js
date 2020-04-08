@@ -105,9 +105,6 @@ function formatHTMLEmail(email) {
   content += '<a class="btn deleteButton" onclick="deleteMail('
     + "'" + escape(JSON.stringify(email)) + "'" + ')">X</a>';
 
-  console.log(email);
-  console.log(content);
-
   return content;
 }
 
