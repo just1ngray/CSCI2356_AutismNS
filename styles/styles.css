@@ -114,12 +114,18 @@ label:hover {
 }
 
 /* Styles the view email text. */
-.viewEmailText {
+.viewEmailText,
+.viewEmailText[readonly]{
   text-align: left;
   margin-left: 1rem;
+  background-color: #fff;
 }
 
 /* Style for the help message on composing page */
 .help_message {
   background-color: #ffffb3;
+}
+
+.form-check-input {
+  position: relative;
 }

@@ -99,8 +99,6 @@ function formatHTMLEmail(email) {
     + 'onclick="viewMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')">'
     + email.subject + '</a>';
 
-  content += '</div>';
-
   // checkbox
   var isChecked = 'false';
   if (email.isChecked != null) {
@@ -108,6 +106,8 @@ function formatHTMLEmail(email) {
   }
   var isChecked = (isChecked == "true");
   content += '<input type="checkbox"' + (isChecked?"checked":"") + ' class="form-check-input" onclick="checkMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')"></input>';
+
+  content += '</div>';
 
   // delete button
   content += '<a class="btn deleteButton" onclick="deleteMail('
