@@ -33,7 +33,7 @@ function Account(name, inboxMail, sentMail) {
 // ==========================================================================
 
 // the URL for the server ugdev.cs.smu.ca at our chosen port
-var SERVER_URL = "http://140.184.230.209:3355";
+var SERVER_URL = "http://140.184.230.209:3384";
 
 /*
 * Reads data from local storage by a key.

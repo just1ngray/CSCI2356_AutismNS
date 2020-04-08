@@ -1,5 +1,5 @@
 /*
-* This file needs to run on the ugdev server at port 3355 (changable in
+* This file needs to run on the ugdev server at port PORT (changable in
 * scripts/accountManager.js). This express server uses MongoDB and processes
 * requests to read and write objects from the jp_gray#accounts collection.
 *
@@ -16,7 +16,7 @@ var express = require("express");
 var server = express();
 var MongoClient = require("mongodb").MongoClient;
 
-var PORT = 3355;
+var PORT = 3384;
 var URL = 'mongodb://jp_gray:A00426753@127.0.0.1:27017/jp_gray';
 
 server.use(express.json());
