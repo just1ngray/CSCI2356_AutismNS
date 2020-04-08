@@ -32,9 +32,9 @@ function goTo(href) {
 * @param    if the page needs to be refreshed (default is true)
 * @returns  NA
 */
-function goBack(doRefresh) {
+function goBack(doRefresh, composeOverride) {
   // if they are composing an email and press back (or cancel), confirm action
-  if (window.location.href.includes("compose.html")
+  if (window.location.href.includes("compose.html") && !composeOverride
     && !confirm("Are you sure you want to cancel? \n"
       + "Press OK to cancel composing this email.")) {
     // this is an extremely confusing method to confirm a cancel because...
