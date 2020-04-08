@@ -2,7 +2,7 @@ var express = require("express");
 var server = express();
 var MongoClient = require("mongodb").MongoClient;
 
-var PORT = 3355;
+var PORT = 3384;
 var URL = 'mongodb://jp_gray:A00426753@127.0.0.1:27017/jp_gray';
 
 server.use(express.json());
@@ -78,7 +78,7 @@ server.post("/writeAccount", function(req, res) {
     if (err) throw err;
 
     var accName = req.body.name;
-    console.log('WRINTING: ' + accName);
+    console.log('WRITING: ' + accName);
 
     var dbo = db.db('jp_gray');
     dbo.collection('accounts').replaceOne({
@@ -88,7 +88,7 @@ server.post("/writeAccount", function(req, res) {
       if (err) throw err;
       console.log('Updated account ' + accName + ' in accounts');
       db.close();
-      return res.status(200);
+      return res.status(200).send();
     });
   });
 });

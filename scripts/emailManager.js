@@ -128,7 +128,7 @@ function deleteMail(stringifiedEmail) {
   // which account is the email being deleted from
   getServerAccount(email.owner, function(account) {
     // remove the email from whichever mailbox it is stored inside
-    if (email.isInbox) {
+    if (email.isInbox === 'true') {
       // email is in inbox: delete through inbox
       for (var i = 0; i < account.inboxMail.length; i ++) {
         // date is the unique identifier
