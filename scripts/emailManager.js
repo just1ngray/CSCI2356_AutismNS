@@ -101,11 +101,47 @@ function formatHTMLEmail(email) {
 
   content += '</div>';
 
+  // checkbox
+  var isChecked = 'false';
+  if (email.isChecked != null) {
+    isChecked = email.isChecked;
+  }
+  var isChecked = (isChecked == "true");
+  content += '<input type="checkbox"' + (isChecked?"checked":"") + ' class="form-check-input" onclick="checkMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')"></input>';
+
   // delete button
   content += '<a class="btn deleteButton" onclick="deleteMail('
     + "'" + escape(JSON.stringify(email)) + "'" + ')">X</a>';
 
   return content;
+}
+
+function checkMail(stringifiedEmail) {
+  var email = JSON.parse(unescape(stringifiedEmail));
+
+  if (email.isChecked == null) {
+    email.isChecked = true;
+  } else {
+    email.isChecked = !(email.isChecked == "true");
+  }
+
+  getServerAccount(email.owner, function(account) {
+    if (email.isInbox == "true") {
+      for (var i = 0; i < account.inboxMail.length; i ++) {
+        if (account.inboxMail[i].date == email.date) {
+          account.inboxMail[i] = email;
+        }
+      }
+    } else {
+      for (var i = 0; i < account.sentMail.length; i ++) {
+        if (account.sentMail[i].date == email.date) {
+          account.sentMail[i] = email;
+        }
+      }
+    }
+
+    saveServerAccount(account);
+  });
 }
 
 /*
