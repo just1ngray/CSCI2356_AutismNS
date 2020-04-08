@@ -36,7 +36,7 @@ function Account(name, inboxMail, sentMail) {
 // I/O Methods to Persistent Storage
 // ==========================================================================
 
-var SERVER_URL = "http://140.184.230.209:3384";
+var SERVER_URL = "http://140.184.230.209:3355";
 
 /*
 * Reads data from local storage by a key.

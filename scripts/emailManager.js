@@ -7,6 +7,10 @@
 * @author Vitor Jeronimo
 */
 
+// ==========================================================================
+// Email Object
+// ==========================================================================
+
 /*
 * Create an email object. Note realFrom vs. fakeFrom allows for admins to send
 * mail as other aliases (i.e. professors)
@@ -39,6 +43,10 @@ function Email(fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo,
   this.owner = owner;
   this.isInbox = isInbox;
 }
+
+// ==========================================================================
+// Email Loading/Viewing Methods
+// ==========================================================================
 
 /*
 * Displays an account's specified mailbox
@@ -268,6 +276,10 @@ function loadMail() {
     $("#email_body").val(email.body);
   }
 }
+
+// ==========================================================================
+// Email Composing Methods
+// ==========================================================================
 
 /*
 * Sends an email (from elements on the page)
