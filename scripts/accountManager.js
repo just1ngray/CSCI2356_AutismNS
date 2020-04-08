@@ -102,6 +102,8 @@ function saveServerAccount(account, next) {
   });
 }
 
+const MAX_EMAILS = 10; // the size of an account's inbox and sent mail (each)
+
 /*
 * Ensure that both the sender and recipient have room for the email before
 * starting to compose it! If no room, alert and redirect back.
@@ -109,24 +111,25 @@ function saveServerAccount(account, next) {
 * @param recipient  the recipient account's name
 * @returns          NA
 */
-function checkHasRoom(sender, recipient) {
-  // check if sender has room
-  getServerAccount(sender, function(senderAcc) {
+function checkHasRoom() {
+  // checkHasRoom requires a sender and a recipient: hardcoded for the
+  // purpose of this project, but could be abstracted further
+  var sender = window.location.href.includes("student") ? "student" : "admin";
+  var recipient = (sender == "student") ? "admin" : "student";
 
-    if (senderAcc.sentMail.length >= 10) {
-      alert("Your sent items is full.");
-      goBack();
+  // first, check if the recipient has space in inbox (req8e)
+  getServerAccount(recipient, function(recipientAcc) {
+    if (recipientAcc.inboxMail.length >= MAX_EMAILS) {
+      alert("Recipient's inbox is full.");
+      goBack(null, true);
     } else {
-      // check if recipient has room
-
-      getServerAccount(recipient, function(recipientAcc) {
-        if (recipientAcc.inboxMail.length >= 10) {
-          alert("Recipient's inbox is full.");
-          goBack();
+      // next, check if the sender has sent items room (req8f)
+      getServerAccount(sender, function(senderAcc) {
+        if (senderAcc.sentMail.length >= MAX_EMAILS) {
+          alert("Your sent items is full.");
+          goBack(null, true);
         }
       });
-
     }
-
   });
 }
