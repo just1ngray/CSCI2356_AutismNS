@@ -89,6 +89,11 @@ label:hover {
   Other.
 /* ======================================================
 
+/* Prevents long text from breaking the max width of a container*/
+a {
+  overflow: hidden;
+}
+
 /* Styling for the sign in form */
 .signin {
   position: absolute;

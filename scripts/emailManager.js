@@ -255,17 +255,17 @@ function loadMail() {
       // INBOX ITEM
       $("#title").html("VIEWING INBOX ITEM");
       $("#non_owner_type").html("From");
-      $("#non_owner").html(email.fakeFrom);
+      $("#non_owner").val(email.fakeFrom);
     } else {
       // SENT ITEM
       $("#title").html("VIEWING SENT ITEM");
       $("#non_owner_type").html("To");
-      $("#non_owner").html(email.fakeTo);
+      $("#non_owner").val(email.fakeTo);
     }
 
-    $("#email_cc").html(email.cc);
-    $("#email_subject").html(email.subject);
-    $("#email_body").html(email.body);
+    $("#email_cc").val(email.cc);
+    $("#email_subject").val(email.subject);
+    $("#email_body").val(email.body);
   }
 }
 
