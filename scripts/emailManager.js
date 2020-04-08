@@ -113,7 +113,9 @@ function formatHTMLEmail(email) {
     isChecked = email.isChecked;
   }
   var isChecked = (isChecked == "true");
-  content += '<input type="checkbox"' + (isChecked?"checked":"") + ' class="form-check-input" onclick="checkMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')"></input>';
+  content += '<input type="checkbox"' + (isChecked?"checked":"")
+    + ' class="form-check-input" onclick="checkMail(' + "'"
+    + escape(JSON.stringify(email)) + "'" + ')"></input>';
 
   content += '</div>';
 
@@ -124,15 +126,25 @@ function formatHTMLEmail(email) {
   return content;
 }
 
+/*
+* Called when a user checks or unchecks an email in their mailbox. This function
+* ensures the change is stored persistently.
+* @param stringifiedEmail the escaped stringified version of the email object
+* @returns                NA
+*/
 function checkMail(stringifiedEmail) {
+  // retrieve the encoded email
   var email = JSON.parse(unescape(stringifiedEmail));
 
+  // switch the isChecked value of the email object
+  // server io is string only => saving as boolean is silly
   if (email.isChecked == null) {
     email.isChecked = true;
   } else {
     email.isChecked = !(email.isChecked == "true");
   }
 
+  // get the account and modify the proper email
   getServerAccount(email.owner, function(account) {
     if (email.isInbox == "true") {
       for (var i = 0; i < account.inboxMail.length; i ++) {
@@ -148,6 +160,7 @@ function checkMail(stringifiedEmail) {
       }
     }
 
+    // save the modified account object
     saveServerAccount(account);
   });
 }
@@ -321,6 +334,7 @@ function send() {
   // fakeFrom, fakeTo, cc, subject, body, isRead, realFrom, realTo,
   // date, owner, isInbox
 
+  // get the recipient account and write to inbox at server storage
   getServerAccount(realTo, function(account) {
     var email = new Email(from, to, cc, subject, body, false, realFrom, realTo,
       (new Date()).getTime(), realTo, true);
@@ -328,6 +342,7 @@ function send() {
     saveServerAccount(account);
   });
 
+  // get the sender account, write to sent mail at server storage, and redirect
   getServerAccount(realFrom, function(account) {
     var email = new Email(from, to, cc, subject, body, false, realFrom, realTo,
       (new Date()).getTime(), realFrom, false);

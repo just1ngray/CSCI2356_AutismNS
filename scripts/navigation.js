@@ -29,20 +29,16 @@ function goTo(href) {
 
 /*
 * Takes the user back one page.
-* @param    if the page needs to be refreshed (default is true)
-* @returns  NA
+* @param doRefresh        if the page needs to be refreshed (default is true)
+* @param composeOverride  if the page should include pop-up messages of
+*                         current navigation status
+* @returns                NA
 */
 function goBack(doRefresh, composeOverride) {
   // if they are composing an email and press back (or cancel), confirm action
   if (window.location.href.includes("compose.html") && !composeOverride
     && !confirm("Are you sure you want to cancel? \n"
       + "Press OK to cancel composing this email.")) {
-    // this is an extremely confusing method to confirm a cancel because...
-    // > User presses the Cancel button because they want to go back to inbox
-    // 'Are you sure you want to cancel?' message appears
-    // OK: [i do want to cancel]
-    // CANCEL: [i don't want to cancel][i want to cancel because it says cancel]
-    // It'd confuse me! I am not sure of a better method however.
     return;
   }
 
@@ -70,6 +66,9 @@ function goBack(doRefresh, composeOverride) {
   }
 }
 
+/*
+* @returns the last valid page the user was at (inbox and sent items only)
+*/
 function getLastPage() {
   if (typeof (window.Storage) === "undefined") {
     // storage not supported by browser
@@ -146,7 +145,9 @@ function confirmation(id) {
 
 /*
  * On clicking Help button, this displays the purpose of an immediate page
- * @returns NA
+ * @param id  the type of page the help is for:
+ *            Inbox, Compose, SentItems, ViewSent
+ * @returns   NA
  */
 function masterHelp(id) {
 

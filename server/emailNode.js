@@ -1,5 +1,7 @@
 /*
-* DESCRIPTION HERE
+* This file needs to run on the ugdev server at port 3355 (changable in
+* scripts/accountManager.js). This express server uses MongoDB and processes
+* requests to read and write objects from the jp_gray#accounts collection.
 *
 * @author Jay Patel
 * @author Justin Gray
@@ -7,7 +9,7 @@
 */
 
 // ==========================================================================
-// Server Setup
+// Server Setup (required code)
 // ==========================================================================
 
 var express = require("express");
@@ -38,24 +40,33 @@ server.use(allowCrossDomain);
 // Server Functionality
 // ==========================================================================
 
+/*
+* Initialize the server to run off port and display a success message.
+*/
 server.listen(PORT, function() {
   console.log('Now listening for activity on port ' + PORT);
 });
 
-// DESCRIPTION HERE
+/*
+* Get an account from the MongoDB.
+* @param req  the request object
+* @param res  the response object
+* @returns    a response to the client which includes the account
+*/
 server.post("/getAccount", function(req, res) {
-  // get the account object from the mongodb
+  // connect to MongoDB
   MongoClient.connect(URL, function(err, db) {
     if (err) throw err;
 
     var accName = req.body.name;
     console.log('Request received to get account: ' + accName);
 
+    // query the accounts collection
     var dbo = db.db('jp_gray');
     dbo.collection('accounts').findOne({name: accName}, function(err, result) {
       if (err) throw err;
 
-      // no document found
+      // no document found: return an empty account and insert into collection
       if (result == null) {
         result = {
           _id: accName,
@@ -71,6 +82,7 @@ server.post("/getAccount", function(req, res) {
           console.log('Inserted account ' + accName + ' into accounts')
         });
       } else {
+        // entry found: may or may not have full entries
         // empty arrays are not stored in mongo so they have to be added later
         if (result.inboxMail == null) {
           result.inboxMail = [];
@@ -80,13 +92,21 @@ server.post("/getAccount", function(req, res) {
         }
         console.log('Found ' + result.name + ' in accounts');
       }
+
+      // finish callback
       db.close();
       return res.status(200).send(result);
     });
   });
 });
 
-// DESCRIPTION HERE
+/*
+* Writes an account to the MongoDB. Overrides any current document that matches
+* the account to override.
+* @param req the request to the server
+* @param res the response from the server
+* @returns   a valid response if everything worked
+*/
 server.post("/writeAccount", function(req, res) {
   // get the account object from the mongodb
   MongoClient.connect(URL, function(err, db) {

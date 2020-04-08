@@ -9,10 +9,6 @@
 * @author Vitor Jeronimo
 */
 
-// ==========================================================================
-// Email Account Methods
-// ==========================================================================
-
 /*
 * Creates a new account object (for either admin or student or other?)
 *
@@ -36,6 +32,7 @@ function Account(name, inboxMail, sentMail) {
 // I/O Methods to Persistent Storage
 // ==========================================================================
 
+// the URL for the server ugdev.cs.smu.ca at our chosen port
 var SERVER_URL = "http://140.184.230.209:3355";
 
 /*
@@ -54,8 +51,8 @@ function read(key) {
 }
 
 /*
-* Writes data into storage using a key value pair. Value is written at location
-* key. Just like a map.
+* Writes data into local storage using a key value pair. Value is written at
+* location key. Just like a map.
 * @param key    where to store the value
 * @param value  the value to store
 */
@@ -76,7 +73,9 @@ function write(key, value) {
 function getServerAccount(accountName, next) {
   $.post(SERVER_URL + '/getAccount', {name: accountName}, function(result) {
     // using the account result object, perform 'next' function
-    next(result);
+    if (next != null) {
+      next(result)
+    }
   }).fail(function(err) {
     // if we have an error, print an error message
     console.error(err);
