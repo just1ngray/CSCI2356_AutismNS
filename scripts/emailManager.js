@@ -91,7 +91,7 @@ function formatHTMLEmail(email) {
   content += '<a class="'
     + (doBolding ? 'email_unread' : 'email_read') + '"'
     + 'onclick="viewMail(' + "'" + escape(JSON.stringify(email)) + "'" + ')">'
-    + (email.isInbox ? email.fakeFrom : email.fakeTo) + '</a>';
+    + (email.isInbox == "true" ? email.fakeFrom : email.fakeTo) + '</a>';
 
   // subject
   content += '<a class="'
@@ -104,6 +104,9 @@ function formatHTMLEmail(email) {
   // delete button
   content += '<a class="btn deleteButton" onclick="deleteMail('
     + "'" + escape(JSON.stringify(email)) + "'" + ')">X</a>';
+
+  console.log(email);
+  console.log(content);
 
   return content;
 }
