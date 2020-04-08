@@ -145,9 +145,28 @@ function confirmation(id) {
 }
 
 /*
- * On clicking Help button, this displays an alert for now
+ * On clicking Help button, this displays the purpose of an immediate page
  * @returns NA
  */
-function masterHelp() {
-  alert("Stub function.");
+function masterHelp(id) {
+
+  //depending on the id, display appropriate dialog box
+  switch (id) {
+
+    case "Inbox":
+      alert("The purpose of this page is to display all the emails you have recieved.");
+      break;
+
+    case "Compose":
+      alert("The purpose of this page is to compose a new email.");
+      break;
+
+    case "SentItems":
+      alert("The purpose of this page is to display all the emails sent.");
+      break;
+
+    case "ViewSent":
+      alert("The purpose of this page is to view an email sent.");
+      break;
+  }
 }
