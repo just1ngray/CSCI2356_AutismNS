@@ -53,7 +53,6 @@ function displayMailbox(id, accountName, boxName) {
   element.html("");
 
   getServerAccount(accountName, function(account) {
-    console.log(account);
 
     // retrieve the email array (as emails()) for the account by boxName
     var emails = function() {
@@ -83,7 +82,7 @@ function displayMailbox(id, accountName, boxName) {
 */
 function formatHTMLEmail(email) {
   // if the email should be bolded
-  var doBolding = !email.isRead && email.isInbox;
+  var doBolding = (email.isRead == "false") && (email.isInbox == "true");
 
   // create the content of the email to be displayed
   var content = '<div class="email">';
@@ -175,21 +174,22 @@ function viewMail(stringifiedEmail) {
   }
 
   // set email to be read
-  if (!email.isRead) {
+  if (email.isRead == "false") {
     getServerAccount(email.owner, function(account) {
       for (var i = 0; i < account.inboxMail.length; i ++) {
         if (email.date === account.inboxMail[i].date){
           account.inboxMail[i].isRead = true;
+          console.log("Deleting email from server storage");
           break;
         }
       }
       // save the new state of the account (with the read email)
-      saveServerAccount(account);
+      saveServerAccount(account, function() {
+        // redirect to the email page once all functions are finished running
+        goTo("email.html")
+      });
     });
   }
-
-  // open the email.html page
-  goTo("email.html");
 }
 
 /*
@@ -285,7 +285,6 @@ function send() {
       (new Date()).getTime(), realFrom, false);
     account.sentMail.unshift(email);
     saveServerAccount(account, function() {
-      console.log("woof");
       goTo("sentitems.html");
     });
   });
